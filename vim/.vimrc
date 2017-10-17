@@ -26,14 +26,20 @@ Plug 'tpope/vim-surround'
 Plug 'pangloss/vim-javascript'
 Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'Shougo/neosnippet.vim'
+Plug 'Shougo/neosnippet-snippets'
+Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+Plug 'fatih/vim-go'
 Plug 'davidhalter/jedi'
 Plug 'davidhalter/jedi-vim'
 Plug 'zchee/deoplete-jedi'
+Plug 'zchee/deoplete-go'
 Plug 'mbbill/undotree'
-Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
-Plug 'fatih/vim-go'
 "Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 "Plug 'vim-syntastic/syntastic'
+"Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
+Plug 'Chiel92/vim-autoformat'
+Plug 'joonty/vdebug'
 call plug#end()
 
 filetype plugin on
@@ -60,6 +66,7 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set expandtab
+set shiftround
 
 set inccommand=split
 set incsearch
@@ -83,10 +90,10 @@ set encoding=utf-8
 setglobal fileencoding=utf-8
 
 " Autocomplete
-set infercase
-set omnifunc=syntaxcomplete#Complete
-set completefunc=syntaxcomplete#Complete
-set complete-=i
+"set infercase
+"set omnifunc=syntaxcomplete#Complete
+"set completefunc=syntaxcomplete#Complete
+"set complete-=i
 
 " New windows
 set splitbelow
@@ -123,6 +130,17 @@ let g:deoplete#enable_at_startup=1
 
 
 "------------------------------------------------------------------------------
+" Neosnippet
+"------------------------------------------------------------------------------
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+endif
+
+"------------------------------------------------------------------------------
 " Vim-go
 "------------------------------------------------------------------------------
 "autocmd FileType go nmap <leader>r <Plug>(go-run)
@@ -130,6 +148,7 @@ let g:deoplete#enable_at_startup=1
 "autocmd FileType go nmap <leader>t <Plug>(go-test)
 "autocmd FileType go nmap <leader>c <Plug>(go-coverage)
 autocmd FileType go nmap <leader>r :GoRename<cr>
+let g:go_auto_type_info = 1
 
 "------------------------------------------------------------------------------
 " Jedi
@@ -141,6 +160,8 @@ let g:jedi#completions_enabled = 0
 "------------------------------------------------------------------------------
 " Vim Airline
 "------------------------------------------------------------------------------
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
 if ! has('gui_running')
     set ttimeoutlen=10
     augroup FastEscape
@@ -169,6 +190,8 @@ if executable("rg")
     set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 
+" Mapping to ensure FZF doesn't open in the NERDTree window
+nnoremap <silent> <expr> <c-t> (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":FZF\<cr>"
 
 "------------------------------------------------------------------------------
 " NERDTree
@@ -183,6 +206,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 let NERDTreeIgnore=['\.pyc$', '\~$']
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
+let NERDTreeAutoDeleteBuffer = 1
 
 "------------------------------------------------------------------------------
 " Mappings
@@ -192,7 +216,7 @@ vnoremap < <gv
 vnoremap > >gv
 
 nnoremap <F2> :call ReplaceIt()<cr> <C-o>
-nnoremap <c-t> :FZF<cr>
+"nnoremap <c-t> :FZF<cr>
 nnoremap <leader>f :Rg<cr>
 nnoremap <leader>e :NERDTreeToggle<cr>
 "nnoremap <leader>d :YcmCompleter GoTo<cr>
@@ -201,6 +225,14 @@ nnoremap <D-/> :NERDComToggleComment<cr>
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gd :Gdiff<cr>
 
+nnoremap <leader>w :w<cr>
+nnoremap <leader>q :q<cr>
+
+nnoremap <F3> :Autoformat<cr>
+
+" Quickfix
+nnoremap <silent> <F8> :cnext<cr>
+nnoremap <silent> <S-F8> :cprev<cr>
 
 function! ReplaceIt()
 call inputsave()
