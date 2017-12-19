@@ -19,7 +19,7 @@ Plug 'nvie/vim-flake8'
 Plug 'altercation/vim-colors-solarized'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'tpope/vim-fugitive'
+Plug 'jreybert/vimagit'
 Plug 'mfukar/robotframework-vim'
 Plug 'fatih/vim-nginx'
 Plug 'tpope/vim-surround'
@@ -35,6 +35,7 @@ Plug 'davidhalter/jedi-vim'
 Plug 'zchee/deoplete-jedi'
 Plug 'zchee/deoplete-go'
 Plug 'mbbill/undotree'
+Plug 'bronson/vim-visual-star-search'
 "Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 "Plug 'vim-syntastic/syntastic'
 "Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
@@ -102,6 +103,10 @@ set splitright
 " Automatically remove trailing whitespace when saving
 autocmd FileType javascript,python autocmd BufWritePre <buffer> :%s/\s\+$//e
 
+" Fix crontab editing
+autocmd filetype crontab setlocal nobackup nowritebackup
+
+
 "------------------------------------------------------------------------------
 " Flake8
 "------------------------------------------------------------------------------
@@ -154,7 +159,7 @@ let g:go_auto_type_info = 1
 " Jedi
 "------------------------------------------------------------------------------
 " Handle completions with deocomplete instead of jedi-vim
-let g:jedi#completions_enabled = 0
+"let g:jedi#completions_enabled = 0
 
 
 "------------------------------------------------------------------------------
@@ -193,6 +198,12 @@ endif
 " Mapping to ensure FZF doesn't open in the NERDTree window
 nnoremap <silent> <expr> <c-t> (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":FZF\<cr>"
 
+
+"------------------------------------------------------------------------------
+" Vimagit
+"------------------------------------------------------------------------------
+let g:magit_default_show_all_files=0
+
 "------------------------------------------------------------------------------
 " NERDTree
 "------------------------------------------------------------------------------
@@ -216,14 +227,13 @@ vnoremap < <gv
 vnoremap > >gv
 
 nnoremap <F2> :call ReplaceIt()<cr> <C-o>
-"nnoremap <c-t> :FZF<cr>
 nnoremap <leader>f :Rg<cr>
 nnoremap <leader>e :NERDTreeToggle<cr>
 "nnoremap <leader>d :YcmCompleter GoTo<cr>
 nnoremap <D-/> :NERDComToggleComment<cr>
 
-nnoremap <leader>gs :Gstatus<cr>
-nnoremap <leader>gd :Gdiff<cr>
+"nnoremap <leader>gs :Gstatus<cr>
+"nnoremap <leader>gd :Gdiff<cr>
 
 nnoremap <leader>w :w<cr>
 nnoremap <leader>q :q<cr>
@@ -231,8 +241,12 @@ nnoremap <leader>q :q<cr>
 nnoremap <F3> :Autoformat<cr>
 
 " Quickfix
-nnoremap <silent> <F8> :cnext<cr>
-nnoremap <silent> <S-F8> :cprev<cr>
+nnoremap <silent> ]q :cnext<cr>
+nnoremap <silent> [q :cprev<cr>
+
+" Buffers
+nnoremap <silent> ]b :bnext<cr>
+nnoremap <silent> [b :bprev<cr>
 
 function! ReplaceIt()
 call inputsave()
