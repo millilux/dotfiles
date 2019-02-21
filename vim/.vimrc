@@ -41,6 +41,7 @@ Plug 'davidhalter/jedi'
 Plug 'davidhalter/jedi-vim'
 Plug 'zchee/deoplete-jedi'
 Plug 'zchee/deoplete-go'
+Plug 'OmniSharp/omnisharp-vim'
 "Plug 'SkyLeach/pudb.vim'
 Plug 'mbbill/undotree'
 Plug 'bronson/vim-visual-star-search'
@@ -117,7 +118,7 @@ set splitbelow
 set splitright
 
 " Automatically remove trailing whitespace when saving
-autocmd FileType python, javascript autocmd BufWritePre <buffer> :%s/\s\+$//e
+autocmd FileType python,javascript autocmd BufWritePre <buffer> :%s/\s\+$//e
 
 " Fix crontab editing
 autocmd filetype crontab setlocal nobackup nowritebackup
@@ -302,6 +303,9 @@ nnoremap <F3> :ALEFix<cr>
 " Window navigation
 nnoremap <tab>  <C-w>w
 nnoremap <tab>  <C-w>W
+
+" Keep window when deleting a buffer
+nnoremap <leader>bd :bp\|bd#<CR>
 
 " Pudb
 "nnoremap <F8> :TogglePudbBreakPoint<CR>

@@ -1,7 +1,8 @@
 set -x EDITOR nvim
 set -g -x SHELL fish
 set -x GOPATH $HOME/go
-set -x PATH $PATH $GOPATH/bin
+set -x PATH $PATH $GOPATH/bin ~/pact/bin
+set -x PATH $PATH $HOME/bin
 
 set normal (set_color normal)
 set magenta (set_color magenta)
@@ -19,14 +20,7 @@ set __fish_git_prompt_color_branch yellow
 set __fish_git_prompt_color_upstream_ahead green
 set __fish_git_prompt_color_upstream_behind red
 
-# Status Chars
-set __fish_git_prompt_char_dirtystate '⚡'
-set __fish_git_prompt_char_stagedstate '→'
-set __fish_git_prompt_char_untrackedfiles '☡'
-set __fish_git_prompt_char_stashstate '↩'
-set __fish_git_prompt_char_upstream_ahead '+'
-set __fish_git_prompt_char_upstream_behind '-'
-
+set -g theme_color_scheme gruvbox
 
 function fish_prompt
   set last_status $status
@@ -39,21 +33,26 @@ function fish_prompt
 
   set_color normal
 
-  if set -q VIRTUAL_ENV
-      echo -n -s (set_color -b blue white) "(" (basename "$VIRTUAL_ENV") ")" (set_color normal) " "
-      end
+ # if set -q VIRTUAL_ENV
+  #    echo -n -s (set_color -b blue white) "(" (basename "$VIRTUAL_ENV") ")" (set_color normal) " "
+  # end
 end
 
 alias vim 'nvim'
 alias vimdiff 'nvim -d'
 
 # Setup virtualfish
-eval (python3 -m virtualfish)
+# eval (python3 -m virtualfish)
 
 
-set -x FZF_DEFAULT_COMMAND 'rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
+set -x FZF_DEFAULT_COMMAND 'rg --files --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
 
-# if [ (docker-machine status) = "Stopped" ]
-#     docker-machine start
-# end
-# eval (docker-machine env --shell=fish)
+# Hack to get OMF and FZF to play nicely: https://github.com/junegunn/fzf/issues/851
+function fish_user_key_bindings
+  fzf_key_bindings
+end
+
+set -x CDIFF_OPTIONS '-s -w0'
+
+source ~/.secrets
+source ~/.config/fish/aliases.fish
