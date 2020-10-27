@@ -13,27 +13,29 @@ endif
 
 call plug#begin()
 Plug 'editorconfig/editorconfig-vim'
-Plug 'scrooloose/nerdtree'
-Plug 'scrooloose/nerdcommenter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 "Plug 'altercation/vim-colors-solarized'
 "Plug 'connorholyday/vim-snazzy'
-Plug 'morhetz/gruvbox'
-Plug 'liuchengxu/space-vim-theme'
-Plug 'dracula/vim'
+"Plug 'morhetz/gruvbox'
+"Plug 'liuchengxu/space-vim-theme'
+Plug 'drewtempelmeyer/palenight.vim'
+"Plug 'dracula/vim'
 Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'mfukar/robotframework-vim'
+"Plug 'vim-airline/vim-airline-themes'
+"Plug 'mfukar/robotframework-vim'
 Plug 'fatih/vim-nginx'
+Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-unimpaired'
 Plug 'shumphrey/fugitive-gitlab.vim'
+Plug 'junegunn/goyo.vim'
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'scrooloose/nerdtree'
 Plug 'honza/vim-snippets'
-"Plug 'liuchengxu/vista.vim'
+Plug 'liuchengxu/vista.vim'
 "Plug 'airblade/vim-gitgutter'
 Plug 'pangloss/vim-javascript'
 Plug 'MaxMEllon/vim-jsx-pretty'
@@ -54,10 +56,12 @@ Plug 'rbong/vim-flog'
 Plug 'joonty/vdebug'
 Plug 'janko-m/vim-test'
 Plug 'wellle/targets.vim'
+"Plug 'preservim/tagbar'
 Plug 'martinda/Jenkinsfile-vim-syntax'
 Plug 'hashivim/vim-terraform'
 Plug 'markonm/traces.vim'
 Plug 'unblevable/quick-scope'
+Plug 'justinmk/vim-sneak'
 Plug 'dag/vim-fish'
 call plug#end()
 
@@ -70,54 +74,21 @@ set timeoutlen=500
 set path=.,**
 
 set hidden
-set ruler
-set relativenumber
-set ignorecase
-set smartcase
-syntax enable
+"set ruler
+"set relativenumber
 set autoread
-set cmdheight=2
-set updatetime=300
-"set wildignore+=*/node_modules/*
-
-set diffopt+=vertical
-
-"------------------------------------------------------------------------------
-" Appearance
-"------------------------------------------------------------------------------
-set termguicolors
-set background=dark
-"colorscheme gruvbox
-"colorscheme solarized
-colorscheme space_vim_theme
-"colorscheme dracula
-"set gfn=Monaco:h12
-"let g:airline_theme='solarized'
-"let g:solarized_diffmode='high'
-"let g:airline_theme='gruvbox'
-let g:airline_theme='base16_spacemacs'
-"let g:gruvbox_vert_split = 'bg1'
-"let g:gruvbox_vert_split = 'bg0'
-
-set autoindent
-set smartindent
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
-set expandtab
-set shiftround
-
-set inccommand=split
-set incsearch
-set hlsearch
-set gdefault
-set cursorline
-set wildmenu
-set wildmode=full
-set clipboard+=unnamedplus
 set backspace=indent,eol,start
+set clipboard+=unnamedplus
+set diffopt+=vertical
+set linebreak
+set noshowmode
 set shortmess+=c
+set shortmess+=I
 set signcolumn=yes
+set updatetime=300
+set wildmenu
+set wildignore+=**/node_modules/**
+set wildmode=full
 
 set ttyfast
 set laststatus=2
@@ -127,18 +98,61 @@ set undolevels=1000
 
 set encoding=utf-8
 setglobal fileencoding=utf-8
-set conceallevel=0  " Don't hide JSON quotes
+
+"------------------------------------------------------------------------------
+" Appearance
+"------------------------------------------------------------------------------
+set termguicolors
+set background=dark
+set cursorline
+colorscheme palenight
+"colorscheme gruvbox
+"colorscheme solarized
+"colorscheme space_vim_theme
+"colorscheme dracula
+"set gfn=Monaco:h12
+"let g:airline_theme='solarized'
+"let g:solarized_diffmode='high'
+"let g:airline_theme='gruvbox'
+"let g:airline_theme='base16_spacemacs'
+"let g:gruvbox_vert_split = 'bg1'
+"let g:gruvbox_vert_split = 'bg0'
+let g:palenight_terminal_italics=1
+highlight VertSplit guibg=None guifg=Gray ctermbg=0 ctermfg=0
+
+
+"------------------------------------------------------------------------------
+" Formatting
+"------------------------------------------------------------------------------
+syntax enable
+set autoindent
+set smartindent
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set expandtab
+set shiftround
+set inccommand=split
+set conceallevel=0   " Don't hide JSON quotes
+
+"------------------------------------------------------------------------------
+" Search
+"------------------------------------------------------------------------------
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+set gdefault
+
 " Autocomplete
 "set infercase
 "set omnifunc=syntaxcomplete#Complete
 "set completefunc=syntaxcomplete#Complete
 "set complete-=i
 
-" New windows
+" Windows
 set splitbelow
 set splitright
-
-" Resize windows with a mouse
 set mouse=n
 
 " Automatically remove trailing whitespace when saving
@@ -148,16 +162,30 @@ set mouse=n
 autocmd filetype crontab setlocal nobackup nowritebackup
 
 "------------------------------------------------------------------------------
+" Sneak
+"-----------------------------------------------------------------------------
+let g:sneak#label = 1
+
+"------------------------------------------------------------------------------
 " Netrw
 "------------------------------------------------------------------------------
 let g:netrw_banner = 0
+let g:netrw_winsize = 20
 let g:netrw_liststyle = 3
-
+let g:netrw_localrmdir = 'rm -r'
 
 "------------------------------------------------------------------------------
 " Black
 "------------------------------------------------------------------------------
 let g:black_skip_string_normalization=1
+
+"------------------------------------------------------------------------------
+" Quickscope
+"------------------------------------------------------------------------------
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+
+highlight QuickScopePrimary guifg='#00C7DF' gui=underline ctermfg=155 cterm=underline
+highlight QuickScopeSecondary guifg='#afff5f' gui=underline ctermfg=81 cterm=underline
 
 "------------------------------------------------------------------------------
 " CoC
@@ -299,7 +327,6 @@ let g:black_skip_string_normalization=1
 "------------------------------------------------------------------------------
 let g:deoplete#enable_at_startup=1
 
-
 "------------------------------------------------------------------------------
 " Neosnippet
 "------------------------------------------------------------------------------
@@ -337,26 +364,19 @@ let g:jedi#completions_enabled = 0
 "------------------------------------------------------------------------------
 " Vim-test
 "------------------------------------------------------------------------------
-"function! RunTransform(cmd) abort
-    ""let root = g:NERDTree.ForCurrentTab().getRoot().path.str()
-    ""let cmd = '.' . root . '/' . a:cmd
-    "echo a:cmd
-    "return a:cmd
-"endfunction
-"
-
-function! DockerTransform(cmd) abort
-    echo a:cmd
-    "return a:cmd
-    return 'docker-compose run --rm --no-deps backend '.a:cmd
+function! RunTransform(cmd) abort
+    echom a:cmd
+    let l:service =  substitute(a:cmd, '\vpytest services/([a-z-_]+).*', '\1', "")
+    let l:cmd = substitute(a:cmd, '\vservices/([a-z-_]+)/', '', '')
+    let l:cmd = substitute(l:cmd, 'backend/', '', '')
+    return './run ' . l:service . ' ' . l:cmd
 endfunction
 
-""let g:test#python#pytest#executable = 'docker-compose run --rm --no-deps backend pytest'
-"let g:test#strategy = 'iterm'
-""let g:test#custom_transformations = {'run': function('RunTransform')}
-""let g:test#transformation = 'run'
-let g:test#custom_transformations = {'docker': function('DockerTransform')}
-let g:test#transformation = 'docker'
+" let g:test#strategy = 'iterm'
+let g:test#strategy = 'neovim'
+let g:test#custom_transformations = {'run': function('RunTransform')}
+let g:test#transformation = 'run'
+let test#neovim#term_position = 'vert'
 
 "------------------------------------------------------------------------------
 " Ale
@@ -370,9 +390,9 @@ let g:ale_linters = {'python': ['flake8']}
 let g:ale_python_flake8_change_directory = 0
 
 "------------------------------------------------------------------------------
-" Vim Airline
+" Airline
 "------------------------------------------------------------------------------
-let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 if ! has('gui_running')
     set ttimeoutlen=10
@@ -397,7 +417,6 @@ nnoremap <leader>/ :silent execute "grep! " . shellescape(expand("<cword>")) . "
 " Find in files
 command! -nargs=+ -complete=file -bar FindInFiles silent! grep! <args>|cwindow|redraw!
 
-
 "------------------------------------------------------------------------------
 " FZF
 "------------------------------------------------------------------------------
@@ -414,14 +433,19 @@ nnoremap <silent> <leader>b     :Buffers<CR>
 nnoremap <silent> <leader>h     :History:<CR>
 nnoremap <silent> <leader>h/    :History/<CR>
 nnoremap <silent> <leader>m     :Marks<CR>
-nnoremap <silent> <leader>t     :Tags<CR>
+nnoremap <silent> <leader>T     :Tags<CR>
+nnoremap <silent> <leader>t     :BTags<CR>
+
+" WIP open FZF Files window if no file specified
+"autocmd StdinReadPre * let s:std_in=1
+"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | Files | endif
 
 "------------------------------------------------------------------------------
 " NERDTree
 "------------------------------------------------------------------------------
 " Open if no files specified
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+"autocmd StdinReadPre * let s:std_in=1
+"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 " Close vim if NERDTree is the only window left
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -433,15 +457,10 @@ let NERDTreeAutoDeleteBuffer = 1
 let NERDTreeShowHidden = 1
 
 "------------------------------------------------------------------------------
-" JSON Vim
-"------------------------------------------------------------------------------
-let g:vim_json_syntax_conceal = 0
-
-"------------------------------------------------------------------------------
 " Vista
 "------------------------------------------------------------------------------
 "let g:vista_default_executive = 'coc'
-"let g:vista#renderer#enable_icon = 1
+let g:vista#renderer#enable_icon = 1
 
 "function! NearestMethodOrFunction() abort
   "return get(b:, 'vista_nearest_method_or_function', '')
@@ -460,7 +479,7 @@ vnoremap < <gv
 vnoremap > >gv
 
 " Clear search highlights
-map <esc> :noh<cr>
+nnoremap <silent> <esc> :noh<cr>
 
 " Simpler Regexes
 ":nnoremap / /\v
@@ -475,7 +494,7 @@ nnoremap <leader>e :NERDTreeToggle<cr>
 nnoremap <leader>l :NERDTreeFind<cr>
 nnoremap <D-/> :NERDComToggleComment<cr>
 nnoremap <F8> :Vista!!<cr>
-"nnoremap <leader>t :Vista finder coc<cr>
+"nnoremap <leader>t :Vista finder<cr>
 
 " Fugitive
 nnoremap <leader>gb :Gblame<cr>
@@ -496,12 +515,8 @@ nmap <silent> tv :TestVisit<CR>
 nnoremap <F3> :ALEFix<cr>
 "nnoremap <F3> :Format<cr>
 
-" Window navigation
-nnoremap <tab>  <C-w>w
-nnoremap <tab>  <C-w>W
-
 " Keep window when deleting a buffer
-nnoremap <leader>bd :bp\|bd#<CR>
+"nnoremap <leader>bd :bp\|bd#<CR>
 
 " Pudb
 "nnoremap <F8> :TogglePudbBreakPoint<CR>
