@@ -47,6 +47,7 @@ Plug 'Shougo/neosnippet-snippets'
 "Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 Plug 'davidhalter/jedi'
 Plug 'davidhalter/jedi-vim'
+" Plug 'python-rope/ropevim'
 Plug 'jeetsukumaran/vim-pythonsense'
 Plug 'zchee/deoplete-jedi'
 "Plug 'zchee/deoplete-go'
@@ -63,6 +64,7 @@ Plug 'markonm/traces.vim'
 Plug 'unblevable/quick-scope'
 Plug 'justinmk/vim-sneak'
 Plug 'dag/vim-fish'
+Plug 'keith/swift.vim'
 call plug#end()
 
 filetype plugin on
@@ -74,8 +76,8 @@ set timeoutlen=500
 set path=.,**
 
 set hidden
-"set ruler
-"set relativenumber
+set ruler
+set relativenumber
 set autoread
 set backspace=indent,eol,start
 set clipboard+=unnamedplus
@@ -386,7 +388,7 @@ let g:ale_fixers = {
 \   'python': ['black', 'isort'],
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \}
-let g:ale_linters = {'python': ['flake8']}
+let g:ale_linters = {'python': ['flake8', 'mypy']}
 let g:ale_python_flake8_change_directory = 0
 
 "------------------------------------------------------------------------------
@@ -422,9 +424,6 @@ command! -nargs=+ -complete=file -bar FindInFiles silent! grep! <args>|cwindow|r
 "------------------------------------------------------------------------------
 let g:fzf_history_dir = '~/.local/share/fzf-history'
 let g:fzf_tags_command = 'ctags -R --languages=python --exclude=node_modules'
-
-command! -bang -nargs=? -complete=dir Files
-  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
 " Mapping to ensure FZF doesn't open in the NERDTree window
 nnoremap <silent> <expr> <c-t> (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":Files\<cr>"
@@ -497,13 +496,13 @@ nnoremap <F8> :Vista!!<cr>
 "nnoremap <leader>t :Vista finder<cr>
 
 " Fugitive
-nnoremap <leader>gb :Gblame<cr>
-nnoremap <leader>gc :Gcommit<cr>
+nnoremap <leader>gb :Git blame<cr>
+nnoremap <leader>gc :Git commit<cr>
 nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gD :Gdiffsplit!<cr>
 nnoremap <leader>gl :Glog<cr>
-nnoremap <leader>gs :Gstatus<cr>
-nnoremap <leader>gp :Gpush<cr>
+nnoremap <leader>gs :Git<cr>
+nnoremap <leader>gp :Git push<cr>
 let g:fugitive_gitlab_domains = ['http://git.int.thisisglobal.com', 'http://gitlab01.lq.int.thisisglobal.com']
 
 nmap <silent> tn :TestNearest<CR>
@@ -528,3 +527,4 @@ function! ReplaceIt()
     call inputrestore()
     execute '%s//'.replacement.'/g'
 endfunction
+source ~/.vim/python_ropevim.vim
