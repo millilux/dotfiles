@@ -49,4 +49,5 @@ alias vimdiff 'nvim -d'
 eval (python3 -m virtualfish)
 
 
-set -x FZF_DEFAULT_COMMAND 'rg --files'
+set -x FZF_DEFAULT_COMMAND 'rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
+
