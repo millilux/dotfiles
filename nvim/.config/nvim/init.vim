@@ -2,8 +2,6 @@ if has('win32') || has('win64')
     set runtimepath=%HOMEPATH%/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,path/to/home.vim/after
 endif
 
-" let g:python3_host_prog = '/opt/homebrew/bin/python3'
-
 call plug#begin()
 
 " Themes
@@ -17,7 +15,6 @@ Plug 'drewtempelmeyer/palenight.vim'
 " UI
 Plug 'junegunn/goyo.vim'
 Plug 'vim-airline/vim-airline'
-"Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/vim-peekaboo'  " Preview register contents
 Plug 'markonm/traces.vim'     " Highlight patterns & ranges in ex commands in commandline mode
 Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
@@ -87,8 +84,6 @@ Plug 'janko-m/vim-test'
 Plug 'mbbill/undotree'
 
 call plug#end()
-
-" TODO: VimspectorInstall debugpy if not installed
 
 "------------------------------------------------------------------------------
 " Basics
@@ -211,7 +206,7 @@ highlight QuickScopeSecondary guibg='#5f55aa' guifg='#5fffff' gui=underline cter
 
 "------------------------------------------------------------------------------
 " Sneak
-"-----------------------------------------------------------------------------
+"------------------------------------------------------------------------------
 let g:sneak#label = 1
 let g:sneak#prompt = '🦄 '
 " let g:sneak#prompt = '🦇 '
@@ -453,12 +448,11 @@ nnoremap <F5> :UndotreeToggle<CR>
 " Keep window when deleting a buffer
 "nnoremap <leader>bd :bp\|bd#<CR>
 
-
 nmap <Leader>ai :RopeAutoImport<CR>
 
 nnoremap <leader><CR> :so ~/.config/nvim/init.vim<CR>
 
-" Neovim terminal
+" Quit Neovim terminal with esc
 "tnoremap <Esc> <C-\><C-n>
 
 " Rope
