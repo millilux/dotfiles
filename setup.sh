@@ -3,16 +3,23 @@
 set -e
 
 # Install homebrew
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 if [[ "$OSTYPE" =~ ^darwin.* ]]; then
-    curl -fsS https://raw.githubusercontent.com/Homebrew/install/master/install | ruby
+    echo "Mac"
+else
+    test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"
+    test -d /home/linuxbrew/.linuxbrew && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    test -r ~/.bash_profile && echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >> ~/.bash_profile
+    echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >> ~/.profile
+    sudo apt-get install build-essential
 fi
-    curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh | sh -c
-exit
 
-brew bundle Brewfile
+brew bundle install
 
-# Make sure homebrew paths come first
-sudo sed -i '' '1s!^!/opt/homebrew/bin\n!' /etc/paths
+# Setup dotfiles
+for dir in */; do
+    stow -v -t ~/ -S $dir
+done
 
 # Add fish to list of shells
 if ! grep fish /etc/shells; then
@@ -20,19 +27,18 @@ if ! grep fish /etc/shells; then
 fi
 
 # Set fish as default
-chsh -s /usr/local/bin/fish
+chsh -s $(which fish)
 
-# Add git completion etc
-fish_update_completions
+# Add homebrew path to fish config
+echo 'set -U fish_user_paths (brew --prefix)/bin/ $fish_user_paths' >> ~/.config/fish/config.fish
 
-# Remove default greeting message
-set fish_greeting
+fish -c fish_update_completions
 
 # Install fisher
 # curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisher
 
 if [[ "$OSTYPE" =~ ^darwin.* ]]; then
-    brew bundle Brewfile.macos
+    brew bundle install --file=Brewfile.macos
 
     # Increase OSX Dock animation speed
     defaults write com.apple.dock autohide-time-modifier -float 0.2
@@ -51,13 +57,15 @@ if [[ "$OSTYPE" =~ ^darwin.* ]]; then
     # brew services start koekeishiya/formulae/skhd
 fi
 
-# Install vim-plug
+pip install -r requirements.txt
+
+# Install vim-plug for neovim
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-vim +PluginInstall +qall
+nvim +PlugInstall +qall
 
 # Install Haskell
-curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+# curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
 
 # Manual steps
 # Update iTerm2 > Profile > Command to /usr/local/bin/fish

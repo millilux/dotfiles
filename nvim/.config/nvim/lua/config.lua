@@ -1,4 +1,5 @@
 -- local telescope = require('telescope')
+-- require('lualine').setup()
 
 -- require('nvim-tree').setup()
 

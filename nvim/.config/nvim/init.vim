@@ -10,15 +10,19 @@ Plug 'morhetz/gruvbox'
 Plug 'altercation/vim-colors-solarized'
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 Plug 'kyazdani42/blue-moon'
+Plug 'sliminality/wild-cherry-vim'
 " Plug 'catppuccin/nvim', {'as': 'catppuccin'}
 Plug 'drewtempelmeyer/palenight.vim'
 
 " UI
 Plug 'junegunn/goyo.vim'
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/vim-peekaboo'  " Preview register contents
 Plug 'markonm/traces.vim'     " Highlight patterns & ranges in ex commands in commandline mode
 Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
+" Plug 'nvim-lualine/lualine.nvim'
+
 
 " File Drawer
 Plug 'scrooloose/nerdtree'
@@ -189,23 +193,23 @@ set background=dark
 set cursorline
 
 "colorscheme tokyonight
-"colorscheme palenight
+colorscheme palenight
+" colorscheme wildcherry
 "colorscheme gruvbox
 "colorscheme solarized
 "colorscheme space_vim_theme
-colorscheme dracula
+" colorscheme dracula
 " colorscheme blue-moon
+" colorscheme dracula
 " let g:catppuccin_flavour = "frappe" " latte, frappe, macchiato, mocha
 " colorscheme catppuccin
 
 "set gfn=Monaco:h12
-"let g:airline_theme='solarized'
+let g:airline_theme='palenight'
 "let g:solarized_diffmode='high'
-"let g:airline_theme='gruvbox'
-"let g:airline_theme='base16_spacemacs'
 "let g:gruvbox_vert_split = 'bg1'
 "let g:gruvbox_vert_split = 'bg0'
-let g:palenight_terminal_italics=1
+" let g:palenight_terminal_italics=1
 highlight WinSeparator ctermfg=None ctermbg=None guibg=None guifg=None
 set fillchars+=vert:\ " Use a whitespace character
 
