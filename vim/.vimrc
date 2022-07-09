@@ -12,12 +12,11 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin()
-"Plug 'editorconfig/editorconfig-vim'
+Plug 'editorconfig/editorconfig-vim'
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-"Plug 'nvie/vim-flake8'
 "Plug 'altercation/vim-colors-solarized'
 Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
@@ -48,10 +47,10 @@ Plug 'bronson/vim-visual-star-search'
 "Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 "Plug 'vim-syntastic/syntastic'
 "Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
-"Plug 'Chiel92/vim-autoformat'
 Plug 'joonty/vdebug'
 Plug 'janko-m/vim-test'
 Plug 'wellle/targets.vim'
+Plug 'martinda/Jenkinsfile-vim-syntax'
 call plug#end()
 
 filetype plugin on
@@ -64,6 +63,7 @@ set relativenumber
 set ignorecase
 set smartcase
 syntax enable
+set autoread
 
 "------------------------------------------------------------------------------
 " Appearance
@@ -117,7 +117,7 @@ set splitbelow
 set splitright
 
 " Automatically remove trailing whitespace when saving
-autocmd FileType python autocmd BufWritePre <buffer> :%s/\s\+$//e
+autocmd FileType python, javascript autocmd BufWritePre <buffer> :%s/\s\+$//e
 
 " Fix crontab editing
 autocmd filetype crontab setlocal nobackup nowritebackup
@@ -190,16 +190,20 @@ let g:jedi#force_py_version = 3
 "------------------------------------------------------------------------------
 let g:deoplete#sources#ternjs#filetypes = ['jsx', 'javascript.jsx']
 
+let g:test#python#pytest#executable = './run pytest'
 
 "------------------------------------------------------------------------------
 " Ale
 "------------------------------------------------------------------------------
-let g:ale_fixers = {
-\   'javascript': ['eslint'],
-\   'python': ['black'],
-\}
+"let g:ale_fixers = {
+"\   'javascript': ['eslint'],
+"\   'python': ['black'],
+"\}
 
-let g:ale_python_black_options = '--skip-string-normalization'
+"let g:ale_linters = {'python': ['flake8']}
+
+"let g:ale_python_black_options = '--skip-string-normalization'
+let g:ale_python_flake8_change_directory = 0
 
 "------------------------------------------------------------------------------
 " Vim Airline
@@ -223,29 +227,26 @@ if executable("rg")
     set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 
+" Search in files for current word
+nnoremap <leader>/ :silent execute "grep! " . shellescape(expand("<cword>")) . " ."<cr>:copen<cr>
+
+" Find in files
+command! -nargs=+ -complete=file -bar FindInFiles silent! grep! <args>|cwindow|redraw!
+
+
 "------------------------------------------------------------------------------
 " FZF
 "------------------------------------------------------------------------------
 let g:fzf_history_dir = '~/.local/share/fzf-history'
-
-" Setup ripgrep search with FZF
-command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \   <bang>0)
 
 command! -bang -nargs=? -complete=dir Files
   \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
 " Mapping to ensure FZF doesn't open in the NERDTree window
 nnoremap <silent> <expr> <c-t> (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":Files\<cr>"
-
-
-" Grep things
-command! -nargs=+ NewGrep execute 'silent grep! <args>' | copen 12 
-nnoremap <leader>/ :silent execute "grep! " . shellescape(expand("<cword>")) . " ."<cr>:copen<cr>
+nnoremap <silent> <leader>f     :Rg<CR>
+nnoremap <silent> <leader>b     :Buffers<CR>
+nnoremap <silent> <leader>t     :Tags<CR>
 "------------------------------------------------------------------------------
 " NERDTree
 "------------------------------------------------------------------------------
@@ -262,6 +263,13 @@ let NERDTreeDirArrows = 1
 let NERDTreeAutoDeleteBuffer = 1
 let NERDTreeShowHidden = 1
 
+
+"------------------------------------------------------------------------------
+" JSON Vim 
+"------------------------------------------------------------------------------
+let g:vim_json_syntax_conceal = 0
+"------------------------------------------------------------------------------
+
 "------------------------------------------------------------------------------
 " Mappings
 "------------------------------------------------------------------------------
@@ -269,13 +277,17 @@ let NERDTreeShowHidden = 1
 vnoremap < <gv
 vnoremap > >gv
 
+" Clear search highlights
+map <esc> :noh<cr>
+
 nnoremap <F2> :call ReplaceIt()<cr> <C-o>
-nnoremap <silent> <expr> <leader>f (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":Rg \<cr>"
+nnoremap \ :FindInFiles<SPACE>
 nnoremap <leader>e :NERDTreeToggle<cr>
 nnoremap <leader>l :NERDTreeFind<cr>
 nnoremap <D-/> :NERDComToggleComment<cr>
-nmap <leader>t :TagbarToggle<cr>
+nmap <F8> :TagbarToggle<cr>
 
+" Fugitive
 nnoremap <leader>gb :Gblame<cr>
 nnoremap <leader>gc :Gcommit<cr>
 nnoremap <leader>gd :Gdiff<cr>
@@ -286,6 +298,10 @@ nnoremap <leader>w :w<cr>
 nnoremap <leader>q :q<cr>
 
 nnoremap <F3> :ALEFix<cr>
+
+" Window navigation
+nnoremap <tab>  <C-w>w
+nnoremap <tab>  <C-w>W
 
 " Pudb
 "nnoremap <F8> :TogglePudbBreakPoint<CR>
