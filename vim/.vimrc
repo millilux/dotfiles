@@ -31,6 +31,7 @@ Plug 'davidhalter/jedi-vim'
 Plug 'zchee/deoplete-jedi'
 Plug 'mbbill/undotree'
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+Plug 'fatih/vim-go'
 "Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 "Plug 'vim-syntastic/syntastic'
 call plug#end()
@@ -46,6 +47,9 @@ set ignorecase
 set smartcase
 syntax enable
 
+"------------------------------------------------------------------------------
+" Appearance
+"------------------------------------------------------------------------------
 set background=dark
 colorscheme solarized
 set gfn=Monaco:h12
@@ -63,45 +67,11 @@ set hlsearch
 set gdefault
 set cursorline
 set wildmenu
-set wildmode=list:longest
+set wildmode=list:longest,full
 set smartindent
 set autoindent
 set clipboard=unnamed
 set backspace=indent,eol,start
-
-" autocomplete
-set infercase
-set omnifunc=syntaxcomplete#Complete
-set completefunc=syntaxcomplete#Complete
-set complete-=i
-
-" New window opening
-set splitbelow
-set splitright
-
-" Automatically remove trailing whitespace when saving
-autocmd FileType javascript,python autocmd BufWritePre <buffer> :%s/\s\+$//e
-
-" Flake8 config
-autocmd BufWritePost *.py call Flake8()
-let g:flake8_show_in_file=1
-let g:flake8_show_in_gutter=1
-
-" Syntastic config
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
-"let g:syntastic_always_populate_loc_list = 1
-"let g:syntastic_auto_loc_list = 1
-"let g:syntastic_check_on_open = 1
-"let g:syntastic_check_on_wq = 0
-"let g:syntastic_javascript_checkers = ['eslint']
-
-" Deocomplete
-let g:deoplete#enable_at_startup=1
-
-" Handle completions with deocomplete instead of jedi-vim
-let g:jedi#completions_enabled = 0
 
 set ttyfast
 set laststatus=2
@@ -112,14 +82,65 @@ set undolevels=1000
 set encoding=utf-8
 setglobal fileencoding=utf-8
 
-function! ReplaceIt()
-call inputsave()
-    let replacement = input('Enter replacement:')
-    call inputrestore()
-    execute '%s//'.replacement.'/g'
-endfunction
+" Autocomplete
+set infercase
+set omnifunc=syntaxcomplete#Complete
+set completefunc=syntaxcomplete#Complete
+set complete-=i
 
-" Speed up esc for vim-airline
+" New windows
+set splitbelow
+set splitright
+
+" Automatically remove trailing whitespace when saving
+autocmd FileType javascript,python autocmd BufWritePre <buffer> :%s/\s\+$//e
+
+"------------------------------------------------------------------------------
+" Flake8
+"------------------------------------------------------------------------------
+autocmd BufWritePost *.py call Flake8()
+let g:flake8_show_in_file=1
+let g:flake8_show_in_gutter=1
+
+
+"------------------------------------------------------------------------------
+" Syntastic
+"------------------------------------------------------------------------------
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
+"let g:syntastic_javascript_checkers = ['eslint']
+
+
+"------------------------------------------------------------------------------
+" Deocomplete
+"------------------------------------------------------------------------------
+let g:deoplete#enable_at_startup=1
+
+
+"------------------------------------------------------------------------------
+" Vim-go
+"------------------------------------------------------------------------------
+"autocmd FileType go nmap <leader>r <Plug>(go-run)
+"autocmd FileType go nmap <leader>b <Plug>(go-build)
+"autocmd FileType go nmap <leader>t <Plug>(go-test)
+"autocmd FileType go nmap <leader>c <Plug>(go-coverage)
+autocmd FileType go nmap <leader>r :GoRename<cr>
+
+"------------------------------------------------------------------------------
+" Jedi
+"------------------------------------------------------------------------------
+" Handle completions with deocomplete instead of jedi-vim
+let g:jedi#completions_enabled = 0
+
+
+"------------------------------------------------------------------------------
+" Vim Airline
+"------------------------------------------------------------------------------
 if ! has('gui_running')
     set ttimeoutlen=10
     augroup FastEscape
@@ -130,7 +151,9 @@ if ! has('gui_running')
 endif
 
 
-" FZF config
+"------------------------------------------------------------------------------
+" FZF
+"------------------------------------------------------------------------------
 let g:fzf_history_dir = '~/.local/share/fzf-history'
 " Use RipGrep with FZF
 command! -bang -nargs=* Rg
@@ -147,9 +170,23 @@ if executable("rg")
 endif
 
 
-" Ignore files in NERDTree
-let NERDTreeIgnore=['\.pyc$', '\~$']
+"------------------------------------------------------------------------------
+" NERDTree
+"------------------------------------------------------------------------------
+" Open if no files specified
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
+" Close vim if NERDTree is the only window left
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+let NERDTreeIgnore=['\.pyc$', '\~$']
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
+
+"------------------------------------------------------------------------------
+" Mappings
+"------------------------------------------------------------------------------
 " Indent shortcuts
 vnoremap < <gv
 vnoremap > >gv
@@ -163,3 +200,11 @@ nnoremap <D-/> :NERDComToggleComment<cr>
 
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gd :Gdiff<cr>
+
+
+function! ReplaceIt()
+call inputsave()
+    let replacement = input('Enter replacement:')
+    call inputrestore()
+    execute '%s//'.replacement.'/g'
+endfunction
