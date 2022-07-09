@@ -1,5 +1,7 @@
 set -x EDITOR nvim
 set -g -x SHELL fish
+set -x GOPATH $HOME/go
+set -x PATH $PATH $GOPATH/bin
 
 set normal (set_color normal)
 set magenta (set_color magenta)
