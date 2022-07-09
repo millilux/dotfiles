@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 
+set -e
+
 # Install homebrew
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+if [[ "$OSTYPE" =~ ^darwin.* ]]; then
+    curl -fsS https://raw.githubusercontent.com/Homebrew/install/master/install | ruby
+fi
+    curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh | sh -c
+exit
 
 brew bundle Brewfile
 
@@ -25,7 +31,7 @@ set fish_greeting
 # Install fisher
 # curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisher
 
-if [[ $PLATFORM == 'macos' ]]; then
+if [[ "$OSTYPE" =~ ^darwin.* ]]; then
     brew bundle Brewfile.macos
 
     # Increase OSX Dock animation speed
