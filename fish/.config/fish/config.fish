@@ -53,3 +53,7 @@ eval (python3 -m virtualfish)
 
 set -x FZF_DEFAULT_COMMAND 'rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
 
+# if [ (docker-machine status) = "Stopped" ]
+#     docker-machine start
+# end
+# eval (docker-machine env --shell=fish)
