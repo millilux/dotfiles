@@ -1,0 +1,9 @@
+[aws]
+disabled = true
+
+[cmd_duration]
+disabled = true
+
+[python]
+pyenv_version_name = true
+format = '[(\($virtualenv\) )]($style)'
