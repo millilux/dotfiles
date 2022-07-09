@@ -9,6 +9,7 @@ Plug 'dracula/vim'
 Plug 'morhetz/gruvbox'
 Plug 'altercation/vim-colors-solarized'
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+Plug 'kyazdani42/blue-moon'
 " Plug 'catppuccin/nvim', {'as': 'catppuccin'}
 Plug 'drewtempelmeyer/palenight.vim'
 
@@ -23,7 +24,11 @@ Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
 Plug 'scrooloose/nerdtree'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'ryanoasis/vim-devicons'
-Plug 'kyazdani42/nvim-web-devicons'
+"
+" Plug 'kyazdani42/nvim-tree.lua'
+" Plug 'kyazdani42/nvim-web-devicons'
+" Plug 'nvim-neo-tree/neo-tree.nvim'
+" Plug 'MunifTanjim/nui.nvim'
 
 " Text
 Plug 'tpope/vim-surround'
@@ -31,6 +36,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-unimpaired'
 Plug 'bronson/vim-visual-star-search'
 Plug 'wellle/targets.vim'
+Plug 'editorconfig/editorconfig-vim'
 
 " Navigation
 " Plug 'unblevable/quick-scope'
@@ -44,7 +50,6 @@ Plug 'rbong/vim-flog'
 Plug 'lewis6991/gitsigns.nvim'
 
 " Syntax 
-Plug 'editorconfig/editorconfig-vim'
 Plug 'pangloss/vim-javascript'
 Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'martinda/Jenkinsfile-vim-syntax'
@@ -55,13 +60,13 @@ Plug 'preservim/vim-markdown'
 Plug 'dag/vim-fish'
 
 Plug 'nvim-treesitter/nvim-treesitter'
-Plug 'neovim/nvim-lspconfig'
-" Plug 'hrsh7th/nvim-cmp'
 
 " Search
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'gfanto/fzf-lsp.nvim'
+" Plug 'ptzz/lf.vim'
+" Plug 'voldikss/vim-floaterm'
 " Plug 'nvim-lspfuzzy' " alternative to fzf-lsp?
 
 Plug 'nvim-lua/plenary.nvim'
@@ -70,17 +75,31 @@ Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 
 " IDE
 Plug 'dense-analysis/ale'
-Plug 'honza/vim-snippets'
 Plug 'tpope/vim-commentary'
 Plug 'liuchengxu/vista.vim'
-Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/neosnippet-snippets'
+" Plug 'honza/vim-snippets'
+" Plug 'Shougo/neosnippet.vim'
+" Plug 'Shougo/neosnippet-snippets'
 "Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 Plug 'python-rope/ropevim'
 Plug 'jeetsukumaran/vim-pythonsense'
+
 Plug 'janko-m/vim-test'
+Plug 'antoinemadec/FixCursorHold.nvim'
+" Plug 'nvim-neotest/neotest'
+" Plug 'nvim-neotest/neotest-vim-test'
 " Plug 'puremourning/vimspector'
 
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/vim-vsnip'
+" Plug 'onsails/lspkind.nvim'
+" Plug 'L3MON4D3/LuaSnip'
+" Plug 'saadparwaiz1/cmp_luasnip'
+
+" Workflow
 Plug 'mbbill/undotree'
 
 call plug#end()
@@ -122,6 +141,7 @@ set laststatus=2
 set history=1000
 set undolevels=1000
 
+set completeopt=menu,menuone,noselect
 
 "------------------------------------------------------------------------------
 " Formatting
@@ -147,12 +167,6 @@ set gdefault
 
 " Substitution
 set inccommand=split
-
-" Autocomplete
-"set infercase
-"set omnifunc=syntaxcomplete#Complete
-"set completefunc=syntaxcomplete#Complete
-"set complete-=i
 
 "------------------------------------------------------------------------------
 " Windows
@@ -180,6 +194,7 @@ set cursorline
 "colorscheme solarized
 "colorscheme space_vim_theme
 colorscheme dracula
+" colorscheme blue-moon
 " let g:catppuccin_flavour = "frappe" " latte, frappe, macchiato, mocha
 " colorscheme catppuccin
 
@@ -195,7 +210,7 @@ highlight WinSeparator ctermfg=None ctermbg=None guibg=None guifg=None
 set fillchars+=vert:\ " Use a whitespace character
 
 " Include any nvim specific lua config from ~/.config/nvim/lua/config.lua
-" lua require('config')
+lua require('config')
 
 "------------------------------------------------------------------------------
 " Quick Scope
@@ -234,10 +249,10 @@ let g:vim_markdown_folding_disabled=1
 "------------------------------------------------------------------------------
 " Neosnippet
 "------------------------------------------------------------------------------
-let g:neosnippet#snippets_directory = '~/dotfiles/vim/snippets'
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
+" let g:neosnippet#snippets_directory = '~/dotfiles/vim/snippets'
+" imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+" smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+" xmap <C-k>     <Plug>(neosnippet_expand_target)
 
 "------------------------------------------------------------------------------
 " Vim-go
@@ -286,14 +301,15 @@ let g:ale_python_pylsp_config = {
 \   }
 \}
 
-let g:ale_completion_enabled = 1
+let g:ale_completion_enabled = 0
 let g:ale_hover_to_floating_preview = 1
+let g:ale_hover_cursor = 1
 
 nnoremap gd             :ALEGoToDefinition<cr>
 nnoremap <leader>r      :ALERename<cr>
 nnoremap <leader>fr     :ALEFindReferences<cr>
-nnoremap <leader>s      :ALESymbolSearch<cr>
 nnoremap <leader>ca     :ALECodeAction<cr>
+nnoremap <leader>K      :ALEHover<cr>
 nnoremap <F3>           :ALEFix<cr>
 
 "------------------------------------------------------------------------------
@@ -414,11 +430,18 @@ nnoremap \ :call FindInFiles()<cr>
 " Find in files for current word
 nnoremap <leader>/ :silent execute "grep! " . shellescape(expand("<cword>")) . " ."<cr>:copen<cr>
 
-nnoremap <leader>e :NERDTreeToggle<cr>
-nnoremap <leader>l :NERDTreeFind<cr>
+nnoremap <silent> <leader>e :NERDTreeToggle<cr>
+nnoremap <silent> <leader>l :NERDTreeFind<cr>
+
+" nnoremap <silent> <leader>e :NvimTreeToggle<cr>
+" nnoremap <silent> <leader>l :NvimTreeFindFile<cr>
+
+" nnoremap <silent> <leader>e :Neotree<cr>
+" nnoremap <silent> <leader>l :Neotree filesystem reveal<cr>
+
 nnoremap <D-/> :NERDComToggleComment<cr>
 nnoremap <F8> :Vista!!<cr>
-nnoremap <leader>x Obreakpoint()<ESC>
+" nnoremap <leader>x Obreakpoint()<ESC>
 "nnoremap <leader>t :Vista finder<cr>
 
 " Fugitive
