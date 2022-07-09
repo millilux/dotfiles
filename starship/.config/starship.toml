@@ -1,3 +1,8 @@
+command_timeout = 1000
+
+# [character]
+# success_symbol = '[ﯟ](bold green)' 
+
 [aws]
 disabled = true
 

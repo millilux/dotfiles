@@ -5,17 +5,19 @@ set -x GOPATH $HOME/go
 set -x PATH $PATH $GOPATH/bin ~/pact/bin
 set -x PATH $PATH $HOME/bin
 set -x PATH $PATH ~/.emacs.d/bin
+set -x PATH $PATH ~/.luarocks/bin
+set -x PATH $PATH ~/.cargo/bin
 
 # Haskell
 set -x PATH $PATH ~/.ghcup/bin
 set -x PATH $PATH ~/.cabal/bin
 
 set -gx CLICOLOR 1
-set -gx TERM xterm-256color
 set -x COLORTERM truecolor
 set -x BAT_THEME "Dracula"
 
 set -x FZF_DEFAULT_COMMAND 'rg --files --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
+set -x FZF_DEFAULT_OPTIONS '--keep-right'
 set -x CDIFF_OPTIONS '-s -w0'
 
 # source ~/.ghcup/env
@@ -26,4 +28,7 @@ starship init fish | source
 
 test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
 
-set -U fish_user_paths (brew --prefix)/bin/ $fish_user_paths
+fish_add_path (brew --prefix)/sbin 
+fish_add_path (brew --prefix)/bin 
+
+# set -x PATH $PATH ~/nvim-nightly/bin

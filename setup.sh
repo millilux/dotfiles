@@ -30,7 +30,9 @@ fi
 chsh -s $(which fish)
 
 # Add homebrew path to fish config
-echo 'set -U fish_user_paths (brew --prefix)/bin/ $fish_user_paths' >> ~/.config/fish/config.fish
+if ! grep fish_user_paths ~/.config/fish/config.fish; then
+    echo 'set -U fish_user_paths (brew --prefix)/bin/ $fish_user_paths' >> ~/.config/fish/config.fish
+fi
 
 fish -c fish_update_completions
 
@@ -55,17 +57,39 @@ if [[ "$OSTYPE" =~ ^darwin.* ]]; then
     # sudo yabai --install-sa
     # brew services start koekeishiya/formulae/yabai
     # brew services start koekeishiya/formulae/skhd
+
+    # k9s doesn't read from .config on OSX...
+    ln -s ~/.config/k9s/ ~/Library/Application\ Support/k9s
 fi
 
-pip install -r requirements.txt
+if [[ $(uname -a) =~ ^WSL.* ]]; then
+    # Under WSL, win32yank is needed to make clipboard paste work as expected in vim
+    curl -sLo/tmp/win32yank.zip https://github.com/equalsraf/win32yank/releases/download/v0.0.4/win32yank-x64.zip
+    unzip -p /tmp/win32yank.zip win32yank.exe > /tmp/win32yank.exe
+    chmod +x /tmp/win32yank.exe
+    sudo mv /tmp/win32yank.exe /usr/local/bin/ 
+fi
 
-# Install vim-plug for neovim
-sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-nvim +PlugInstall +qall
+pip3 install -r requirements.txt
+
+npm install -g typescript-language-server graphql-language-service-cli graphql typescript neovim @vscode/codicons
+
+luarocks --local install fennel
 
 # Install Haskell
-# curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+
+# Install Haskell LSP
+ghcup install hls
+
+# Install Rust
+curl https://sh.rustup.rs -sSf | sh
+
+# Install debuggers
+VENVPATH=~/.virtualenvs
+python3 -m venv $VENVPATH/debugpy
+$VENVPATH/debugpy/bin/pip install debugpy
+
 
 # Manual steps
 # Update iTerm2 > Profile > Command to /usr/local/bin/fish
