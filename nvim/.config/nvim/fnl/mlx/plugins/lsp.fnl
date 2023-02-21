@@ -162,6 +162,7 @@
     {1 "https://github.com/nvim-treesitter/nvim-treesitter-textobjects"}
     {1 "nvim-treesitter/nvim-treesitter-context"}
     {1 "numToStr/Comment.nvim" :config true} 
+    {1 "python-rope/ropevim"}
 ])
 
 ;; To debug LSP issues:

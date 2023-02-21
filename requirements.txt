@@ -7,7 +7,7 @@ mypy
 pyls-isort
 pylsp-mypy
 pylsp-rope # pylsp-rope integrates rope refactorings nicely, but not the complete set - hence ropevim, which is *much* more complete as at June 2022
-pynvim
+pynvim # For neovim plugins built in Python
 pyright
 python-lsp-black
 python-lsp-server

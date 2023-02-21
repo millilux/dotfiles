@@ -62,6 +62,10 @@
     ;; Text
     {1 "kylechui/nvim-surround" :config true}
     {1 "editorconfig/editorconfig-vim"} ;; Neovim 0.9 will have built-in editorconfig support
+    {1 "windwp/nvim-autopairs" :opts {
+        :check_ts true
+        :disable_filetype ["TelescopePrompt" "vim"]
+    }}
     ;; {1 "guns/vim-sexp"}
     ;; "wellle/targets.vim" " Not needed?
 
@@ -310,6 +314,9 @@
     }
     :cmdline {
         :view "cmdline"
+    }
+    :messages {
+        :view "mini"
     }
     :lsp {
         :progress { :enabled false }

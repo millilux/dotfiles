@@ -2,7 +2,6 @@
 
 (color! :oxocarbon)
 
-
 (local signs {
    :Error " "
    :Warn " "

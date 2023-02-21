@@ -28,7 +28,7 @@
 (set+ wildignore "**/node_modules/**")
 (set! wildmode "full")
 (set! ttyfast)
-(set! laststatus 0)
+(set! laststatus 0) ;; set to 3 for neovim's global statusline
 (set! history 1000)
 (set! undolevels 1000)
 (set! completeopt "menu,menuone,preview,longest,noselect")
