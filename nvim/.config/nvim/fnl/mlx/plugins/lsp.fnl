@@ -25,10 +25,14 @@
         )
         (local lsp (require :lspconfig))
         (local capabilities ((. (require :cmp_nvim_lsp) :default_capabilities)))
-        ;; (lsp.clojure_lsp.setup {
-        ;;     :on_attach on_attach
-        ;;     :capabilities capabilities
-        ;; })
+        (lsp.ccls.setup {
+            :on_attach on_attach
+            :capabilities capabilities
+        })
+        (lsp.clojure_lsp.setup {
+            :on_attach on_attach
+            :capabilities capabilities
+        })
         (lsp.hls.setup {
             :on_attach on_attach
             :capabilities capabilities
@@ -64,6 +68,10 @@
                 }	
             }
         })
+        (lsp.rust_analyzer.setup {
+            :on_attach on_attach
+            :capabilities capabilities
+        })
         (lsp.tsserver.setup {
             :on_attach on_attach
             :capabilities capabilities
@@ -77,13 +85,13 @@
         })
     )}
     {1 "joechrisellis/lsp-format-modifications.nvim"}
-    ;; {1 "python-rope/pylsp-rope"}
+    {1 "python-rope/pylsp-rope"}
     {1 "nvim-treesitter/nvim-treesitter" :build ":TSUpdate" :config (fn [opts] 
         (local configs (require :nvim-treesitter.configs))
         (configs.setup { 
             :ensure_installed [
                 "bash" "c" "cpp" "clojure" "dockerfile" "elixir" "fennel" "fish" "glsl" "graphql" "haskell"
-                "javascript" "json" "kotlin" "lua" "make" "markdown" "python" "regex" "swift" "typescript" "vim"
+                "javascript" "json" "kotlin" "lua" "make" "markdown" "python" "regex" "rust" "swift" "typescript" "vim"
                 "yaml"
             ]
             :highlight { 

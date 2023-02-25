@@ -3,7 +3,7 @@
 (g! mapleader " ")
 (g! mapleaderlocal " m")
 ;; (g! conjure#filetype#fennel "conjure.client.fennel.stdio")
-(g! sexp_filetypes "clojure,scheme,lisp,timl,fennel,janet")
+; (g! sexp_filetypes "clojure,scheme,lisp,timl,fennel,janet")
 
 (g! fzf_tags_command "ctags -R --languages=python --exclude=node_modules --exclude=.venv")
 

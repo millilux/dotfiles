@@ -14,6 +14,13 @@
   (vim.fn.sign_define hl {:text icon :texthl hl :numhl ""}))	
 
 
+(let [config vim.diagnostic.config]
+  (config {
+      :virtual_text false
+      :update_in_insert: true
+    })
+)
+
 ;; (g! material_style "deep ocean")
 ;;
 ;; (local material (require :material))

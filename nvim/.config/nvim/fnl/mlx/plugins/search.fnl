@@ -18,6 +18,7 @@
                 :prompt_title false 
                 :results_title false
                 :dynamic_preview_title true
+                :path_display [:smart]
                 :file_ignore_patterns [
                     ".git"
                     "__pycache__"

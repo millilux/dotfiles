@@ -8,6 +8,9 @@ set -x PATH $PATH ~/.emacs.d/bin
 set -x PATH $PATH ~/.luarocks/bin
 set -x PATH $PATH ~/.cargo/bin
 
+# For demucs on WSL2
+# set -x LD_LIBRARY_PATH="/usr/lib/wsl/lib:$LD_LIBRARY_PATH"
+
 # Haskell
 set -x PATH $PATH ~/.ghcup/bin
 set -x PATH $PATH ~/.cabal/bin

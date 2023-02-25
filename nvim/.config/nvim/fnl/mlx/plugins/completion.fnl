@@ -17,7 +17,6 @@
     ]
     :config (fn []
             (local cmp (require :cmp))
-            (local lspkind (require :lspkind))
             (local luasnip (require :luasnip))
             (let [loader (require :luasnip.loaders.from_vscode)]
                 (loader.lazy_load)) 
@@ -31,7 +30,10 @@
                     :completion (cmp.config.window.bordered)
                 }
                 :sources (cmp.config.sources 
-                            [{:name :luasnip} {:name :nvim_lsp} {:name :nvim_lua}]
+                            [{:name :luasnip} 
+                                    {:name :nvim_lsp} 
+                                    {:name :nvim_lua}
+                            ]
                             [{:name :buffer} {:name :path}])	
                 :mapping (cmp.mapping.preset.insert {
                     :<C-b> (cmp.mapping.scroll_docs -4)
@@ -111,6 +113,5 @@
 ;;     })
 ;; })
 ;;
-(print "Completion")
 
 M

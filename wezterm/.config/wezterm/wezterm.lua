@@ -36,22 +36,22 @@ return {
         },
         {
             key = 'h',
-            mods = 'SUPER|SHIFT',
+            mods = 'LEADER',
             action = act.ActivatePaneDirection 'Left',
         },
         {
             key = 'l',
-            mods = 'SUPER|SHIFT',
+            mods = 'LEADER',
             action = act.ActivatePaneDirection 'Right',
         },
         {
             key = 'k',
-            mods = 'SUPER|SHIFT',
+            mods = 'LEADER',
             action = act.ActivatePaneDirection 'Up',
         },
         {
             key = 'j',
-            mods = 'SUPER|SHIFT',
+            mods = 'LEADER',
             action = act.ActivatePaneDirection 'Down',
         },
     }
