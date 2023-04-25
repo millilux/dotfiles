@@ -32,7 +32,8 @@
                   :lsp {:progress {:enabled false}}}}
           ;; {1 "folke/trouble.nvim"}
           {1 :onsails/lspkind.nvim}
-          ;; {1 "kevinhwang91/nvim-bqf" :ft "qf"}
+          ; {1 "kevinhwang91/nvim-bqf" :ft "qf"}
+          {1 "yorickpeterse/nvim-pqf" :config true}
           ;; {1 "yamatsum/nvim-nonicons"}
           ;; {1 "anuvyklack/hydra.nvim"}
 ])

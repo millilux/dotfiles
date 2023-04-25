@@ -59,7 +59,6 @@
                 :max_value_lines 3
             }
         }}
-
         {1 "mfussenegger/nvim-dap-python" :config (fn [opts]
             (local dap-python (require :dap-python))
             (local dap (require :dap))
@@ -74,33 +73,28 @@
                     :pathMappings [{:localRoot (vim.fn.getcwd)
                                     :remoteRoot "/athena/backend"}]})
                     ;; :program "${file}"})	
-
         )}
-
         {1 "theHamsta/nvim-dap-virtual-text" :config true}
-
-    ]
-
-    }
+    ]}
 ])
 
 (fn attach_python_debugger [args]
-       (let [dap (require :dap)
-             host (. args 1)
-             port 5678]
-         (global python-attach-adapter
-                 {:type :server : host :port port})
-         (global python-attach-config
-                 {:type :python
-                  :request :attach
-                  :connect {:port port : host}
-                  :mode :remote
-                  :name "Remote Attached Debugger"
-                  :cwd (vim.fn.getcwd)
-                  :pathMappings [{:localRoot (vim.fn.getcwd)
-                                  :remoteRoot :/usr/src/app}]})
-         (local session (dap.attach host (tonumber 5) python-attach-config))
-         (when (= session nil)
-           (io.write "Error launching adapter"))
-         (dap.repl.open)))	
+    (let [dap (require :dap)
+            host (. args 1)
+            port 5678]
+        (global python-attach-adapter
+                {:type :server : host :port port})
+        (global python-attach-config
+                {:type :python
+                :request :attach
+                :connect {:port port : host}
+                :mode :remote
+                :name "Remote Attached Debugger"
+                :cwd (vim.fn.getcwd)
+                :pathMappings [{:localRoot (vim.fn.getcwd)
+                                :remoteRoot :/usr/src/app}]})
+        (local session (dap.attach host (tonumber 5) python-attach-config))
+        (when (= session nil)
+        (io.write "Error launching adapter"))
+        (dap.repl.open)))	
 M

@@ -33,6 +33,7 @@
                     :i {
                         "<ESC>" actions.close
                         "<C-u>" false
+                        "<C-f>" actions.to_fuzzy_refine
                     }
                 }
              }

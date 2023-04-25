@@ -28,7 +28,7 @@
 (set+ wildignore "**/node_modules/**")
 (set! wildmode "full")
 (set! ttyfast)
-(set! laststatus 0) ;; set to 3 for neovim's global statusline
+(set! laststatus 0) ;; Set to 3 for neovim's global statusline
 (set! history 1000)
 (set! undolevels 1000)
 (set! completeopt "menu,menuone,preview,longest,noselect")
@@ -41,7 +41,7 @@
 (set! shiftwidth 4)
 (set! softtabstop 4)
 (set! shiftround)
-(set! conceallevel 0)  ;; Don"t hide JSON quotes
+(set! conceallevel 0)  ;; Don't hide JSON quotes
 
 ;; Search
 (set! incsearch)  ;; Display matches as you type
@@ -72,9 +72,6 @@
 
 ;; Automatically remove trailing whitespace when saving
 ;; autocmd FileType python,javascript autocmd BufWritePre <buffer> :%s/\s\+$//e
-
-;; Grep for current word
-;; nnoremap <leader>/ :silent execute "grep! " . shellescape(expand("<cword>")) . " ."<cr>:copen<cr>
 
 ;; Keep window when deleting a buffer
 ;; nnoremap <leader>bd :bp\|bd#<CR>

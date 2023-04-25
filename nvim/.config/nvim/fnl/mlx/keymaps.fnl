@@ -10,18 +10,20 @@
 (map! [:v] :< :<gv)
 (map! [:v] :> :>gv)
 
-;; Search
+;; Fuzzy Search
 ;; (map! [:n] "<leader>f" ":FzfLua live_grep_native<CR>")
+;; (map! [:n] "<leader>f" ":FzfLua grep_project<CR>")
 ;; (map! [:n] "<c-t>"     ":FzfLua files<CR>")
-(map! [:n] "<leader>f" ":Telescope live_grep<CR>")
-(map! [:n] "<c-t>"     ":Telescope find_files hidden=true<CR>")
-(map! [:n] "<leader>h" ":Telescope oldfiles<CR>")
-(map! [:n] "<leader>b" ":Telescope buffers<CR>")
+(map! [:n] "<leader>f"  ":Telescope live_grep<CR>")
+(map! [:n] "<c-t>"      ":Telescope find_files hidden=true<CR>")
+(map! [:n] "<leader>h"  ":Telescope oldfiles<CR>")
+(map! [:n] "<leader>b"  ":Telescope buffers<CR>")
 (map! [:n] "<leader>cs" ":Telescope lsp_document_symbols<CR>")
 (map! [:n] "<leader>cS" ":Telescope lsp_workspace_symbols<CR>")
 
-
-;; Grep for current word
+;; Grep 
+(local funcs (require :mlx.functions))
+(map! [:n] :\ funcs.findinfiles)
 (map! [:n] "<leader>/" ":silent execute 'grep! ' . shellescape(expand('<cword>')) . ' .'<cr>:copen<cr>")
 
 ;; Git
@@ -38,13 +40,13 @@
 ;; File Explorer
 ;; (map! [:n] "<leader>e" ":NeoTreeFloatToggle<cr>")
 ;; (map! [:n] "<leader>l" ":NeoTreeRevealToggle<cr>")
-
 (map! [:n] "<leader>e" ":NvimTreeToggle<cr>")
 (map! [:n] "<leader>l" ":NvimTreeFindFileToggle!<cr>")
 
+;; Tests
 (local neotest (require :neotest))
-(map! [n] "<leader>tn" '(neotest.run.run))
-(map! [n] "<leader>tf" '(neotest.run.run (vim.fn.expand "%")))
+(map! [:n] "<leader>tn" '(neotest.run.run))
+(map! [:n] "<leader>tf" '(neotest.run.run (vim.fn.expand "%")))
 
 ;; Code Diagnostics
 (map! [:n] "<leader>cd" vim.diagnostic.open_float)
@@ -52,7 +54,7 @@
 (map! [:n] "]d" vim.diagnostic.goto_next)
 (map! [:n] "<leader>q" vim.diagnostic.setloclist)
 
-;; Low tech code formatter for fennel
+;; Low tech code formatter for Fennel
 (map! [:n] :<F3> ":%!fnlfmt %<cr>")
 ;; % is the range (all lines). This makes the command act on the current buffer.
 ;; ! to run an external command
