@@ -59,6 +59,9 @@
 (map! [:n] "]d" vim.diagnostic.goto_next)
 (map! [:n] "<leader>q" vim.diagnostic.setloclist)
 
+;; Code Outline
+(map! [:n] "<leader>o" ":AerialToggle!<cr>")
+
 ;; Low tech code formatter for Fennel
 (map! [:n] :<F3> ":%!fnlfmt %<cr>")
 ;; % is the range (all lines). This makes the command act on the current buffer.

@@ -32,6 +32,10 @@
             :on_attach on_attach
             :capabilities capabilities
         })
+        (lsp.fsautocomplete.setup {
+            :on_attach on_attach
+            :capabilities capabilities
+        })
         (lsp.hls.setup {
             :on_attach on_attach
             :capabilities capabilities
@@ -176,6 +180,21 @@
     {1 "nvim-treesitter/nvim-treesitter-context"}
     {1 "numToStr/Comment.nvim" :config true} 
     {1 "python-rope/ropevim"}
+    {1 "stevearc/aerial.nvim" :config (fn [config opts]
+        (fn on_attach [bufnr]
+            (local bufopts { :buffer bufnr})
+            (vim.keymap.set "n" "{" "<cmd>AerialPrev<CR>" bufopts)
+            (vim.keymap.set "n" "}" "<cmd>AerialNext<CR>" bufopts)
+            (vim.keymap.set "n" "<leader>s" "<cmd>AerialNavToggle<CR>" bufopts)
+        )
+        (local aerial (require :aerial))
+        (aerial.setup {
+            :on_attach on_attach
+            :show_guides true
+            :layout {
+                :max_width { 80 0.2 }
+            }
+        }))}
 ])
 
 ;; To debug LSP issues:

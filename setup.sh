@@ -36,9 +36,6 @@ fi
 
 fish -c fish_update_completions
 
-# Install fisher
-# curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisher
-
 if [[ "$OSTYPE" =~ ^darwin.* ]]; then
     brew bundle install --file=Brewfile.macos
 
@@ -68,12 +65,19 @@ if [[ $(uname -a) =~ ^WSL.* ]]; then
     unzip -p /tmp/win32yank.zip win32yank.exe > /tmp/win32yank.exe
     chmod +x /tmp/win32yank.exe
     sudo mv /tmp/win32yank.exe /usr/local/bin/ 
+
+    # Install dotnet
+    sudo apt-get update && sudo apt-get install -y dotnet-sdk-7.0
+
+    # Install F# LSP
+    dotnet tool install --global fsautocomplete
 fi
 
 pip3 install -r requirements.txt
 
 npm install -g typescript-language-server graphql-language-service-cli graphql typescript neovim @vscode/codicons
 
+# Install Fennel
 luarocks --local install fennel
 
 # Install Haskell
@@ -89,7 +93,6 @@ curl https://sh.rustup.rs -sSf | sh
 VENVPATH=~/.virtualenvs
 python3 -m venv $VENVPATH/debugpy
 $VENVPATH/debugpy/bin/pip install debugpy
-
 
 # Manual steps
 # Update iTerm2 > Profile > Command to /usr/local/bin/fish
