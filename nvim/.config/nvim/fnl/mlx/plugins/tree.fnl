@@ -1,5 +1,14 @@
-(local M [;; {1 "nvim-neo-tree/neo-tree.nvim" :dependencies [ "nvim-lua/plenary.nvim" "MunifTanjim/nui.nvim" ]}
-          {1 :nvim-tree/nvim-tree.lua :opts {
+(local M [
+          {1 :nvim-tree/nvim-tree.lua :opts (fn [plugin opts]
+          {
+                :on_attach (fn [bufnr]
+                    (local api (require :nvim-tree.api))
+                    (api.config.mappings.default_on_attach bufnr)
+                    (local bufopts {:noremap true :silent true :nowait true :buffer bufnr})
+                    (vim.keymap.set "n" "<esc>" api.tree.close bufopts)
+                    (vim.keymap.set "n" "u" api.tree.change_root_to_parent bufopts)
+                    (vim.keymap.set "n" "." api.tree.change_root_to_node bufopts)
+                )
                 :hijack_cursor true
                 :disable_netrw true
                 ;; :git {
@@ -15,13 +24,6 @@
                 :view {
                     ;; :side "right"
                     :width 38 
-                    :mappings {
-                        :list [
-                            { :key "<Esc>" :action "close" }
-                            { :key "u" :action "dir_up" }
-                            { :key "." :action "cd" }
-                        ]
-                    }
                     :float { 
                         :enable true 
                         ;; :open_win_config {
@@ -74,32 +76,34 @@
                         }
                     }
                 }
-            }
+            })
            :dependencies [{1 :nvim-tree/nvim-web-devicons
                            :opts {:override {:fnl {:icon "ﬦ" :name :Fennel}}
                                   ;; :color_icons false
-                                  }}]}])
+                                  }}]}
+            ; {1 "nvim-neo-tree/neo-tree.nvim" :dependencies [ "nvim-lua/plenary.nvim" "MunifTanjim/nui.nvim" ]}
+           ])
 
 
-;; (local neotree (require :neo-tree))
-;; (neotree.setup {
-;;     :popup_border_style "rounded"
-;;     :enable_git_status false
-;;     :enable_diagnostics false
-;;     :default_component_configs {
-;;         :indent {
-;;             :with_expanders true
-;;             :expander_collapsed ""
-;;             :expander_expanded ""
-;;         }
-;;     }
-;;     :window {
-;;         :mappings {
-;;             "l" "open"
-;;             "h" "close_node"
-;;         }
-;;     }
-;; })
+; (local neotree (require :neo-tree))
+; (neotree.setup {
+;     :popup_border_style "rounded"
+;     :enable_git_status false
+;     :enable_diagnostics false
+;     :default_component_configs {
+;         :indent {
+;             :with_expanders true
+;             :expander_collapsed ""
+;             :expander_expanded ""
+;         }
+;     }
+;     :window {
+;         :mappings {
+;             "l" "open"
+;             "h" "close_node"
+;         }
+;     }
+; })
 
 
 M

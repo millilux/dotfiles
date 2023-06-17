@@ -52,7 +52,6 @@
 (augroup! :dap-ui-statusline
   [[FileType] [dapui*] ":set statusline=\\ "])
 
-
 (augroup! :active-cursorline
     [[VimEnter] * ":setlocal cursorline"]
     [[WinEnter] * ":setlocal cursorline"]
