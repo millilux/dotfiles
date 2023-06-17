@@ -2,6 +2,7 @@ black
 flake8
 isort
 jedi
+jedi-language-server
 msgpack
 mypy
 pyls-isort

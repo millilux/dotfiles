@@ -11,15 +11,20 @@
 (map! [:v] :> :>gv)
 
 ;; Fuzzy Search
-;; (map! [:n] "<leader>f" ":FzfLua live_grep_native<CR>")
-;; (map! [:n] "<leader>f" ":FzfLua grep_project<CR>")
-;; (map! [:n] "<c-t>"     ":FzfLua files<CR>")
-(map! [:n] "<leader>f"  ":Telescope live_grep<CR>")
-(map! [:n] "<c-t>"      ":Telescope find_files hidden=true<CR>")
-(map! [:n] "<leader>h"  ":Telescope oldfiles<CR>")
-(map! [:n] "<leader>b"  ":Telescope buffers<CR>")
-(map! [:n] "<leader>cs" ":Telescope lsp_document_symbols<CR>")
-(map! [:n] "<leader>cS" ":Telescope lsp_workspace_symbols<CR>")
+(map! [:n] "<leader>f"  ":FzfLua grep_project<CR>")
+(map! [:n] "<c-t>"      ":FzfLua files<CR>")
+(map! [:n] "<leader>h"  ":FzfLua oldfiles<CR>")
+(map! [:n] "<leader>b"  ":FzfLua buffers<CR>")
+(map! [:n] "<leader>cs" ":FzfLua lsp_document_symbols<CR>")
+(map! [:n] "<leader>cS" ":FzfLua lsp_workspace_symbols<CR>")
+
+
+; (map! [:n] "<leader>f"  ":Telescope live_grep<CR>")
+; (map! [:n] "<c-t>"      ":Telescope find_files hidden=true<CR>")
+; (map! [:n] "<leader>h"  ":Telescope oldfiles<CR>")
+; (map! [:n] "<leader>b"  ":Telescope buffers<CR>")
+; (map! [:n] "<leader>cs" ":Telescope lsp_document_symbols<CR>")
+; (map! [:n] "<leader>cS" ":Telescope lsp_workspace_symbols<CR>")
 
 ;; Grep 
 (local funcs (require :mlx.functions))

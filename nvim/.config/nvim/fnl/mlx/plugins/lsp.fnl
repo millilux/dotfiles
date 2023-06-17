@@ -1,8 +1,8 @@
 (local M [
     {1 "neovim/nvim-lspconfig" :dependencies ["hrsh7th/cmp-nvim-lsp"] :config (fn [plugin opts]
         (fn on_attach [client bufnr]
-            (local lsp-format-modifications (require :lsp-format-modifications))
-            (lsp-format-modifications.attach client bufnr { :format_on_save false })
+            ; (local lsp-format-modifications (require :lsp-format-modifications))
+            ; (lsp-format-modifications.attach client bufnr { :format_on_save false }); <-- stopping things working
             (local bufopts { :noremap true :silent true :buffer bufnr })
             (vim.keymap.set "n" "gd" vim.lsp.buf.definition bufopts)
             (vim.keymap.set "n" "gD" vim.lsp.buf.definition bufopts)
@@ -12,16 +12,15 @@
             (vim.keymap.set "n" "gs" vim.lsp.buf.signature_help bufopts)
             (vim.keymap.set "n" "gt" vim.lsp.buf.type_definition bufopts)
             (vim.keymap.set "n" "<leader>r" vim.lsp.buf.rename bufopts)
-            (vim.keymap.set "n" "<leader>ca" vim.lsp.buf.code_action bufopts)
-            (vim.keymap.set "v" "<leader>ca" vim.lsp.buf.range_code_action bufopts)
-            (vim.keymap.set "n" "<leader>cf" vim.lsp.buf.format bufopts)
+            (vim.keymap.set ["n" "v"] "<leader>ca" vim.lsp.buf.code_action bufopts)
+            (vim.keymap.set ["n" "v"] "<leader>cf" vim.lsp.buf.format bufopts)
             (vim.keymap.set "n" "<leader>ci" vim.lsp.buf.incoming_calls bufopts)
             (vim.keymap.set "n" "<leader>co" vim.lsp.buf.outgoing_calls bufopts)
             (vim.keymap.set "n" "<leader>wa" vim.lsp.buf.add_workspace_folder bufopts)
             (vim.keymap.set "n" "<leader>wr" vim.lsp.buf.remove_workspace_folder bufopts)
-        ;;     vim.keymap.set('n', '<leader>wl', function()
-        ;;         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-        ;;     end, bufopts)
+        ;     vim.keymap.set('n', '<leader>wl', function()
+        ;         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+        ;     end, bufopts)
         )
         (local lsp (require :lspconfig))
         (local capabilities ((. (require :cmp_nvim_lsp) :default_capabilities)))
@@ -37,7 +36,7 @@
             :on_attach on_attach
             :capabilities capabilities
         })
-        ;; PyLSP has everything except workspace symbols
+        ; PyLSP has everything except workspace symbols
         (lsp.pylsp.setup {
             :on_attach on_attach
             :capabilities capabilities
@@ -48,6 +47,8 @@
                         :flake8 { :enabled true }
                         :mypy { :enable true }
                         :pycodestyle { :enabled false }
+                        :autopep8 { :enabled false }
+                        :pylint { :enabled false }
                     }
                 }
             }
@@ -57,6 +58,10 @@
         ;;     :on_attach on_attach
         ;;     :capabilities capabilities
         ;; })
+        ; (lsp.jedi_language_server.setup {
+        ;     :on_attach on_attach
+        ;     :capabilities capabilities
+        ; })
         (lsp.lua_ls.setup {
             :on_attach on_attach
             :capabilities capabilities
