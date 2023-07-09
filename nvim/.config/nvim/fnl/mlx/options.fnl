@@ -28,9 +28,10 @@
 (set+ wildignore "**/node_modules/**")
 (set! wildmode "full")
 (set! ttyfast)
-(set! laststatus 0) ;; Set to 3 for neovim's global statusline
 (set! history 1000)
 (set! undolevels 1000)
+(set! swapfile false)
+(set! undofile true)
 (set! completeopt "menu,menuone,preview,longest,noselect")
 
 ;; Formatting
@@ -65,6 +66,7 @@
 (set! cursorline)
 (set+ fillchars {:vert " " :horiz " " :eob " " })
 (set! cmdheight 0)
+(set! laststatus 3) ;; Set to 3 for neovim's global statusline, 0 to turn if off completely
 (set! scrolloff 4)
 
 ;; Fix crontab editing

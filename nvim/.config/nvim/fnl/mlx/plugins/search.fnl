@@ -18,6 +18,7 @@
             :winopts {
                 :border "none"
             }
+            :path_shorten true
           }}
           ;; {1 :junegunn/fzf.vim}
           ;; {1 :fanto/fzf-lsp.nvim}

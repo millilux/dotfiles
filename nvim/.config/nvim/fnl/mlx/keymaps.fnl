@@ -68,6 +68,9 @@
 ;; ! to run an external command
 ;; % is the current file
 
+;; Run macros over visual range
+(map! [:x :expr] "@" "':norm @' . getcharstr() . '<cr>'")
+
 ;; " Quit Neovim terminal with esc
 ;; "tnoremap <Esc> <C-\><C-n>
 
