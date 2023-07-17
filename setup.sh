@@ -57,6 +57,9 @@ if [[ "$OSTYPE" =~ ^darwin.* ]]; then
 
     # k9s doesn't read from .config on OSX...
     ln -s ~/.config/k9s/ ~/Library/Application\ Support/k9s
+
+    # Install dotnet
+    curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --version latest
 fi
 
 if [[ $(uname -a) =~ ^WSL.* ]]; then
@@ -69,13 +72,11 @@ if [[ $(uname -a) =~ ^WSL.* ]]; then
     # Install dotnet
     sudo apt-get update && sudo apt-get install -y dotnet-sdk-7.0
 
-    # Install F# LSP
-    dotnet tool install --global fsautocomplete
 fi
 
 pip3 install -r requirements.txt
 
-npm install -g typescript-language-server graphql-language-service-cli graphql typescript neovim @vscode/codicons
+npm install -g typescript-language-server graphql-language-service-cli graphql typescript neovim bash-language-server @vscode/codicons
 
 # Install Fennel
 luarocks --local install fennel
@@ -88,6 +89,9 @@ ghcup install hls
 
 # Install Rust
 curl https://sh.rustup.rs -sSf | sh
+
+# Install F# LSP
+dotnet tool install --global fsautocomplete
 
 # Install debuggers
 VENVPATH=~/.virtualenvs

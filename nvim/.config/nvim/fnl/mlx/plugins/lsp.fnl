@@ -24,6 +24,10 @@
         )
         (local lsp (require :lspconfig))
         (local capabilities ((. (require :cmp_nvim_lsp) :default_capabilities)))
+        (lsp.bashls.setup {
+            :on_attach on_attach
+            :capabilities capabilities
+        })
         (lsp.ccls.setup {
             :on_attach on_attach
             :capabilities capabilities
