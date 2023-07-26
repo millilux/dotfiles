@@ -1,4 +1,5 @@
 (require :mlx.options)
+(require :mlx.statusline)
 
 (let [lazypath (.. (vim.fn.stdpath :data) :/lazy/lazy.nvim)]
   (when (not (vim.loop.fs_stat lazypath))
