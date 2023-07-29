@@ -2,7 +2,7 @@
           {1 :ggandor/leap.nvim
            :config (fn [opts]
                      (local leap (require :leap))
-                     (leap.set_default_keymaps))}
+                     (leap.add_default_mappings))}
           {1 :tpope/vim-unimpaired}
           {1 :tpope/vim-repeat}
           {1 :bronson/vim-visual-star-search}])

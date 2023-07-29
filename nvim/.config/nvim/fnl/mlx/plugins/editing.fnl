@@ -1,7 +1,5 @@
 (local M
        [{1 :kylechui/nvim-surround :config true}
-        {1 :editorconfig/editorconfig-vim}
-        ;; Neovim 0.9 will have built-in editorconfig support
         {1 :windwp/nvim-autopairs
          ; :opts {:check_ts true
          ;        ; :enable_check_bracket_line false

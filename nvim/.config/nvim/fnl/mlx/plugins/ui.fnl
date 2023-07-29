@@ -12,7 +12,6 @@
           ;;      ])
           ;;      (tset dashboard :custom_footer {})
           ;; )}
-          ;; {1 "nvim-lualine/lualine.nvim" :config { :theme "auto"}}
           ;; {1 "lukas-reineke/indent-blankline.nvim" }
           ;; {1 "https://git.sr.ht/~whynothugo/lsp_lines.nvim" }
           {1 :folke/noice.nvim
