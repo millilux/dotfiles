@@ -63,12 +63,20 @@
         (string.format (.. "   " branch))
         "")))
 
+(fn recording []
+    (if (= (vim.fn.reg_recording) "")
+        ""
+        " 󰑊  "
+    )
+)
+
 (global Status (fn []
     (table.concat [
         ; (color)
         (string.format "  %s " (. modes (. (vim.api.nvim_get_mode) :mode)) :upper)
         "%#StatusActive#"
         (branch)
+        (recording)
         "%="
         (string.format "%s" (or (. icons vim.bo.filetype) ""))
         " %t "     ; file name
