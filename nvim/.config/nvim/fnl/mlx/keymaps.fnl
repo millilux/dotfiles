@@ -84,6 +84,9 @@
 ;; Undo
 (map! [:n] "<leader>u" ":UndotreeToggle<cr>")
 
+;; Fuzzy Search
+(map! [:n] "<leader>z" ":FzfLua<cr>")
+
 ;; Low tech code formatter for Fennel
 (map! [:n] :<F3> ":%!fnlfmt %<cr>")
 ;; % is the range (all lines)
