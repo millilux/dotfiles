@@ -1,4 +1,5 @@
 (import-macros {: map!} :hibiscus.vim)
+(local mlx (require :mlx.functions))
 
 ;; Clear search highlights
 (map! [:n] "<esc>" ":noh<CR>")
@@ -48,8 +49,7 @@
 
 ;; Grep
 (map! [:n] "<leader>f" ":FzfLua grep_project<CR>")
-(local funcs (require :mlx.functions))
-(map! [:n] "<leader>/" funcs.findinfiles)
+(map! [:n] "<leader>/" mlx.findinfiles)
 
 ;; Code
 (map! [:n] "<leader>cs" ":FzfLua lsp_document_symbols<CR>")
@@ -72,7 +72,8 @@
 ; (map! [:n] "<leader>bc" ":FzfLua git_bcommits<CR>")
 (map! [:n] "<leader>gs" ":vertical Git<cr>")
 (map! [:n] "<leader>ga" ":Gwrite<cr>")
-(map! [:n] "<leader>gc" ":Git commit<cr>")
+; (map! [:n] "<leader>gc" ":Git commit -m<cr>")
+(map! [:n] "<leader>gc" mlx.gitcommit)
 ; (map! [:n] "<leader>gd" '(vim.cmd "tabnew %|Gdiffsplit!"))
 (map! [:n] "<leader>gd" ":DiffviewOpen<cr>")
 (map! [:n] "<leader>gb" ":Git blame<cr>")
