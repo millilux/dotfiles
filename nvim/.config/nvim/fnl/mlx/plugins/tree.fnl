@@ -9,6 +9,7 @@
                     (vim.keymap.set "n" "u" api.tree.change_root_to_parent bufopts)
                     (vim.keymap.set "n" "." api.tree.change_root_to_node bufopts)
                 )
+                :filters { :dotfiles false :git_ignored false }
                 :hijack_cursor true
                 :disable_netrw true
                 ;; :git {
