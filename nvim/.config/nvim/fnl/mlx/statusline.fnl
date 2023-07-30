@@ -45,7 +45,7 @@
               :zsh " "})
 
 (fn color []
-  (let [mode (vim.api.nvim_get_mode.mode)]
+  (let [mode (. (vim.api.nvim_get_mode) :mode)]
     (var mode-color "%#StatusLine#")
     (if (= mode :n) (set mode-color "%#StatusNormal#")
         (or (= mode :i) (= mode :ic)) (set mode-color "%#StatusInsert#")
@@ -59,16 +59,17 @@
   (let [cmd (io.popen "git branch --show-current 2>/dev/null")
         branch (or (cmd:read :*l) (cmd:read :*a))]
     (cmd:close)
-    (if (not= branch "")
+    (if (= branch "")
+        ""
         (string.format (.. "   " branch))
-        "")))
+        )))
 
 (fn recording []
-    (if (= (vim.fn.reg_recording) "")
-        ""
-        " 󰑊  "
-    )
-)
+  (let [recording_reg (vim.fn.reg_recording) playback_reg (vim.fn.reg_executing)]
+    (var icon "")
+    (if (not= recording_reg "") (set icon (.. " 󰑊 " recording_reg " ")))
+    (if (not= playback_reg "") (set icon (.. " 󰐊 " playback_reg " ")))
+    icon))
 
 (global Status (fn []
     (table.concat [
