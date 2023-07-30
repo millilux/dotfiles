@@ -1,8 +1,9 @@
 (fn findinfiles []
     (vim.fn.inputsave)
-    (local search (vim.fn.input "🐕 "))
-    ; TODO: if search term is empty, use currentword
+    (var search (vim.fn.input "🐕 "))
     (vim.fn.inputrestore)
+    (if (= search "")
+        (set search (vim.fn.expand "<cword>")))
     (vim.fn.execute (.. "silent! grep! " search "|cwindow|redraw!"))
 )
 
