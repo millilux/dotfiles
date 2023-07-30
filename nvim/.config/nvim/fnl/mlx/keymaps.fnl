@@ -14,12 +14,18 @@
 (map! [:x :expr] "@" "':norm @' . getcharstr() . '<cr>'")
 
 ;; Buffers
-(map! [:n] "<leader>b"     ":FzfLua buffers<CR>")
+(map! [:n] "<leader>b" ":FzfLua buffers<CR>")
 (map! [:n] "[b" ":bprev<CR>")
 (map! [:n] "]b" ":bnext<CR>")
 
+;; Windows
+(map! [:n] "<c-h>" "<c-w>h<CR>")
+(map! [:n] "<c-j>" "<c-w>j<CR>")
+(map! [:n] "<c-k>" "<c-w>k<CR>")
+(map! [:n] "<c-l>" "<c-w>l<CR>")
+
 ;; Tabs
-(map! [:n] "<leader><tab>" ":FzfLua tabs<CR>")
+(map! [:n] "<leader><tab>"  ":FzfLua tabs<CR>")
 (map! [:n] "<leader><tab>c" ":tabclose<CR>")
 (map! [:n] "[<tab>"         ":tprev<CR>")
 (map! [:n] "]<tab>"         ":next<CR>")
@@ -62,23 +68,25 @@
 (map! [:n] "<leader>tf" '(neotest.run.run (vim.fn.expand "%")))
 
 ;; Git
-(map! [:n] "<leader>bc" ":FzfLua git_bcommits<CR>")
-(map! [:n] "<leader>gs" ":Git<cr>")
+(map! [:n] "<leader>bc" ":DiffviewFileHistory %<CR>")
+; (map! [:n] "<leader>bc" ":FzfLua git_bcommits<CR>")
+(map! [:n] "<leader>gs" ":vertical Git<cr>")
 (map! [:n] "<leader>ga" ":Gwrite<cr>")
 (map! [:n] "<leader>gc" ":Git commit<cr>")
-(map! [:n] "<leader>gd" '(vim.cmd "tabedit %|Gdiffsplit!"))
+; (map! [:n] "<leader>gd" '(vim.cmd "tabnew %|Gdiffsplit!"))
+(map! [:n] "<leader>gd" ":DiffviewOpen<cr>")
 (map! [:n] "<leader>gb" ":Git blame<cr>")
-;; (map! [:n] <leader>gl ":Gclog<cr>") ;; VERY slow
+; (map! [:n] "<leader>gl" ":FzfLua git_commits<cr>")
+(map! [:n] "<leader>gl" ":DiffviewFileHistory<cr>")
 (map! [:n] "<leader>gP" ":Git push<cr>")
 (map! [:n] "<leader>gp" ":Git pull<cr>")
-(map! [:n] "<leader>gt" ":GitTimeLapse<cr>")
 
 ;; Undo
 (map! [:n] "<leader>u" ":UndotreeToggle<cr>")
 
 ;; Low tech code formatter for Fennel
 (map! [:n] :<F3> ":%!fnlfmt %<cr>")
-;; % is the range (all lines). This makes the command act on the current buffer.
+;; % is the range (all lines)
 ;; ! to run an external command
 ;; % is the current file
 
@@ -98,5 +106,3 @@
 ; (map! [:n] "<leader>b"  ":Telescope buffers<CR>")
 ; (map! [:n] "<leader>cs" ":Telescope lsp_document_symbols<CR>")
 ; (map! [:n] "<leader>cS" ":Telescope lsp_workspace_symbols<CR>")
-
-

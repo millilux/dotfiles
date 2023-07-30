@@ -33,10 +33,7 @@
                                 ;; Text object
                                ;; (map! [:o :x] :ih ":<C-U>Gitsigns select_hunk<CR>")
 
-                               )
-                }}
-          {1 :sindrets/diffview.nvim}
-          {1 :junkblocker/git-time-lapse}])
+                               )}}
+          {1 :sindrets/diffview.nvim}])
 
 M
-
