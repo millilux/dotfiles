@@ -35,7 +35,7 @@
 
                                )
                 }}
-
+          {1 :sindrets/diffview.nvim}
           {1 :junkblocker/git-time-lapse}])
 
 M
