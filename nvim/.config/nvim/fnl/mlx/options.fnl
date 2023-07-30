@@ -2,9 +2,9 @@
 
 (g! mapleader " ")
 (g! mapleaderlocal " m")
-;; (g! conjure#filetype#fennel "conjure.client.fennel.stdio")
-; (g! sexp_filetypes "clojure,scheme,lisp,timl,fennel,janet")
-
+; (g! conjure#filetype#fennel "conjure.client.fennel.stdio")
+(g! undotree_WindowLayout 3)
+(g! undotree_HelpLine 0)
 (g! fzf_tags_command "ctags -R --languages=python --exclude=node_modules --exclude=.venv")
 
 ;; Basics
@@ -52,6 +52,7 @@
 (set! gdefault)
 (set! inccommand "split") ;; Show substitutions as you type
 
+;; Grep
 (set! grepprg "rg --vimgrep --no-heading")
 (set! grepformat "%f:%l:%c:%m,%f:%l:%m")
 
@@ -66,7 +67,7 @@
 (set! cursorline)
 (set+ fillchars {:vert " " :horiz " " :eob " " })
 (set! cmdheight 0)
-(set! laststatus 3) ;; Set to 3 for neovim's global statusline, 0 to turn if off completely
+(set! laststatus 3) ;; Set to 3 for neovim's global statusline, 0 to turn it off completely
 (set! scrolloff 4)
 
 ;; Fix crontab editing
