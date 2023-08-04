@@ -42,7 +42,7 @@
 (set! shiftwidth 4)
 (set! softtabstop 4)
 (set! shiftround)
-(set! conceallevel 0)  ;; Don't hide JSON quotes
+(set! conceallevel 1)
 
 ;; Search
 (set! incsearch)  ;; Display matches as you type

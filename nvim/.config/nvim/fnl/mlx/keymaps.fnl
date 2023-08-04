@@ -70,17 +70,17 @@
 ;; Git
 (map! [:n] "<leader>bc" ":DiffviewFileHistory %<CR>")
 ; (map! [:n] "<leader>bc" ":FzfLua git_bcommits<CR>")
-(map! [:n] "<leader>gs" ":vertical Git<cr>")
-(map! [:n] "<leader>ga" ":Gwrite<cr>")
+; (map! [:n] "<leader>gs" ":vertical Git<cr>")
+; (map! [:n] "<leader>ga" ":Gwrite<cr>")
 ; (map! [:n] "<leader>gc" ":Git commit -m<cr>")
 (map! [:n] "<leader>gc" mlx.gitcommit)
 ; (map! [:n] "<leader>gd" '(vim.cmd "tabnew %|Gdiffsplit!"))
 (map! [:n] "<leader>gd" ":DiffviewOpen<cr>")
-(map! [:n] "<leader>gb" ":Git blame<cr>")
+; (map! [:n] "<leader>gb" ":Git blame<cr>")
 ; (map! [:n] "<leader>gl" ":FzfLua git_commits<cr>")
 (map! [:n] "<leader>gl" ":DiffviewFileHistory<cr>")
-(map! [:n] "<leader>gP" ":Git push<cr>")
-(map! [:n] "<leader>gp" ":Git pull<cr>")
+; (map! [:n] "<leader>gP" ":Git push<cr>")
+; (map! [:n] "<leader>gp" ":Git pull<cr>")
 
 ;; Undo
 (map! [:n] "<leader>u" ":UndotreeToggle<cr>")

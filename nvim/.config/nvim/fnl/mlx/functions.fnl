@@ -10,7 +10,6 @@
   (vim.fn.inputsave)
   (local message (vim.fn.input "🐙 "))
   (vim.fn.inputrestore)
-  ; (let [obj (vim.fn.system [:ls :-l])]
   (let [obj (vim.fn.system [:git :commit :-m message])]
     (print obj)))
 

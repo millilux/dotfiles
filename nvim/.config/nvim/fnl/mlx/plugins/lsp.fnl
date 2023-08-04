@@ -23,6 +23,7 @@
         ;     end, bufopts)
         )
         (local lsp (require :lspconfig))
+        (local util (require "lspconfig/util"))
         (local capabilities ((. (require :cmp_nvim_lsp) :default_capabilities)))
         (lsp.bashls.setup {
             :on_attach on_attach
@@ -36,6 +37,10 @@
             :on_attach on_attach
             :capabilities capabilities
         })
+        ; (lsp.elixirls.setup {
+        ;     :on_attach on_attach
+        ;     :capabilities capabilities
+        ; })
         (lsp.fsautocomplete.setup {
             :on_attach on_attach
             :capabilities capabilities
@@ -84,6 +89,8 @@
         (lsp.rust_analyzer.setup {
             :on_attach on_attach
             :capabilities capabilities
+            :filetypes ["rust"]
+            :root_dir (util.root_pattern "Cargo.toml")
         })
         (lsp.tsserver.setup {
             :on_attach on_attach
