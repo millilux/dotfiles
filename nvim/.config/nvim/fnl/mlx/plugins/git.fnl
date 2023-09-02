@@ -11,7 +11,9 @@
                          :<Ignore>)))
 
 (local M [{1 :lewis6991/gitsigns.nvim
-           :opts {:on_attach (fn []
+           :opts {
+           :current_line_blame_formatter "<abbrev_sha> | <author> | <author_time:%Y-%m-%d> | <summary>"
+           :on_attach (fn []
                                (local gs package.loaded.gitsigns)
                                (map! [n :expr] "]c" next_hunk)
                                (map! [n :expr] "[c" prev_hunk)

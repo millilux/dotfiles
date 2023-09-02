@@ -14,6 +14,7 @@
           ;; )}
           ;; {1 "lukas-reineke/indent-blankline.nvim" }
           ;; {1 "https://git.sr.ht/~whynothugo/lsp_lines.nvim" }
+          {1 :junegunn/vim-peekaboo}
           {1 :folke/noice.nvim
            :dependencies [:rcarriga/nvim-notify :MunifTanjim/nui.nvim]
            :opts {:presets {:bottom_search true
@@ -30,11 +31,57 @@
                   :messages {:view :mini}
                   :lsp {:progress {:enabled false}}}}
           ;; {1 "folke/trouble.nvim"}
-          {1 :onsails/lspkind.nvim}
+          {1 :onsails/lspkind.nvim :config (fn [opts]
+                (local lspkind (require :lspkind))
+                (lspkind.init {
+                    :default :symbol
+                    :mode :symbol
+                    :symbol_map {
+                        :Array "   "
+                        :Boolean "   "
+                        :Class "   "
+                        :Color "   "
+                        :Constant " 󰏿  "
+                        :Constructor "   "
+                        :Enum "   "
+                        :EnumMember "   "
+                        :Event "   "
+                        :File "   "
+                        :Folder "   "
+                        :Function " 󰊕  "
+                        :Interface "   "
+                        :Keyword " 󰌋  "
+                        :Method " 󰆧  "
+                        :Namespace "   "
+                        :Number "   "
+                        :Module "   "
+                        :Object "   "
+                        :Operator " 󰆕  "
+                        :Package "   "
+                        :Property " 󰜢  "
+                        :Reference " 󰈇  "
+                        :Snippet "   "
+                        :String "   "
+                        :Struct " 󰙅  "
+                        :Text "   "
+                        :TypeParameter "   "
+                        :Unit " 󰑭  "
+                        :Value " 󰎠  "
+                        :Variable " 󰀫  "
+                    ;;  ﯟ   ﯨ   פּ    
+                    }}))
+          }
           ; {1 "kevinhwang91/nvim-bqf" :ft "qf"}
-          {1 "yorickpeterse/nvim-pqf" :config true}
+          {1 :yorickpeterse/nvim-pqf :config true}
+          {1 :chentoast/marks.nvim :config true}
+          ; {1 :kevinhwang91/nvim-ufo
+          ;  :dependencies [:kevinhwang91/promise-async]
+          ;  :opts {:open_fold_hl_timeout 0
+          ;         :provider_selector (fn [bufnr filetype buftype]
+          ;                              [:treesitter :indent])}}
           ;; {1 "yamatsum/nvim-nonicons"}
           ;; {1 "anuvyklack/hydra.nvim"}
-])
+          ])
 
 M
+

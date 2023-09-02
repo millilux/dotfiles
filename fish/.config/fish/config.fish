@@ -1,5 +1,4 @@
 set -x EDITOR nvim
-set -g -x SHELL fish
 set -U fish_greeting
 set -x GOPATH $HOME/go
 set -x PATH $PATH $GOPATH/bin ~/pact/bin
@@ -7,6 +6,8 @@ set -x PATH $PATH $HOME/bin
 set -x PATH $PATH ~/.emacs.d/bin
 set -x PATH $PATH ~/.luarocks/bin
 set -x PATH $PATH ~/.cargo/bin
+set -x PATH $PATH ~/.dotnet ~/.dotnet/tools
+set -x TFENV_ARCH amd64 # Terraform M1 compatibility
 
 # For demucs on WSL2
 # set -x LD_LIBRARY_PATH="/usr/lib/wsl/lib:$LD_LIBRARY_PATH"

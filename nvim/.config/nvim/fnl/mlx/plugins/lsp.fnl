@@ -15,7 +15,7 @@
             (vim.keymap.set ["n" "v"] "<leader>ca" vim.lsp.buf.code_action bufopts)
             (vim.keymap.set ["n" "v"] "<leader>cf" vim.lsp.buf.format bufopts)
             (vim.keymap.set "n" "<leader>ci" vim.lsp.buf.incoming_calls bufopts)
-            (vim.keymap.set "n" "<leader>co" vim.lsp.buf.outgoing_calls bufopts)
+            ; (vim.keymap.set "n" "<leader>co" vim.lsp.buf.outgoing_calls bufopts)
             (vim.keymap.set "n" "<leader>wa" vim.lsp.buf.add_workspace_folder bufopts)
             (vim.keymap.set "n" "<leader>wr" vim.lsp.buf.remove_workspace_folder bufopts)
         ;     vim.keymap.set('n', '<leader>wl', function()
@@ -51,6 +51,7 @@
         })
         ; PyLSP has everything except workspace symbols
         (lsp.pylsp.setup {
+            :cmd [ "pylsp" "-v" "--log-file" "/tmp/nvim-pylsp.log" ]
             :on_attach on_attach
             :capabilities capabilities
             :settings {
@@ -110,9 +111,9 @@
         (local configs (require :nvim-treesitter.configs))
         (configs.setup { 
             :ensure_installed [
-                "bash" "c" "cpp" "clojure" "dockerfile" "elixir" "fennel" "fish" "glsl" "graphql" "haskell"
+                "bash" "c" "cpp" "clojure" "dockerfile" "elixir" "fennel" "fish" "glsl" "graphql" "haskell" "hlsl"
                 "javascript" "json" "kotlin" "lua" "make" "markdown" "python" "regex" "rust" "swift" "typescript" "vim"
-                "yaml"
+                "wgsl" "yaml"
             ]
             :highlight { 
                 :enable true 
@@ -161,6 +162,8 @@
                         "]i" "@conditional.outer"
                         "]f" "@function.outer"
                         "]b" "@block.outer"
+                        "]r" "@return.outer"
+                        "]s" "@statement.outer"
                     }
                     :goto_next_end {
                         "]A" "@parameter.outer"
@@ -168,6 +171,8 @@
                         "]I" "@conditional.outer"
                         "]F" "@function.outer"
                         "]B" "@block.outer"
+                        "]R" "@return.outer"
+                        "]S" "@statement.outer"
                     }
                     :goto_previous_start {
                         "[a" "@parameter.outer"
@@ -175,6 +180,8 @@
                         "[i" "@conditional.outer"
                         "[f" "@function.outer"
                         "[b" "@block.outer"
+                        "[r" "@return.outer"
+                        "[s" "@statement.outer"
                     }
                     :goto_previous_end {
                         "[A" "@parameter.outer"
@@ -182,6 +189,8 @@
                         "[I" "@conditional.outer"
                         "[F" "@function.outer"
                         "[B" "@block.outer"
+                        "[R" "@return.outer"
+                        "[S" "@statement.outer"
                     }
                 }
             }

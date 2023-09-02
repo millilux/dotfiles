@@ -2,24 +2,14 @@
 
 (color! :oxocarbon)
 
-(local signs {
-   :Error " "
-   :Warn " "
-   :Info " "
-   :Hint " "
-})
+(local signs {:Error " " :Warn " " :Info " " :Hint " "})
 
 (each [type icon (pairs signs)]
   (local hl (.. :DiagnosticSign type))
-  (vim.fn.sign_define hl {:text icon :texthl hl :numhl ""}))	
-
+  (vim.fn.sign_define hl {:text icon :texthl hl :numhl ""}))
 
 (let [config vim.diagnostic.config]
-  (config {
-      :virtual_text false
-      :update_in_insert: true
-    })
-)
+  (config {:virtual_text false "update_in_insert:" true}))
 
 ;; (g! material_style "deep ocean")
 ;;
@@ -50,18 +40,22 @@
 (vim.cmd "highlight StatusLineNC ctermbg=None guibg=None")
 
 ; When using Leap, dim all text other than the labels
-(vim.api.nvim_set_hl 0 "LeapBackdrop" { :link  "Comment" })
+; (vim.api.nvim_set_hl 0 :LeapBackdrop {:link :Comment})
 
-(augroup! :dap-ui-statusline
-  [[FileType] [dapui*] ":set statusline=\\ "])
+; Remove fold background highlighting
+(vim.api.nvim_set_hl 0 :Folded {:bg :None :fg :#393939})
 
-(augroup! :active-cursorline
-    [[VimEnter] * ":setlocal cursorline"]
-    [[WinEnter] * ":setlocal cursorline"]
-    [[BufWinEnter] * ":setlocal cursorline"]
-    [[WinLeave] * ":setlocal nocursorline"])
+(augroup! :dap-ui-statusline [[FileType] [dapui*] ":set statusline=\\ "])
 
+(augroup! :active-cursorline [[VimEnter] * ":setlocal cursorline"]
+          [[WinEnter] * ":setlocal cursorline"]
+          [[BufWinEnter] * ":setlocal cursorline"]
+          [[WinLeave] * ":setlocal nocursorline"])
 
-(vim.fn.sign_define "DapBreakpoint" { :text "→" :texthl "Special" :linehl "" :numhl "" })
-(vim.fn.sign_define "DapStopped" { :text "→" :texthl "Error" :linehl "" :numhl "" })
+(vim.fn.sign_define :DapBreakpoint
+                    {:text "→" :texthl :Special :linehl "" :numhl ""})
+(vim.fn.sign_define :DapStopped {:text "→"
+                                 :texthl :Error
+                                 :linehl ""
+                                 :numhl ""})
 

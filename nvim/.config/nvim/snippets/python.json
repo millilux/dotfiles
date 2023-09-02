@@ -3,9 +3,9 @@
     "prefix": "dt",
     "body": [
       "@dataclass",
-      "class ${1:identifier}:",
+      "class ${1:Name}:",
       "\t${2:pass}"
     ],
-    "description": "Code snippet for a python dataclass"
+    "description": "Snippet for a Python dataclass"
   }
 }

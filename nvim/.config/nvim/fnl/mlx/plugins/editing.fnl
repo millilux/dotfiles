@@ -2,6 +2,7 @@
           {1 :windwp/nvim-autopairs
            :opts {:check_ts true
                   ; :enable_check_bracket_line false
+                  :event :InsertEnter
                   :disable_filetype [:TelescopePrompt
                                      :vim
                                      :fennel
@@ -16,11 +17,25 @@
                                    (cmp_autopairs.on_confirm_done))
                      (local autopairs (require :nvim-autopairs))
                      (autopairs.setup opts))}
-          {1 :junegunn/vim-peekaboo}
-          {1 :guns/vim-sexp
-           :ft [:fennel :clojure :lisp :racket :scheme :janet :guile]
-           :config (tset vim.g :sexp_filetypes
-                         "clojure,scheme,lisp,timl,fennel,janet,hy")}
+          {1 :mg979/vim-visual-multi}
+          ; {1 :smoka7/multicursors.nvim
+          ;  :event :VeryLazy
+          ;  :dependencies [:nvim-treesitter/nvim-treesitter :smoka7/hydra.nvim]
+          ;  :opts {}
+          ;  :cmd [:MCstart
+          ;        :MCvisual
+          ;        :MCclear
+          ;        :MCpattern
+          ;        :MCvisualPattern
+          ;        :MCunderCursor]
+          ;  :keys [{1 :<Leader>m
+          ;          2 :<cmd>MCstart<cr>
+          ;          :desc "Create a selection for selected text or word under the cursor"
+          ;          :mode [:v :n]}]}
+          ; {1 :guns/vim-sexp
+          ;  :ft [:fennel :clojure :lisp :racket :scheme :janet :guile]
+          ;  :config (tset vim.g :sexp_filetypes
+          ;                "clojure,scheme,lisp,timl,fennel,janet,hy")}
           {1 :mbbill/undotree}])
 
 M

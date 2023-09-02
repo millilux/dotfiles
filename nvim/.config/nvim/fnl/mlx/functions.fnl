@@ -15,13 +15,48 @@
   (let [obj (vim.fn.system [:git :commit :-m message])]
     (print obj)))
 
+(fn gitcommitamend []
+  (local prevmessage (vim.fn.system [:git :log :--pretty=format:%s :-1])) ; https://www.reddit.com/r/neovim/comments/zhweuc/whats_a_fast_way_to_load_the_output_of_a_command/
+  (vim.fn.inputsave)
+  (local message (vim.fn.input (.. "🔧🐙 " prevmessage)))
+  (vim.fn.inputrestore)
+  (local args [:git :commit :--amend])
+  ; WIP: allow message to be editable
+  ; (local args [:git :commit :--amend :-m message])
+  ; (print (length message))
+  ; (print args)
+  ; (if (and (not= message " ") (not= message nil))
+  ; (if (> 0 (length message))
+  ;     (table.insert args :-m)
+  ;     (table.insert args message))
+  (let [obj (vim.fn.system args)]
+    (print obj)))
+
+(fn foldtext []
+  ; (local line (vim.fn.getline vim.v.foldstart))
+  ; (local line_count (+ 1 (- vim.v.foldend vim.v.foldstart)))
+  (.. "  ..."))
+
 (fn livecoding []
   (vim.cmd "highlight Normal ctermbg=None guibg=None")
   (vim.cmd "highlight NormalNC ctermbg=None guibg=None")
   (vim.cmd "highlight SignColumn ctermbg=None guibg=None")
   (vim.cmd "highlight FoldColumn ctermbg=None guibg=None")
-  (vim.cmd "highlight LiveCoding ctermbg=black guibg=black")
+  ; (vim.cmd "highlight LiveCoding ctermbg=black guibg=black")
+  (vim.api.nvim_set_hl 0 :LiveCoding {:bg :black :blend 50})
   (augroup! :live-coding [[WinEnter] * "match LiveCoding /^.\\+$/"]))
 
-{: findinfiles : gitcommit : livecoding}
+(fn fmt []
+    ;; % is the range (all lines)
+    ;; ! to run an external command
+    ;; % is the current file
+  (case vim.bo.filetype
+    "fennel" (vim.cmd ":%!fnlfmt %")
+    "sh" (vim.cmd ":%!shfmt %")
+    ))
 
+;; (let [obj (vim.fn.system [:fnlfmt (vim.api.nvim_buf_get_name 0)])] 
+;;   (print obj) 
+;;   (vim.api.nvim_buf_set_lines 0 0 0 false [ obj ]))
+
+{: findinfiles : gitcommit : gitcommitamend : fmt : livecoding : foldtext}

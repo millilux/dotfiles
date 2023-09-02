@@ -15,26 +15,38 @@
         "saadparwaiz1/cmp_luasnip"
         "L3MON4D3/LuaSnip"
         "rafamadriz/friendly-snippets"
+        "onsails/lspkind.nvim"
     ]
     :config (fn []
             (local cmp (require :cmp))
             (local luasnip (require :luasnip))
+            (local lspkind (require :lspkind))
             (let [loader (require :luasnip.loaders.from_vscode)]
-                (loader.lazy_load)) 
+                (loader.lazy_load)
+                (loader.lazy_load {:paths ["./snippets"]})) 
             (cmp.setup {
                 :snippet {
                     :expand (fn [args]
                                 (luasnip.lsp_expand args.body))
                 }
-                :window {
-                    :completion (cmp.config.window.bordered)
-                }
+                ; :window {
+                ;     :completion (cmp.config.window.bordered)
+                ; }
                 :sources (cmp.config.sources 
                             [{:name :luasnip} 
                                     {:name :nvim_lsp} 
                                     {:name :nvim_lua}
                             ]
                             [{:name :buffer} {:name :path}])	
+                :formatting {
+                    :fields {1 :kind 2 :abbr 3 :menu}
+                    :format (lspkind.cmp_format {
+                        :mode :symbol
+                    ;     -- preset = 'codicons' requires vscode-codicons font
+                        :ellipsis_char "..."
+                        :maxwidth 30 
+                    })
+                }
                 :mapping (cmp.mapping.preset.insert {
                     :<C-b> (cmp.mapping.scroll_docs -4)
                     :<C-f> (cmp.mapping.scroll_docs 4)
@@ -56,30 +68,6 @@
                                 (luasnip.jump (- 1))
                                 (fallback)))
                             [:i :s])	
-
-                    ;; formatting = {
-                    ;;     fields = { 'kind', 'abbr' },
-                    ;;     format = lspkind.cmp_format({
-                    ;;         mode = 'symbol', -- show only symbol annotations
-                    ;;         -- preset = 'codicons' requires vscode-codicons font
-                    ;;         -- maxwidth = 80, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-                    ;;         symbol_map = {
-                    ;;             Class = '',
-                    ;;         }
-                    ;;
-                    ;;         -- ﯟ   ﯨ   פּ
-                    ;;
-                    ;;
-                    ;;         -- The function below will be called before any actual modifications from lspkind
-                    ;;         -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
-                    ;;         -- before = function (entry, vim_item)
-                    ;;         --   vim_item.kind = ' ' .. vim_item.kind
-                    ;;         --   vim_item.abbr = (vim_item.abbr or '') .. ' '
-                    ;;         --   -- vim_item.menu = (vim_item.menu or '') .. ' '
-                    ;;         --   return vim_item
-                    ;;         -- end
-                    ;;     })
-                    ;; }
                 })
             })
             ; (cmp.setup.cmdline [":" {

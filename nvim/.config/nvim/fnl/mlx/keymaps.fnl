@@ -5,14 +5,14 @@
 (map! [:n] "<esc>" ":noh<CR>")
 
 ;; Toggle line numbers
-(map! [:n] "<leader>n" ":set number! relativenumber!<cr>")
+(map! [:n] "<leader>n" ":set number! relativenumber!<CR>")
 
 ;; Simpler indentation
 (map! [:v] :< :<gv)
 (map! [:v] :> :>gv)
 
 ;; Run macros over visual range
-(map! [:x :expr] "@" "':norm @' . getcharstr() . '<cr>'")
+(map! [:x :expr] "@" "':norm @' . getcharstr() . '<CR>'")
 
 ;; Buffers
 (map! [:n] "<leader>b" ":FzfLua buffers<CR>")
@@ -42,10 +42,10 @@
 ;; Files
 (map! [:n] "<c-t>"     ":FzfLua files<CR>")
 (map! [:n] "<leader>h" ":FzfLua oldfiles<CR>")
-(map! [:n] "<leader>e" ":NvimTreeToggle<cr>")
-(map! [:n] "<leader>l" ":NvimTreeFindFileToggle!<cr>")
-;; (map! [:n] "<leader>e" ":neotreefloattoggle<cr>")
-;; (map! [:n] "<leader>l" ":neotreerevealtoggle<cr>")
+(map! [:n] "<leader>e" ":NvimTreeToggle<CR>")
+(map! [:n] "<leader>l" ":NvimTreeFindFileToggle!<CR>")
+;; (map! [:n] "<leader>e" ":neotreefloattoggle<CR>")
+;; (map! [:n] "<leader>l" ":neotreerevealtoggle<CR>")
 
 ;; Grep
 (map! [:n] "<leader>f" ":FzfLua grep_project<CR>")
@@ -54,7 +54,7 @@
 ;; Code
 (map! [:n] "<leader>cs" ":FzfLua lsp_document_symbols<CR>")
 (map! [:n] "<leader>cS" ":FzfLua lsp_workspace_symbols<CR>")
-(map! [:n] "<leader>co" ":AerialToggle!<cr>")
+(map! [:n] "<leader>o" ":AerialToggle!<CR>")
 
 ;; Diagnostics
 (map! [:n] "<leader>cd" vim.diagnostic.open_float)
@@ -70,30 +70,36 @@
 ;; Git
 (map! [:n] "<leader>bc" ":DiffviewFileHistory %<CR>")
 ; (map! [:n] "<leader>bc" ":FzfLua git_bcommits<CR>")
-; (map! [:n] "<leader>gs" ":vertical Git<cr>")
-; (map! [:n] "<leader>ga" ":Gwrite<cr>")
-; (map! [:n] "<leader>gc" ":Git commit -m<cr>")
+; (map! [:n] "<leader>gs" ":vertical Git<CR>")
+; (map! [:n] "<leader>ga" ":Gwrite<CR>")
+; (map! [:n] "<leader>gc" ":Git commit -m<CR>")
 (map! [:n] "<leader>gc" mlx.gitcommit)
+(map! [:n] "<leader>gA" mlx.gitcommitamend)
 ; (map! [:n] "<leader>gd" '(vim.cmd "tabnew %|Gdiffsplit!"))
-(map! [:n] "<leader>gd" ":DiffviewOpen<cr>")
-; (map! [:n] "<leader>gb" ":Git blame<cr>")
-; (map! [:n] "<leader>gl" ":FzfLua git_commits<cr>")
-(map! [:n] "<leader>gl" ":DiffviewFileHistory<cr>")
-; (map! [:n] "<leader>gP" ":Git push<cr>")
-; (map! [:n] "<leader>gp" ":Git pull<cr>")
+(map! [:n] "<leader>gd" ":DiffviewOpen<CR>")
+; (map! [:n] "<leader>gb" ":Git blame<CR>")
+; (map! [:n] "<leader>gl" ":FzfLua git_commits<CR>")
+(map! [:n] "<leader>gl" ":DiffviewFileHistory<CR>")
+; (map! [:n] "<leader>gP" ":Git push<CR>")
+; (map! [:n] "<leader>gp" ":Git pull<CR>")
 
 
 ;; Undo
-(map! [:n] "<leader>u" ":UndotreeToggle<cr>")
+(map! [:n] "<leader>u" ":UndotreeToggle<CR>")
 
 ;; Fuzzy Search
-(map! [:n] "<leader>z" ":FzfLua<cr>")
+(map! [:n] "<leader>z" ":FzfLua<CR>")
 
-;; Low tech code formatter for Fennel
-(map! [:n] :<F3> ":%!fnlfmt %<cr>")
-;; % is the range (all lines)
-;; ! to run an external command
-;; % is the current file
+;; Low tech code formatter for languages without LSP formatters
+(map! [:n] :<F3> mlx.fmt)
+
+(local flash (require :flash))
+(map! [:nox] :s flash.jump)
+; (map! [:n] :S '(flash.jump {:continue true}))
+(map! [:nox] :S flash.treesitter)
+(map! [:o] :r flash.remote)
+; (map! [:ox] :R flash.treesitter_search)
+; (map! [:c] :<c-s> flash.toggle)
 
 ;; Live Coding 
 (map! [:n] "<leader>v" mlx.livecoding)
@@ -104,7 +110,7 @@
 
 ;; Rope
 ;; let g:ropevim_local_prefix = '<Space>cx'
-;; let g:ropevim_global_prefix = '<Space>cr' 
+;; let g:ropevim_global_prefix = '<Space>CR' 
 ;; nmap <Leader>ai :RopeAutoImport<CR>
 
 ;; Telescope

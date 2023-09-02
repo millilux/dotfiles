@@ -1,4 +1,5 @@
 (import-macros {: g! : set! : rem! : set+} :hibiscus.vim)
+(local mlx (require :mlx.functions))
 
 (g! mapleader " ")
 (g! mapleaderlocal " m")
@@ -12,7 +13,17 @@
 (set! path ".,**")
 (set! hidden) ;; Hide buffers instead of closing them
 (set! ruler)
+(set! foldenable true)
 (set! foldcolumn "1")
+(set! foldlevel 99)
+(set! foldlevelstart 99)
+(set! foldnestmax 1)
+(set! foldmethod "indent")
+; (set! foldmethod "expr")
+; (set! foldexpr "nvim_treesitter#foldexpr()")
+(set! foldclose "all")
+(set! foldopen "all")
+(set! foldtext  "v:lua.require('mlx.functions').foldtext()")
 (set! signcolumn "yes:1")
 (set! autoread)
 (set! backspace "indent,eol,start")
@@ -65,10 +76,10 @@
 (set! termguicolors)
 (set! background "dark")
 (set! cursorline)
-(set+ fillchars {:vert " " :horiz " " :eob " " })
+(set+ fillchars {:vert " " :horiz " " :eob " " :fold " " :foldopen "" :foldsep " " :foldclose ""})
 (set! cmdheight 0)
 (set! laststatus 3) ;; Set to 3 for neovim's global statusline, 0 to turn it off completely
-(set! scrolloff 4)
+(set! scrolloff 12)
 
 ;; Fix crontab editing
 ;; autocmd filetype crontab setlocal nobackup nowritebackup

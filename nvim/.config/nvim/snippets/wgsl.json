@@ -1,0 +1,9 @@
+{
+  "vec4<f32>": {
+    "prefix": "v43",
+    "body": [
+      "vec4<f32>(${1:x}, ${2:y}, ${3:z}, ${4:w})"
+    ],
+    "description": "Snippet for a WGSL vec4<f32>"
+  }
+}
