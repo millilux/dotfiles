@@ -47,10 +47,10 @@
 ;; })
 
 (vim.cmd "highlight WinSeparator ctermfg=None ctermbg=None guibg=None guifg=None")
-(vim.cmd "highlight StatusLineNC guibg=None")
+(vim.cmd "highlight StatusLineNC ctermbg=None guibg=None")
 
 ; When using Leap, dim all text other than the labels
-(vim.cmd "highlight LeapBackdrop guifg=#777777")
+(vim.api.nvim_set_hl 0 "LeapBackdrop" { :link  "Comment" })
 
 (augroup! :dap-ui-statusline
   [[FileType] [dapui*] ":set statusline=\\ "])

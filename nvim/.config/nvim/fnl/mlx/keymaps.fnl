@@ -82,6 +82,7 @@
 ; (map! [:n] "<leader>gP" ":Git push<cr>")
 ; (map! [:n] "<leader>gp" ":Git pull<cr>")
 
+
 ;; Undo
 (map! [:n] "<leader>u" ":UndotreeToggle<cr>")
 
@@ -93,6 +94,9 @@
 ;; % is the range (all lines)
 ;; ! to run an external command
 ;; % is the current file
+
+;; Live Coding 
+(map! [:n] "<leader>v" mlx.livecoding)
 
 ;; " Quit Neovim terminal with esc
 ;; "tnoremap <Esc> <C-\><C-n>

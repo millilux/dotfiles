@@ -1,3 +1,5 @@
+(import-macros {: color! : g! : augroup!} :hibiscus.vim)
+
 (fn findinfiles []
   (vim.fn.inputsave)
   (var search (vim.fn.input "🐕 "))
@@ -13,5 +15,13 @@
   (let [obj (vim.fn.system [:git :commit :-m message])]
     (print obj)))
 
-{: findinfiles : gitcommit}
+(fn livecoding []
+  (vim.cmd "highlight Normal ctermbg=None guibg=None")
+  (vim.cmd "highlight NormalNC ctermbg=None guibg=None")
+  (vim.cmd "highlight SignColumn ctermbg=None guibg=None")
+  (vim.cmd "highlight FoldColumn ctermbg=None guibg=None")
+  (vim.cmd "highlight LiveCoding ctermbg=black guibg=black")
+  (augroup! :live-coding [[WinEnter] * "match LiveCoding /^.\\+$/"]))
+
+{: findinfiles : gitcommit : livecoding}
 
