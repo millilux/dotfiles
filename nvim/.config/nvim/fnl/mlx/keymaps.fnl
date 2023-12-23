@@ -68,7 +68,7 @@
 (map! [:n] "<leader>tf" '(neotest.run.run (vim.fn.expand "%")))
 
 ;; Git
-(map! [:n] "<leader>bc" ":DiffviewFileHistory %<CR>")
+(map! [:n] "<leader>bc" ":DiffviewFileHistory % --no-merges<CR>")
 ; (map! [:n] "<leader>bc" ":FzfLua git_bcommits<CR>")
 ; (map! [:n] "<leader>gs" ":vertical Git<CR>")
 ; (map! [:n] "<leader>ga" ":Gwrite<CR>")
