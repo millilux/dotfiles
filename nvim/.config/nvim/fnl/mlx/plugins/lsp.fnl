@@ -45,10 +45,15 @@
             :on_attach on_attach
             :capabilities capabilities
         })
+        (lsp.glsl_analyzer.setup {
+            :on_attach on_attach
+            :capabilities capabilities
+        })
         (lsp.hls.setup {
             :on_attach on_attach
             :capabilities capabilities
         })
+        ; https://github.com/astral-sh/ruff-lsp
         ; PyLSP has everything except workspace symbols
         (lsp.pylsp.setup {
             :cmd [ "pylsp" "-v" "--log-file" "/tmp/nvim-pylsp.log" ]
@@ -59,7 +64,8 @@
                     :plugins {
                         :black { :enabled true }
                         :flake8 { :enabled true }
-                        :mypy { :enable true }
+                        ; :ruff { :enabled true }
+                        :mypy { :enabled true }
                         :pycodestyle { :enabled false }
                         :autopep8 { :enabled false }
                         :pylint { :enabled false }
@@ -200,6 +206,7 @@
     {1 "nvim-treesitter/nvim-treesitter-context"}
     {1 "numToStr/Comment.nvim" :config true} 
     {1 "python-rope/ropevim"}
+    {1 "tikhomirov/vim-glsl"}
     {1 "stevearc/aerial.nvim" :config (fn [config opts]
         (fn on_attach [bufnr]
             (local bufopts { :buffer bufnr})
