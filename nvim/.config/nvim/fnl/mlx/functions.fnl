@@ -51,8 +51,8 @@
     ;; ! to run an external command
     ;; % is the current file
   (case vim.bo.filetype
-    "fennel" (vim.cmd ":%!fnlfmt %")
-    "sh" (vim.cmd ":%!shfmt %")
+    "fennel" (vim.cmd "%!fnlfmt %")
+    "sh" (vim.cmd "%!shfmt %")
     ))
 
 ;; (let [obj (vim.fn.system [:fnlfmt (vim.api.nvim_buf_get_name 0)])] 
