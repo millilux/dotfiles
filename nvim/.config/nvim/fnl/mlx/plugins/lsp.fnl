@@ -25,6 +25,13 @@
         (local lsp (require :lspconfig))
         (local util (require "lspconfig/util"))
         (local capabilities ((. (require :cmp_nvim_lsp) :default_capabilities)))
+        (fn find_elixir_ls []
+            (local handle (io.popen "which elixir-ls"))
+            (local output (handle:read :*a))
+            (handle:close)
+            (local path (string.gsub output "%s+" ""))
+            path
+        )
         (lsp.bashls.setup {
             :on_attach on_attach
             :capabilities capabilities
@@ -37,10 +44,15 @@
             :on_attach on_attach
             :capabilities capabilities
         })
-        ; (lsp.elixirls.setup {
-        ;     :on_attach on_attach
-        ;     :capabilities capabilities
-        ; })
+        (lsp.elixirls.setup {
+            :cmd [(find_elixir_ls)]
+            :on_attach on_attach
+            :capabilities capabilities
+        })
+        (lsp.fennel_ls.setup {
+            :on_attach on_attach
+            :capabilities capabilities
+        })
         (lsp.fsautocomplete.setup {
             :on_attach on_attach
             :capabilities capabilities
