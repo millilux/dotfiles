@@ -11,7 +11,9 @@ pylsp-rope # pylsp-rope integrates rope refactorings nicely, but not the complet
 pynvim # For neovim plugins built in Python
 pyright
 python-lsp-black
+python-lsp-ruff
 python-lsp-server
 requests
 rope
 ropevim
+ruff

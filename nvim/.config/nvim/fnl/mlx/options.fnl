@@ -44,6 +44,8 @@
 (set! swapfile false)
 (set! undofile true)
 (set! completeopt "menu,menuone,preview,longest,noselect")
+(set! spell true)
+(set! spelllang "en_gb")
 
 ;; Formatting
 (set! autoindent)
