@@ -30,6 +30,8 @@
             (local output (handle:read :*a))
             (handle:close)
             (local path (string.gsub output "%s+" ""))
+            (if (= path "")
+                (error "elixir-ls not found"))
             path
         )
         (lsp.bashls.setup {
