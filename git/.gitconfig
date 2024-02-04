@@ -1,0 +1,21 @@
+[user]
+    name = millilux 
+    email = millilux@users.noreply.github.com
+[core]
+    pager = delta
+[pull]
+    rebase = true
+[init]
+	defaultBranch = main
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    navigate = true
+    light = false
+    side-by-side = true
+[diff]
+    tool = nvimdiffview
+[difftool]
+    prompt = false
+[difftool "nvimdiffview"]
+    cmd = nvim -c DiffviewOpen
