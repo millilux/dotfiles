@@ -7,5 +7,21 @@
       "\t${2:pass}"
     ],
     "description": "Snippet for a Python dataclass"
+  },
+  "class": {
+    "prefix": "cl",
+    "body": [
+      "class ${1:Name}:",
+      "\t${2:pass}"
+    ],
+    "description": "Snippet for a Python3 class"
+  },
+  "match": {
+    "prefix": "match",
+    "body": [
+      "match ${1:Expr}:",
+      "\tcase ${2:Patterns}:"
+    ],
+    "description": "Snippet for a match statement"
   }
 }
