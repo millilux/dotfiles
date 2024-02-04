@@ -149,8 +149,8 @@
         (configs.setup { 
             :ensure_installed [
                 "bash" "c" "cpp" "clojure" "dockerfile" "elixir" "fennel" "fish" "glsl" "graphql" "haskell" "hlsl"
-                "javascript" "json" "kotlin" "lua" "make" "markdown" "python" "regex" "rust" "swift" "typescript" "vim"
-                "wgsl" "yaml"
+                "javascript" "json" "kotlin" "lua" "make" "markdown" "python" "regex" "rust" "swift" "typescript"
+                "vim" "vimdoc" "wgsl" "yaml"
             ]
             :highlight { 
                 :enable true 
