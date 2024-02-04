@@ -28,8 +28,9 @@
 ;; Tabs
 (map! [:n] "<leader><tab>"  ":FzfLua tabs<CR>")
 (map! [:n] "<leader><tab>c" ":tabclose<CR>")
-(map! [:n] "[<tab>"         ":tprev<CR>")
-(map! [:n] "]<tab>"         ":next<CR>")
+(map! [:n] "<leader><tab>n" ":tabnew<CR>")
+(map! [:n] "[<tab>"         ":tabprevious<CR>")
+(map! [:n] "]<tab>"         ":tabnext<CR>")
 
 ;; Quickfix
 (map! [:n] "[q" ":cprev<CR>")
@@ -42,8 +43,9 @@
 ;; Files
 (map! [:n] "<c-t>"     ":FzfLua files<CR>")
 (map! [:n] "<leader>h" ":FzfLua oldfiles<CR>")
-(map! [:n] "<leader>e" ":NvimTreeToggle<CR>")
-(map! [:n] "<leader>l" ":NvimTreeFindFileToggle!<CR>")
+; Moved to lazyvim config
+; (map! [:n] "<leader>e" ":NvimTreeToggle<CR>")
+; (map! [:n] "<leader>l" ":NvimTreeFindFileToggle!<CR>")
 ;; (map! [:n] "<leader>e" ":neotreefloattoggle<CR>")
 ;; (map! [:n] "<leader>l" ":neotreerevealtoggle<CR>")
 
@@ -54,7 +56,8 @@
 ;; Code
 (map! [:n] "<leader>cs" ":FzfLua lsp_document_symbols<CR>")
 (map! [:n] "<leader>cS" ":FzfLua lsp_workspace_symbols<CR>")
-(map! [:n] "<leader>o" ":AerialToggle!<CR>")
+; Moved to lazyvim config
+; (map! [:n] "<leader>o" ":AerialToggle!<CR>")
 
 ;; Diagnostics
 (map! [:n] "<leader>cd" vim.diagnostic.open_float)
@@ -83,9 +86,9 @@
 ; (map! [:n] "<leader>gP" ":Git push<CR>")
 ; (map! [:n] "<leader>gp" ":Git pull<CR>")
 
-
 ;; Undo
-(map! [:n] "<leader>u" ":UndotreeToggle<CR>")
+;; Moved to lazyvim config
+; (map! [:n] "<leader>u" ":UndotreeToggle<CR>")
 
 ;; Fuzzy Search
 (map! [:n] "<leader>z" ":FzfLua<CR>")

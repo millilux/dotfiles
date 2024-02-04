@@ -16,6 +16,8 @@
           ;; {1 "https://git.sr.ht/~whynothugo/lsp_lines.nvim" }
           {1 :junegunn/vim-peekaboo}
           {1 :folke/noice.nvim
+           :lazy true
+           :event :VeryLazy
            :dependencies [:rcarriga/nvim-notify :MunifTanjim/nui.nvim]
            :opts {:presets {:bottom_search true
                             ;; use a classic bottom cmdline for search
@@ -28,7 +30,8 @@
                             ;; add a border to hover docs and signature help
                             }
                   :cmdline {:view :cmdline}
-                  :messages {:view :mini}
+                  ; :messages {:view :vsplit}
+                  ; :messages {:view :mini}
                   :lsp {:progress {:enabled false}}}}
           ;; {1 "folke/trouble.nvim"}
           {1 :onsails/lspkind.nvim :config (fn [opts]
@@ -73,7 +76,7 @@
           }
           ; {1 "kevinhwang91/nvim-bqf" :ft "qf"}
           {1 :yorickpeterse/nvim-pqf :config true}
-          {1 :chentoast/marks.nvim :config true}
+          ; {1 :chentoast/marks.nvim :config true}
           ; {1 :kevinhwang91/nvim-ufo
           ;  :dependencies [:kevinhwang91/promise-async]
           ;  :opts {:open_fold_hl_timeout 0

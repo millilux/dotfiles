@@ -11,9 +11,13 @@
                     lazypath]))
   (vim.opt.runtimepath:prepend lazypath))
 
-(local lazy (require :lazy))
-(lazy.setup [{:import :mlx.plugins}])
+(let [lazy (require :lazy)]
+  (lazy.setup :mlx.plugins))
 
 (require :mlx.keymaps)
 (require :mlx.ui)
+
+(global P (fn [value]
+            (print (vim.inspect value))
+            (value)))
 

@@ -38,6 +38,7 @@
   (.. "  ..."))
 
 (fn livecoding []
+  ; TODO Push current values onto a stack, then pop them off to revert
   (vim.cmd "highlight Normal ctermbg=None guibg=None")
   (vim.cmd "highlight NormalNC ctermbg=None guibg=None")
   (vim.cmd "highlight SignColumn ctermbg=None guibg=None")
@@ -53,6 +54,7 @@
   (case vim.bo.filetype
     "fennel" (vim.cmd "%!fnlfmt %")
     "sh" (vim.cmd "%!shfmt %")
+    "json" (vim.cmd "%!jq")
     ))
 
 ;; (let [obj (vim.fn.system [:fnlfmt (vim.api.nvim_buf_get_name 0)])] 

@@ -1,5 +1,9 @@
 (local M [
-    {1 "neovim/nvim-lspconfig" :dependencies ["hrsh7th/cmp-nvim-lsp"] :config (fn [plugin opts]
+    {1 "neovim/nvim-lspconfig" 
+        :lazy true 
+        :event [ :BufReadPre :BufNewFile ]
+        :dependencies ["hrsh7th/cmp-nvim-lsp"] 
+        :config (fn [plugin opts]
         (fn on_attach [client bufnr]
             ; (local lsp-format-modifications (require :lsp-format-modifications))
             ; (lsp-format-modifications.attach client bufnr { :format_on_save false }); <-- stopping things working
@@ -23,7 +27,7 @@
         ;     end, bufopts)
         )
         (local lsp (require :lspconfig))
-        (local util (require "lspconfig/util"))
+        (local util (require :lspconfig/util))
         (local capabilities ((. (require :cmp_nvim_lsp) :default_capabilities)))
         (fn find_elixir_ls []
             (local handle (io.popen "which elixir-ls"))
@@ -55,6 +59,10 @@
             :on_attach on_attach
             :capabilities capabilities
         })
+        (lsp.gleam.setup {
+            :on_attach on_attach
+            :capabilities capabilities
+        })
         (lsp.fsautocomplete.setup {
             :on_attach on_attach
             :capabilities capabilities
@@ -64,6 +72,10 @@
             :capabilities capabilities
         })
         (lsp.hls.setup {
+            :on_attach on_attach
+            :capabilities capabilities
+        })
+        (lsp.ocamllsp.setup {
             :on_attach on_attach
             :capabilities capabilities
         })
@@ -116,6 +128,11 @@
         (lsp.tsserver.setup {
             :on_attach on_attach
             :capabilities capabilities
+        })
+        (lsp.wgsl_analyzer.setup {
+            :on_attach on_attach
+            :capabilities capabilities
+            :filetypes ["wgsl"]
         })
         (lsp.yamlls.setup {
             :on_attach on_attach
@@ -221,7 +238,9 @@
     {1 "numToStr/Comment.nvim" :config true} 
     {1 "python-rope/ropevim"}
     {1 "tikhomirov/vim-glsl"}
-    {1 "stevearc/aerial.nvim" :config (fn [config opts]
+    {1 "stevearc/aerial.nvim" :lazy true 
+        :keys [["<leader>o" ":AerialToggle!<CR>"]]
+        :config (fn [config opts]
         (fn on_attach [bufnr]
             (local bufopts { :buffer bufnr})
             (vim.keymap.set "n" "{" "<cmd>AerialPrev<CR>" bufopts)
@@ -232,8 +251,22 @@
         (aerial.setup {
             :on_attach on_attach
             :show_guides true
+            :guides {
+                ; When the child item has a sibling below it
+                :mid_item " ├─"
+                ; When the child item is the last in the list
+                :last_item " └─"
+                ; When there are nested child guides to the right
+                :nested_top " │ "
+                ; Raw indentation
+                :whitespace " "
+            }
+            :float {
+                :relative :win
+            }
             :layout {
-                :max_width { 80 0.2 }
+                :min_width 20
+                ; :max_width { 120 0.2 }
             }
         }))}
 ])

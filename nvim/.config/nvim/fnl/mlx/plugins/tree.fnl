@@ -1,6 +1,11 @@
-(local M [
-          {1 :nvim-tree/nvim-tree.lua :opts (fn [plugin opts]
-          {
+(local M 
+       [{1 :nvim-tree/nvim-tree.lua 
+           :lazy true
+           :keys [
+                ["<leader>e" ":NvimTreeToggle<CR>"]
+                ["<leader>l" ":NvimTreeFindFileToggle!<CR>"]
+            ]
+           :opts (fn [plugin opts] {
                 :on_attach (fn [bufnr]
                     (local api (require :nvim-tree.api))
                     (api.config.mappings.default_on_attach bufnr)

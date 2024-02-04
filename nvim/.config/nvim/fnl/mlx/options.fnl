@@ -1,12 +1,13 @@
-(import-macros {: g! : set! : rem! : set+} :hibiscus.vim)
+(import-macros {: g! : set! : rem! : set+ : augroup!} :hibiscus.vim)
 (local mlx (require :mlx.functions))
 
 (g! mapleader " ")
 (g! mapleaderlocal " m")
-; (g! conjure#filetype#fennel "conjure.client.fennel.stdio")
+; (g! conjure#filetype#fennel :conjure.client.fennel.stdio)
 (g! undotree_WindowLayout 3)
 (g! undotree_HelpLine 0)
 (g! fzf_tags_command "ctags -R --languages=python --exclude=node_modules --exclude=.venv")
+(g! sexp_enable_insert_mode_mappings 0)
 
 ;; Basics
 (set! timeoutlen 300)
@@ -27,17 +28,17 @@
 (set! signcolumn "yes:1")
 (set! autoread)
 (set! backspace "indent,eol,start")
-(set+ clipboard "unnamedplus")
+; (set+ clipboard "unnamedplus") # Very slow
 (set+ diffopt "vertical")
 (set! linebreak)
 (set! modelines 0)
 (set! noshowmode)
-(set+ shortmess "c")  ;; No completion messages
-(set+ shortmess "I")  ;; No intro message on open
+(set+ shortmess :c) ;; No completion messages
+(set+ shortmess :I) ;; No intro message on open
 (set! updatetime 300)
 (set! wildmenu)
-(set+ wildignore "**/node_modules/**")
-(set! wildmode "full")
+(set+ wildignore :**/node_modules/**)
+(set! wildmode :full)
 (set! ttyfast)
 (set! history 1000)
 (set! undolevels 1000)
@@ -45,7 +46,7 @@
 (set! undofile true)
 (set! completeopt "menu,menuone,preview,longest,noselect")
 (set! spell true)
-(set! spelllang "en_gb")
+(set! spelllang :en_gb)
 
 ;; Formatting
 (set! autoindent)
@@ -76,18 +77,33 @@
 
 ;; Appearance
 (set! termguicolors)
-(set! background "dark")
+(set! background :dark)
 (set! cursorline)
-(set+ fillchars {:vert " " :horiz " " :eob " " :fold " " :foldopen "" :foldsep " " :foldclose ""})
+(set+ fillchars {:vert " "
+                 :horiz " "
+                 :eob " "
+                 :fold " "
+                 :foldopen ""
+                 :foldsep " "
+                 :foldclose ""})
 (set! cmdheight 0)
 (set! laststatus 3) ;; Set to 3 for neovim's global statusline, 0 to turn it off completely
 (set! scrolloff 12)
 
-;; Fix crontab editing
-;; autocmd filetype crontab setlocal nobackup nowritebackup
+(augroup! :auto-save [[BufLeave FocusLost] "*" (fn [] 
+            (local b (vim.api.nvim_get_current_buf))
+            (when (and (vim.api.nvim_buf_get_option b "modified") 
+                       (= (vim.fn.getbufvar b "&modifiable") 1))
+                (vim.cmd "silent update")
+                (print (string.format "Saved: %s %s" (vim.fn.expand "%:t") (os.date "%X")))
+            ))])
 
-;; Automatically remove trailing whitespace when saving
-;; autocmd FileType python,javascript autocmd BufWritePre <buffer> :%s/\s\+$//e
+; Fix crontab editing
+; autocmd filetype crontab setlocal nobackup nowritebackup
 
-;; Keep window when deleting a buffer
-;; nnoremap <leader>bd :bp\|bd#<CR>
+; Keep window when deleting a buffer
+; nnoremap <leader>bd :bp\|bd#<CR>
+
+; (augroup! :clipboard [
+;     [BufReadPost BufNewFile] * "set clipboard=unnamedplus"
+; ])
