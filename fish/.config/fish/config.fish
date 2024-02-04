@@ -20,7 +20,7 @@ set -gx CLICOLOR 1
 set -x COLORTERM truecolor
 set -x BAT_THEME "Dracula"
 
-set -x FZF_DEFAULT_COMMAND 'rg --files --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
+set -x FZF_CTRL_T_COMMAND 'fd --hidden --exclude .git --exclude node_modules --exclude .mypy_cache'
 set -x FZF_DEFAULT_OPTIONS '--keep-right'
 set -x CDIFF_OPTIONS '-s -w0'
 

@@ -12,6 +12,7 @@ else
 	test -r ~/.bash_profile && echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >>~/.bash_profile
 	echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >>~/.profile
 	sudo apt-get install build-essential
+    sudo apt-get install libreadline-dev  # For better fennel repl support
 fi
 
 brew bundle install
@@ -81,6 +82,7 @@ npm install -g typescript-language-server graphql-language-service-cli graphql t
 
 # Install Fennel
 luarocks --local install fennel
+luarocks --local install readline
 
 # Install Haskell
 curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
@@ -90,6 +92,13 @@ ghcup install hls
 
 # Install Rust
 curl https://sh.rustup.rs -sSf | sh
+
+# Install WGSL LSP
+cargo install --git https://github.com/wgsl-analyzer/wgsl-analyzer wgsl_analyzer
+
+# Install OCaml
+opam init -y --disable-sandboxing 
+opam install dune ocaml-lsp-server ocamlformat utop
 
 # Install F# LSP
 dotnet tool install --global fsautocomplete
