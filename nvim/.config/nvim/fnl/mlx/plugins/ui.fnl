@@ -82,6 +82,9 @@
           ;  :opts {:open_fold_hl_timeout 0
           ;         :provider_selector (fn [bufnr filetype buftype]
           ;                              [:treesitter :indent])}}
+          ; {1 :b0o/incline.nvim :opts {
+          ;       :hide {:cursorline true :focused_win false :only_win true}
+          ;  }}
           ;; {1 "yamatsum/nvim-nonicons"}
           ;; {1 "anuvyklack/hydra.nvim"}
           ])

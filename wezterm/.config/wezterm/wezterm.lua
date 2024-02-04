@@ -55,6 +55,11 @@ return {
             action = wezterm.action.EmitEvent 'toggle-opacity'
         },
         {
+            key = 'c',
+            mods = 'LEADER',
+            action = wezterm.action.CloseCurrentPane { confirm = false },
+        },
+        {
             key = 'v',
             mods = 'LEADER',
             action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' },

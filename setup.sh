@@ -84,6 +84,13 @@ npm install -g typescript-language-server graphql-language-service-cli graphql t
 luarocks --local install fennel
 luarocks --local install readline
 
+# Install Fennel LSP
+git clone https://git.sr.ht/~xerool/fennel-ls
+cd fennel-ls
+make && make install PREFIX=$HOME
+cd -
+rm -rf fennel-ls
+
 # Install Haskell
 curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
 

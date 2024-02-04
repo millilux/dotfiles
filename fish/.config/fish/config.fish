@@ -32,6 +32,11 @@ starship init fish | source
 
 test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
 
+# if test -n $WSL_DISTRO_NAME
+#     set -x DISPLAY (ip route list default | awk '{print $3}'):0
+#     set -x LIBGL_ALWAYS_INDIRECT 1
+# end
+
 fish_add_path (brew --prefix)/sbin 
 fish_add_path (brew --prefix)/bin 
 
