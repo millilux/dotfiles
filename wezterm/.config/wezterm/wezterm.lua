@@ -20,14 +20,15 @@ end)
 
 return {
     default_domain = default_domain,
-
+    check_for_updates = false,
     color_scheme = 'Oxocarbon Dark',
     -- color_scheme = "Catppuccin Mocha",
     -- color_scheme = "Operator Mono Dark",
+    macos_window_background_blur = 100,
     enable_tab_bar = false,
     use_fancy_tab_bar = false,
     window_decorations = 'RESIZE',
-    window_background_opacity = 0.9,
+    window_background_opacity = 0.85,
     window_padding = {
         left = 0,
         right = 0,
