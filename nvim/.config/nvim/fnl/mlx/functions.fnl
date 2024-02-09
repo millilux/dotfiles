@@ -18,17 +18,9 @@
 (fn gitcommitamend []
   (local prevmessage (vim.fn.system [:git :log :--pretty=format:%s :-1])) ; https://www.reddit.com/r/neovim/comments/zhweuc/whats_a_fast_way_to_load_the_output_of_a_command/
   (vim.fn.inputsave)
-  (local message (vim.fn.input (.. "🔧🐙 " prevmessage)))
+  (local message (vim.fn.input "🔧🐙 " prevmessage))
   (vim.fn.inputrestore)
-  (local args [:git :commit :--amend])
-  ; WIP: allow message to be editable
-  ; (local args [:git :commit :--amend :-m message])
-  ; (print (length message))
-  ; (print args)
-  ; (if (and (not= message " ") (not= message nil))
-  ; (if (> 0 (length message))
-  ;     (table.insert args :-m)
-  ;     (table.insert args message))
+  (local args [:git :commit :--amend :-m message])
   (let [obj (vim.fn.system args)]
     (print obj)))
 
