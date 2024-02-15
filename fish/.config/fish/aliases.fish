@@ -1,5 +1,6 @@
 alias vim 'nvim'
 alias vimdiff 'nvim -d'
+alias v "nvim"
 
 alias g "git"
 alias ga "git add"

@@ -25,8 +25,10 @@ return {
     -- color_scheme = "Catppuccin Mocha",
     -- color_scheme = "Operator Mono Dark",
     macos_window_background_blur = 100,
-    enable_tab_bar = false,
+    enable_tab_bar = true,
     use_fancy_tab_bar = false,
+    tab_bar_at_bottom = false,
+    use_dead_keys = false,
     window_decorations = 'RESIZE',
     window_background_opacity = 0.85,
     window_padding = {
@@ -57,17 +59,17 @@ return {
         {
             key = 'c',
             mods = 'LEADER',
-            action = wezterm.action.CloseCurrentPane { confirm = false },
+            action = act.CloseCurrentPane { confirm = false },
         },
         {
             key = 'v',
             mods = 'LEADER',
-            action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' },
+            action = act.SplitHorizontal { domain = 'CurrentPaneDomain' },
         },
         {
             key = 's',
             mods = 'LEADER',
-            action = wezterm.action.SplitVertical { domain = 'CurrentPaneDomain' },
+            action = act.SplitVertical { domain = 'CurrentPaneDomain' },
         },
         {
             key = 'h',
@@ -89,5 +91,23 @@ return {
             mods = 'LEADER',
             action = act.ActivatePaneDirection 'Down',
         },
+        {
+            key = 'r',
+            mods = 'LEADER',
+            action = act.PromptInputLine {
+            description = 'Enter new name for tab',
+            action = wezterm.action_callback(function(window, pane, line)
+                -- line will be `nil` if they hit escape without entering anything
+                -- An empty string if they just hit enter
+                -- Or the actual line of text they wrote
+                if line then
+                window:active_tab():set_title(line)
+                end
+            end),
+            },
+        },
+        -- Fix Arrow Keys within WSL
+        {key='UpArrow', action=wezterm.action{SendString='\x1b[A'}},
+        {key='DownArrow', action=wezterm.action{SendString='\x1b[B'}},
     }
 }
