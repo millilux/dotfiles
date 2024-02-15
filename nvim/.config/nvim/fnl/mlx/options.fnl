@@ -28,7 +28,7 @@
 (set! signcolumn "yes:1")
 (set! autoread)
 (set! backspace "indent,eol,start")
-; (set+ clipboard "unnamedplus") # Very slow
+(set+ clipboard "unnamedplus") ; Very slow under WSL
 (set+ diffopt "vertical")
 (set! linebreak)
 (set! modelines 0)
@@ -94,8 +94,9 @@
             (local b (vim.api.nvim_get_current_buf))
             (when (and (vim.api.nvim_buf_get_option b "modified") 
                        (= (vim.fn.getbufvar b "&modifiable") 1))
-                (vim.cmd "silent update")
-                (print (string.format "Saved: %s %s" (vim.fn.expand "%:t") (os.date "%X")))
+                (when (not= (vim.fn.bufname) "")
+                    (vim.cmd "silent update")
+                    (print (string.format "Saved: %s %s" (vim.fn.expand "%:t") (os.date "%X"))))
             ))])
 
 ; Fix crontab editing
