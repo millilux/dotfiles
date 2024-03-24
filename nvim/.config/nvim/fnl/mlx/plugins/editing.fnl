@@ -18,7 +18,7 @@
                                    (cmp_autopairs.on_confirm_done))
                      (local autopairs (require :nvim-autopairs))
                      (autopairs.setup opts))}
-          {1 :mg979/vim-visual-multi :lazy true}
+          {1 :mg979/vim-visual-multi}
           ; {1 :Pocco81/auto-save.nvim}
           ; {1 :smoka7/multicursors.nvim
           ;  :event :VeryLazy
@@ -35,6 +35,7 @@
           ;          :desc "Create a selection for selected text or word under the cursor"
           ;          :mode [:v :n]}]}
           ; {1 :gpanders/nvim-parinfer} ; auto formats and does some weird indenting with tables
+          {1 :julienvincent/nvim-paredit :config true}
           {1 :guns/vim-sexp
            :ft [:fennel :clojure :lisp :racket :scheme :janet :guile]
            :config (tset vim.g :sexp_filetypes

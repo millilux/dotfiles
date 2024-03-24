@@ -97,9 +97,9 @@
 (map! [:n] :<F3> mlx.fmt)
 
 (local flash (require :flash))
-(map! [:nox] :s flash.jump)
+(map! [:no] :s flash.jump)
 ; (map! [:n] :S '(flash.jump {:continue true}))
-(map! [:nox] :S flash.treesitter)
+; (map! [:no] :S flash.treesitter)
 (map! [:o] :r flash.remote)
 ; (map! [:ox] :R flash.treesitter_search)
 ; (map! [:c] :<c-s> flash.toggle)

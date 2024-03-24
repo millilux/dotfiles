@@ -6,6 +6,7 @@
     (and (not= col 0) (= (: (: (. lines 1) :sub col col) :match "%s") nil)))	
 
 (local M [
+    {1 "github/copilot.vim" }
     {1 "hrsh7th/nvim-cmp" 
         :dependencies [
             "hrsh7th/cmp-nvim-lua"

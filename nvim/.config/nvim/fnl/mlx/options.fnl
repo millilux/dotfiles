@@ -94,9 +94,10 @@
             (local b (vim.api.nvim_get_current_buf))
             (when (and (vim.api.nvim_buf_get_option b "modified") 
                        (= (vim.fn.getbufvar b "&modifiable") 1))
-                (when (not= (vim.fn.bufname) "")
-                    (vim.cmd "silent update")
-                    (print (string.format "Saved: %s %s" (vim.fn.expand "%:t") (os.date "%X"))))
+                (when (= (vim.fn.getbufvar b "&buftype") "")
+                    (when (not= (vim.fn.bufname) "")
+                        (vim.cmd "silent update")
+                        (print (string.format "Saved: %s %s" (vim.fn.expand "%:t") (os.date "%X")))))
             ))])
 
 ; Fix crontab editing
