@@ -74,6 +74,7 @@
                                     :remoteRoot "/athena/backend"}]})
                     ;; :program "${file}"})	
         )}
+        {1 "nvim-neotest/nvim-nio"}
         {1 "theHamsta/nvim-dap-virtual-text" :config true}
     ]}
 ])
