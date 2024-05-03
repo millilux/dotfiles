@@ -1,0 +1,26 @@
+[tool.ruff]
+line-length = 120
+extend-exclude = ["**/settings/*", "**/snapshots/*", "**/migrations/*"]
+
+[tool.ruff.format]
+quote-style = "single"
+docstring-code-format = true
+
+[tool.ruff.lint.flake8-quotes]
+docstring-quotes = "double"
+inline-quotes = "single"
+
+[tool.ruff.lint]
+preview = true
+select = [
+    "E", "W", # pycodestyle
+    "F", # pyflakes
+    "UP", # pyupgrade
+    "I", # isort
+    "C", # mccabe
+    # "D", # pydocstyle
+]
+ignore = ["E203", "E266", "D100"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
