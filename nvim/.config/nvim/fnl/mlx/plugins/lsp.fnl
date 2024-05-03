@@ -58,6 +58,11 @@
         (lsp.fennel_ls.setup {
             :on_attach on_attach
             :capabilities capabilities
+            :settings {
+              :fennel-ls {
+                :extra-globals "vim hibiscus" 
+              }
+            }
         })
         (lsp.gleam.setup {
             :on_attach on_attach
@@ -79,7 +84,6 @@
             :on_attach on_attach
             :capabilities capabilities
         })
-        ; https://github.com/astral-sh/ruff-lsp
         ; PyLSP has everything except workspace symbols
         (lsp.pylsp.setup {
             :cmd [ "pylsp" "-v" "--log-file" "/tmp/nvim-pylsp.log" ]
@@ -88,13 +92,13 @@
             :settings {
                 :pylsp {
                     :plugins {
-                        :black { :enabled true }
-                        :flake8 { :enabled true }
-                        ; :ruff { :enabled true }
+                        ; :black { :enabled true }
+                        ; :flake8 { :enabled true }
+                        :ruff { :enabled true }
                         :mypy { :enabled true }
-                        :pycodestyle { :enabled false }
-                        :autopep8 { :enabled false }
-                        :pylint { :enabled false }
+                        ; :pycodestyle { :enabled false }
+                        ; :autopep8 { :enabled false }
+                        ; :pylint { :enabled false }
                     }
                 }
             }
@@ -105,6 +109,10 @@
         ;;     :capabilities capabilities
         ;; })
         ; (lsp.jedi_language_server.setup {
+        ;     :on_attach on_attach
+        ;     :capabilities capabilities
+        ; })
+        ; (lsp.ruff.setup {
         ;     :on_attach on_attach
         ;     :capabilities capabilities
         ; })
@@ -154,6 +162,7 @@
             ]
             :highlight { 
                 :enable true 
+                :disable [ :fennel ]
                 :additional_vim_regex_highlighting false 
             }
             :textobjects {

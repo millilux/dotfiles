@@ -15,10 +15,10 @@
         (vim.keymap.set "n" "<Leader>x" dap.toggle_breakpoint)
         (vim.keymap.set "n" "<Leader>X" (fn [] (dap.set_breakpoint (vim.fn.input "Condition: "))))
         ;; nnoremap <silent> <Leader>dl <Cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
-        ;; (vim.keymap.set "n" "<Leader>dr" dap.repl.toggle)
+        ; (vim.keymap.set "n" "<Leader>dr" dap.repl.toggle)
         (vim.keymap.set "n" "<Leader>du" dapui.toggle)
         (vim.keymap.set "n" "<Leader>dc" (fn [] (focus_float "console")))
-        (vim.keymap.set "n" "<Leader>dr" (fn [] (focus_float "repl")))
+        ; (vim.keymap.set "n" "<Leader>dr" (fn [] (focus_float "repl")))
         (vim.keymap.set "n" "<Leader>dv" (fn [] (focus_float "scopes")))
         (vim.keymap.set "n" "<Leader>ds" (fn [] (focus_float "stacks")))
         (vim.keymap.set "n" "<Leader>de" (fn [] (focus_float "expressions")))
@@ -32,14 +32,14 @@
     :dependencies [
         {1 "rcarriga/nvim-dap-ui" :opts {
             :layouts [
-                ;; {
-                ;;     :elements [
-                ;;         "repl"
-                ;;         "console"
-                ;;     ]
-                ;;     :size 0.1 ;; % of total lines
-                ;;     :position "bottom"
-                ;; }
+                {
+                     :elements [
+                         "repl"
+                         "console"
+                     ]
+                     :size 0.2 ;; % of total lines
+                     :position "bottom"
+                }
                 {
                     :elements [
                     ;; Elements can be strings or table with id and size keys.

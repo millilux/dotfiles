@@ -57,7 +57,7 @@ return {
             action = wezterm.action.EmitEvent 'toggle-opacity'
         },
         {
-            key = 'c',
+            key = 'w',
             mods = 'LEADER',
             action = act.CloseCurrentPane { confirm = false },
         },

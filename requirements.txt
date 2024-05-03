@@ -1,5 +1,7 @@
 black
 flake8
+git-when-merged
+harlequin
 isort
 jedi
 jedi-language-server
