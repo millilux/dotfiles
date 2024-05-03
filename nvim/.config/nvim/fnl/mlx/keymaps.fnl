@@ -107,6 +107,22 @@
 ;; Live Coding 
 (map! [:n] "<leader>v" mlx.livecoding)
 
+; WIP Git commit message pop up
+; (local bufnr (vim.api.nvim_create_buf false true))
+; (vim.api.nvim_buf_set_option bufnr :bufhidden :wipe)
+; (vim.api.nvim_buf_set_lines bufnr 0 -1 true ["Hello"])
+; (local opts {
+;     :style "minimal"
+;     :relative "editor"
+;     :width 40
+;     :height 10
+;     :row 10
+;     :col 10
+;     :focusable true
+;     :border "rounded"
+; })
+; (local win_id (vim.api.nvim_open_win bufnr true opts))
+
 ;; " Quit Neovim terminal with esc
 ;; "tnoremap <Esc> <C-\><C-n>
 ;; https://github.com/neovim/neovim/issues/7648

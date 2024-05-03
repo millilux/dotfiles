@@ -47,10 +47,10 @@
 
 (augroup! :dap-ui-statusline [[FileType] [dapui*] ":set statusline=\\ "])
 
-(augroup! :active-cursorline [[VimEnter] * ":setlocal cursorline"]
-          [[WinEnter] * ":setlocal cursorline"]
-          [[BufWinEnter] * ":setlocal cursorline"]
-          [[WinLeave] * ":setlocal nocursorline"])
+; (augroup! :active-cursorline [[VimEnter] * ":setlocal cursorline"]
+;           [[WinEnter] * ":setlocal cursorline"]
+;           [[BufWinEnter] * ":setlocal cursorline"]
+;           [[WinLeave] * ":setlocal nocursorline"])
 
 (vim.fn.sign_define :DapBreakpoint
                     {:text "→" :texthl :Special :linehl "" :numhl ""})

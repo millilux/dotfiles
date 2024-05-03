@@ -1,19 +1,20 @@
 (local M [;; "markonm/traces.vim"     ;; Highlight patterns & ranges in ex commands in commandline mode
-          ;; {1 "glepnir/dashboard-nvim" :config (fn []
-          ;;      (local dashboard (require :dashboard))
-          ;;      (tset dashboard :custom_header {})
-          ;;      (tset dashboard :custom_center [
-          ;;         {
-          ;;             :icon " "
-          ;;             :desc "Recent                   "                   
-          ;;             :action "DashboardFindHistory"
-          ;;             :shortcut "SPC f h"
-          ;;         }
-          ;;      ])
-          ;;      (tset dashboard :custom_footer {})
-          ;; )}
-          ;; {1 "lukas-reineke/indent-blankline.nvim" }
-          ;; {1 "https://git.sr.ht/~whynothugo/lsp_lines.nvim" }
+          ; {1 "glepnir/dashboard-nvim" :config (fn []
+          ;      (local dashboard (require :dashboard))
+          ;      (tset dashboard :custom_header {})
+          ;      (tset dashboard :custom_center [
+          ;         {
+          ;             :icon " "
+          ;             :desc "Recent                   "                   
+          ;             :action "DashboardFindHistory"
+          ;             :shortcut "SPC f h"
+          ;         }
+          ;      ])
+          ;      (tset dashboard :custom_footer {})
+          ; )}
+          ; {1 :lukas-reineke/indent-blankline.nvim :main :ibl :config true}
+          ; {1 "https://git.sr.ht/~whynothugo/lsp_lines.nvim" :config true}
+          ; {1 :HiPhish/rainbow-delimiters.nvim}
           {1 :junegunn/vim-peekaboo}
           {1 :folke/noice.nvim
            :lazy true
@@ -33,7 +34,7 @@
                   ; :messages {:view :vsplit}
                   ; :messages {:view :mini}
                   :lsp {:progress {:enabled false}}}}
-          ;; {1 "folke/trouble.nvim"}
+          ; {1 "folke/trouble.nvim"}
           {1 :onsails/lspkind.nvim :config (fn [opts]
                 (local lspkind (require :lspkind))
                 (lspkind.init {
@@ -85,8 +86,8 @@
           ; {1 :b0o/incline.nvim :opts {
           ;       :hide {:cursorline true :focused_win false :only_win true}
           ;  }}
-          ;; {1 "yamatsum/nvim-nonicons"}
-          ;; {1 "anuvyklack/hydra.nvim"}
+          ; {1 "yamatsum/nvim-nonicons"}
+          ; {1 "anuvyklack/hydra.nvim"}
           ])
 
 M

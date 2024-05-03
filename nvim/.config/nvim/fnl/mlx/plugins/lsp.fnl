@@ -25,6 +25,7 @@
         ;     vim.keymap.set('n', '<leader>wl', function()
         ;         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
         ;     end, bufopts)
+            ; (vim.lsp.inlay_hint.enable bufnr)
         )
         (local lsp (require :lspconfig))
         (local util (require :lspconfig/util))
@@ -49,6 +50,7 @@
         (lsp.clojure_lsp.setup {
             :on_attach on_attach
             :capabilities capabilities
+            :root_dir (util.root_pattern "*.clj")
         })
         (lsp.elixirls.setup {
             :cmd [(find_elixir_ls)]
@@ -80,10 +82,31 @@
             :on_attach on_attach
             :capabilities capabilities
         })
+        (lsp.html.setup {
+            :on_attach on_attach
+            :capabilities capabilities
+        })
         (lsp.ocamllsp.setup {
             :on_attach on_attach
             :capabilities capabilities
         })
+        ; (lsp.ruff.setup {
+        ;     :on_attach on_attach
+        ;     :capabilities capabilities
+        ; })
+        ; (lsp.basedpyright.setup {
+        ;     :on_attach on_attach
+        ;     :capabilities capabilities
+        ;     :settings {
+        ;         :basedpyright {
+        ;             :typeCheckingMode "standard"
+        ;             :disableOrganizeImports false
+        ;             :analysis {
+        ;                 :ignore "*"
+        ;             }
+        ;         }
+        ;     }
+        ; })
         ; PyLSP has everything except workspace symbols
         (lsp.pylsp.setup {
             :cmd [ "pylsp" "-v" "--log-file" "/tmp/nvim-pylsp.log" ]
@@ -109,10 +132,6 @@
         ;;     :capabilities capabilities
         ;; })
         ; (lsp.jedi_language_server.setup {
-        ;     :on_attach on_attach
-        ;     :capabilities capabilities
-        ; })
-        ; (lsp.ruff.setup {
         ;     :on_attach on_attach
         ;     :capabilities capabilities
         ; })
@@ -156,13 +175,13 @@
         (local configs (require :nvim-treesitter.configs))
         (configs.setup { 
             :ensure_installed [
-                "bash" "c" "cpp" "clojure" "dockerfile" "elixir" "fennel" "fish" "glsl" "graphql" "haskell" "hlsl"
+                "bash" "c" "cpp" "clojure" "dockerfile" "elixir" "fennel" "fish" "gleam" "glsl" "graphql" "haskell" "hlsl"
                 "javascript" "json" "kotlin" "lua" "make" "markdown" "python" "regex" "rust" "swift" "typescript"
                 "vim" "vimdoc" "wgsl" "yaml"
             ]
             :highlight { 
                 :enable true 
-                :disable [ :fennel ]
+                ; :disable [ :fennel ]
                 :additional_vim_regex_highlighting false 
             }
             :textobjects {
@@ -250,38 +269,38 @@
     {1 "stevearc/aerial.nvim" :lazy true 
         :keys [["<leader>o" ":AerialToggle!<CR>"]]
         :config (fn [config opts]
-        (fn on_attach [bufnr]
-            (local bufopts { :buffer bufnr})
-            (vim.keymap.set "n" "{" "<cmd>AerialPrev<CR>" bufopts)
-            (vim.keymap.set "n" "}" "<cmd>AerialNext<CR>" bufopts)
-            (vim.keymap.set "n" "<leader>s" "<cmd>AerialNavToggle<CR>" bufopts)
-        )
-        (local aerial (require :aerial))
-        (aerial.setup {
-            :on_attach on_attach
-            :show_guides true
-            :guides {
-                ; When the child item has a sibling below it
-                :mid_item " ├─"
-                ; When the child item is the last in the list
-                :last_item " └─"
-                ; When there are nested child guides to the right
-                :nested_top " │ "
-                ; Raw indentation
-                :whitespace " "
-            }
-            :float {
-                :relative :win
-            }
-            :layout {
-                :min_width 20
-                ; :max_width { 120 0.2 }
-            }
-        }))}
+            (fn on_attach [bufnr]
+                (local bufopts { :buffer bufnr})
+                (vim.keymap.set "n" "{" "<cmd>AerialPrev<CR>" bufopts)
+                (vim.keymap.set "n" "}" "<cmd>AerialNext<CR>" bufopts)
+                (vim.keymap.set "n" "<leader>s" "<cmd>AerialNavToggle<CR>" bufopts)
+            )
+            (local aerial (require :aerial))
+            (aerial.setup {
+                :on_attach on_attach
+                :show_guides true
+                :guides {
+                    ; When the child item has a sibling below it
+                    :mid_item " ├─"
+                    ; When the child item is the last in the list
+                    :last_item " └─"
+                    ; When there are nested child guides to the right
+                    :nested_top " │ "
+                    ; Raw indentation
+                    :whitespace " "
+                }
+                :float {
+                    :relative :win
+                }
+                :layout {
+                    :min_width 20
+                    ; :max_width { 120 0.2 }
+                }
+            }))}
 ])
 
-;; To debug LSP issues:
-;; vim.lsp.set_log_level("debug")
-;; Use :LspInfo and :LspLog to see what's going on
+; To debug LSP issues:
+; (vim.lsp.set_log_level "debug")
+; Use :LspInfo and :LspLog to see what's going on
 
 M

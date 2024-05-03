@@ -7,7 +7,7 @@
 (g! undotree_WindowLayout 3)
 (g! undotree_HelpLine 0)
 (g! fzf_tags_command "ctags -R --languages=python --exclude=node_modules --exclude=.venv")
-(g! sexp_enable_insert_mode_mappings 0)
+; (g! sexp_enable_insert_mode_mappings 0)
 
 ;; Basics
 (set! timeoutlen 300)
@@ -78,7 +78,7 @@
 ;; Appearance
 (set! termguicolors)
 (set! background :dark)
-(set! cursorline)
+; (set! cursorline)
 (set+ fillchars {:vert " "
                  :horiz " "
                  :eob " "

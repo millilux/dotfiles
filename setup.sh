@@ -110,6 +110,10 @@ opam install dune ocaml-lsp-server ocamlformat utop
 # Install F# LSP
 dotnet tool install --global fsautocomplete
 
+# Install GLSL Analyzer
+wget https://github.com/nolanderc/glsl_analyzer/releases/download/v1.4.4/x86_64-linux-musl.zip
+unzip x86_64-linux-musl.zip
+
 # Install debuggers
 VENVPATH=~/.virtualenvs
 python3 -m venv $VENVPATH/debugpy
