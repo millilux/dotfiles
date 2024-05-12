@@ -176,12 +176,11 @@
         (configs.setup { 
             :ensure_installed [
                 "bash" "c" "cpp" "clojure" "dockerfile" "elixir" "fennel" "fish" "gleam" "glsl" "graphql" "haskell" "hlsl"
-                "javascript" "json" "kotlin" "lua" "make" "markdown" "python" "regex" "rust" "swift" "typescript"
+                "javascript" "json" "kotlin" "lua" "make" "markdown" "ocaml" "python" "regex" "rust" "swift" "typescript" "toml"
                 "vim" "vimdoc" "wgsl" "yaml"
             ]
             :highlight { 
                 :enable true 
-                ; :disable [ :fennel ]
                 :additional_vim_regex_highlighting false 
             }
             :textobjects {
