@@ -59,6 +59,9 @@ if [[ "$OSTYPE" =~ ^darwin.* ]]; then
 	# k9s doesn't read from .config on OSX...
 	ln -s ~/.config/k9s/ ~/Library/Application\ Support/k9s
 
+    # Ruff also doesn't
+	ln -s ~/.config/ruff/ ~/Library/Application\ Support/ruff
+
 	# Install dotnet
 	curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --version latest
 fi
