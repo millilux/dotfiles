@@ -1,8 +1,9 @@
 [tool.ruff]
-line-length = 120
+line-length = 88
 extend-exclude = ["**/settings/*", "**/snapshots/*", "**/migrations/*"]
 
 [tool.ruff.format]
+preview = true
 quote-style = "single"
 docstring-code-format = true
 
@@ -18,9 +19,13 @@ select = [
     "UP", # pyupgrade
     "I", # isort
     "C", # mccabe
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    # "SIM",
     # "D", # pydocstyle
 ]
-ignore = ["E203", "E266", "D100"]
+ignore = ["E203", "E266", "D100", "SIM108"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "numpy"
