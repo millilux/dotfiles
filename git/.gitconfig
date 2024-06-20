@@ -2,6 +2,7 @@
     name = millilux 
     email = millilux@users.noreply.github.com
 [core]
+    excludesfile = ~/.ignore
     pager = delta
 [pull]
     rebase = true
