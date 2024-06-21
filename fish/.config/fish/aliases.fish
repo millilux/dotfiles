@@ -14,5 +14,5 @@ alias gp "git pull"
 alias gl "git log --oneline --decorate --graph"
 alias gL "git log --decorate --graph"
 
-alias ls "exa --tree --level=1 --icons"
-alias ll "exa --long --tree -g --level=1 --icons"
+alias ls "eza --tree --level=1 --icons"
+alias ll "eza --long --tree -g --level=1 --icons"
