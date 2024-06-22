@@ -1,4 +1,4 @@
-[tool.ruff]
+[tool.ruff] 
 line-length = 88
 extend-exclude = ["**/settings/*", "**/snapshots/*", "**/migrations/*"]
 
@@ -7,25 +7,56 @@ preview = true
 quote-style = "single"
 docstring-code-format = true
 
-[tool.ruff.lint.flake8-quotes]
-docstring-quotes = "double"
-inline-quotes = "single"
-
 [tool.ruff.lint]
 preview = true
 select = [
     "E", "W", # pycodestyle
     "F", # pyflakes
-    "UP", # pyupgrade
     "I", # isort
     "C", # mccabe
+    "UP", # pyupgrade
     # flake8-bugbear
     "B",
     # flake8-simplify
-    # "SIM",
+    "SIM",
     # "D", # pydocstyle
 ]
-ignore = ["E203", "E266", "D100", "SIM108"]
+ignore = [
+    "E203", "E501", 
+    "B904", # May reinstate - requires a lot of code change
+    "D100", 
+    "SIM108"
+]
+
+[tool.ruff.lint.flake8-quotes]
+docstring-quotes = "double"
+inline-quotes = "single"
+
+[tool.ruff.lint.mccabe]
+max-complexity = 7
 
 [tool.ruff.lint.pydocstyle]
 convention = "numpy"
+
+[tool.ruff.lint.isort]
+known-third-party = [
+    "django",
+    "flask",
+    "freezegun",
+    "sanic",
+    "rest_framework",
+    "pytest",
+    "pytest_appium",
+]
+known-first-party = [
+    "athena",
+    "collcat",
+    "confcat",
+    "guacamole",
+    "liveevents",
+    "metacat",
+    "playcat",
+    "podcat",
+    "profcat",
+    "source",
+]

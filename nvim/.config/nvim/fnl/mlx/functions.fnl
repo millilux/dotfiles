@@ -40,9 +40,10 @@
   (augroup! :live-coding [[WinEnter] * "match LiveCoding /^.\\+$/"]))
 
 (fn fmt []
-    ;; % is the range (all lines)
-    ;; ! to run an external command
-    ;; % is the current file
+  (vim.cmd ":w")
+  ;; % is the range (all lines)
+  ;; ! to run an external command
+  ;; % is the current file
   (case vim.bo.filetype
     "fennel" (vim.cmd "%!fnlfmt %")
     "sh" (vim.cmd "%!shfmt %")

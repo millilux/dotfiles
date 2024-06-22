@@ -34,6 +34,8 @@
 (set! linebreak)
 (set! modelines 0)
 (set! noshowmode)
+(set! number)
+(set! relativenumber)
 (set+ shortmess :c) ;; No completion messages
 (set+ shortmess :I) ;; No intro message on open
 (set! updatetime 300)

@@ -265,8 +265,8 @@
         })
     )}
     {1 "https://github.com/nvim-treesitter/nvim-treesitter-textobjects"}
-    {1 "nvim-treesitter/nvim-treesitter-context"}
-    {1 "numToStr/Comment.nvim" :config true} 
+    ; {1 "nvim-treesitter/nvim-treesitter-context"}
+    ; {1 "numToStr/Comment.nvim" :config true} ; Trying 0.10's built-in comments instead
     {1 "python-rope/ropevim"}
     {1 "tikhomirov/vim-glsl"}
     {1 "stevearc/aerial.nvim" :lazy true 
