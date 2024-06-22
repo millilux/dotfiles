@@ -11,6 +11,11 @@
 (map! [:v] :< :<gv)
 (map! [:v] :> :>gv)
 
+;; Paste 
+;; This deletes into the black hole register before pasting over a visual selection. 
+;; This avoids overwriting the unnamed register after the initial replacement, so you can mash p to your heart's content.
+(map! [:v] "<leader>p" :_dP)
+
 ;; Run macros over visual range
 (map! [:x :expr] "@" "':norm @' . getcharstr() . '<CR>'")
 
@@ -56,8 +61,6 @@
 ;; Code
 (map! [:n] "<leader>cs" ":FzfLua lsp_document_symbols<CR>")
 (map! [:n] "<leader>cS" ":FzfLua lsp_workspace_symbols<CR>")
-; Moved to lazyvim config
-; (map! [:n] "<leader>o" ":AerialToggle!<CR>")
 
 ;; Diagnostics
 (map! [:n] "<leader>cd" vim.diagnostic.open_float)
@@ -86,12 +89,12 @@
 ; (map! [:n] "<leader>gP" ":Git push<CR>")
 ; (map! [:n] "<leader>gp" ":Git pull<CR>")
 
-;; Undo
-;; Moved to lazyvim config
-; (map! [:n] "<leader>u" ":UndotreeToggle<CR>")
-
 ;; Fuzzy Search
 (map! [:n] "<leader>z" ":FzfLua<CR>")
+; (map! [:n] "<leader>c" ":FzfLua changes<CR>")
+(map! [:n] "<leader>j" ":FzfLua jumps<CR>")
+(map! [:n] "<leader>m" ":FzfLua marks<CR>")
+(map! [:n] "<leader>r" ":FzfLua registers<CR>")
 
 ;; Low tech code formatter for languages without LSP formatters
 (map! [:n] :<F3> mlx.fmt)

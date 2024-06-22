@@ -25,7 +25,7 @@
         ;     vim.keymap.set('n', '<leader>wl', function()
         ;         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
         ;     end, bufopts)
-            ; (vim.lsp.inlay_hint.enable bufnr)
+            ; (vim.lsp.inlay_hint.enable true)
         )
         (local lsp (require :lspconfig))
         (local util (require :lspconfig/util))
@@ -75,6 +75,10 @@
             :capabilities capabilities
         })
         (lsp.glsl_analyzer.setup {
+            :on_attach on_attach
+            :capabilities capabilities
+        })
+        (lsp.graphql.setup {
             :on_attach on_attach
             :capabilities capabilities
         })
@@ -175,9 +179,9 @@
         (local configs (require :nvim-treesitter.configs))
         (configs.setup { 
             :ensure_installed [
-                "bash" "c" "cpp" "clojure" "dockerfile" "elixir" "fennel" "fish" "gleam" "glsl" "graphql" "haskell" "hlsl"
-                "javascript" "json" "kotlin" "lua" "make" "markdown" "ocaml" "python" "regex" "rust" "swift" "typescript" "toml"
-                "vim" "vimdoc" "wgsl" "yaml"
+                "bash" "c" "cpp" "clojure" "dockerfile" "elixir" "fennel" "fish" "gleam" "glsl" "go" "graphql" "haskell" "hlsl"
+                "javascript" "json" "kotlin" "lua" "make" "markdown" "markdown_inline" "ocaml" "python" "regex" "rust" "sql" "swift"
+                "typescript" "toml" "vim" "vimdoc" "wgsl" "yaml"
             ]
             :highlight { 
                 :enable true 

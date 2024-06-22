@@ -39,11 +39,15 @@
 (vim.cmd "highlight WinSeparator ctermfg=None ctermbg=None guibg=None guifg=None")
 (vim.cmd "highlight StatusLineNC ctermbg=None guibg=None")
 
-; When using Leap, dim all text other than the labels
-; (vim.api.nvim_set_hl 0 :LeapBackdrop {:link :Comment})
-
 ; Remove fold background highlighting
 (vim.api.nvim_set_hl 0 :Folded {:bg :None :fg :#393939})
+
+; Force the Flash Label highlight to match Hop's default
+; (vim.api.nvim_set_hl 0 :FlashLabel {:bg :None :fg :#FF007C :bold true})
+; (vim.api.nvim_set_hl 0 :FlashLabel {:bg :#FF007C :fg :#FFFFFF :bold true})
+(vim.api.nvim_set_hl 0 :FlashLabel {:bg :None :fg :#00dfff :bold true})
+; (vim.api.nvim_set_hl 0 :FlashMatch {:bg :None :fg :#2B8DB3})
+; (vim.api.nvim_set_hl 0 :FlashCurrent {:bg :None :fg :#FF007C})
 
 (augroup! :dap-ui-statusline [[FileType] [dapui*] ":set statusline=\\ "])
 
