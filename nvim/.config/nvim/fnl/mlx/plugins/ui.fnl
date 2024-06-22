@@ -15,7 +15,7 @@
           ; {1 :lukas-reineke/indent-blankline.nvim :main :ibl :config true}
           ; {1 "https://git.sr.ht/~whynothugo/lsp_lines.nvim" :config true}
           ; {1 :HiPhish/rainbow-delimiters.nvim}
-          {1 :junegunn/vim-peekaboo}
+          ; {1 :junegunn/vim-peekaboo} ; Quite slow
           {1 :folke/noice.nvim
            :lazy true
            :event :VeryLazy
@@ -70,7 +70,8 @@
                         :Text "   "
                         :TypeParameter "   "
                         :Unit " 󰑭  "
-                        :Value " 󰎠  "
+                        ; :Value " 󰎠  "
+                        :Value " λ  "
                         :Variable " 󰀫  "
                     ;;  ﯟ   ﯨ   פּ    
                     }}))
