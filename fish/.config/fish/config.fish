@@ -20,7 +20,7 @@ set -gx CLICOLOR 1
 set -x COLORTERM truecolor
 set -x BAT_THEME "Dracula"
 
-set -x FZF_CTRL_T_COMMAND 'fd --hidden --exclude .git --exclude node_modules --exclude .mypy_cache'
+set -x FZF_CTRL_T_COMMAND 'fd --exclude .git --exclude node_modules --exclude .mypy_cache --exclude Applications --exclude Library --exclude Movies --exclude Pictures'
 set -x FZF_DEFAULT_OPTIONS '--keep-right'
 set -x CDIFF_OPTIONS '-s -w0'
 
@@ -39,6 +39,7 @@ test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shel
 
 fish_add_path (brew --prefix)/sbin 
 fish_add_path (brew --prefix)/bin 
+fish_add_path ~/.local/share/nvim/lazy/vim-tidal/bin
 
 # set -x PATH $PATH ~/nvim-nightly/bin
 
