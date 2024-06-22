@@ -41,3 +41,6 @@ fish_add_path (brew --prefix)/sbin
 fish_add_path (brew --prefix)/bin 
 
 # set -x PATH $PATH ~/nvim-nightly/bin
+
+# opam configuration
+source $HOME/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
