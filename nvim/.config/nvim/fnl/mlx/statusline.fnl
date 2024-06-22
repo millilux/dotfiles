@@ -21,12 +21,14 @@
               :v " "
               :V " "})
 
-(local icons {:c " "
+(local filetypes {
+              :c " "
               :conf " "
               :cpp " "
               :css " "
               :go " "
-              :haskel " "
+              :graphql "󰡷 "
+              :haskell " "
               :html " "
               :java " "
               :javascript " "
@@ -44,16 +46,19 @@
               :vim " "
               :zsh " "})
 
-(fn color []
-  (let [mode (. (vim.api.nvim_get_mode) :mode)]
-    (var mode-color "%#StatusLine#")
-    (if (= mode :n) (set mode-color "%#StatusNormal#")
-        (or (= mode :i) (= mode :ic)) (set mode-color "%#StatusInsert#")
-        (or (= mode :v) (= mode :V) (= mode "\022")) (set mode-color "%#StatusVisual#") 
-        (= mode :R) (set mode-color "%#StatusReplace#") 
-        (= mode :c) (set mode-color "%#StatusCommand#") 
-        (= mode :t) (set mode-color "%#StatusTerminal#"))
-    mode-color))
+(fn mode []
+  (let [_mode (. (vim.api.nvim_get_mode) :mode)]
+    ; (var mode-color "%#StatusLine#")
+    (var mode-color "")
+    ; (if (= _mode :n) (set mode-color "%#StatusNormal#")
+    ;     (or (= _mode :i) (= _mode :ic)) (set mode-color "%#StatusInsert#")
+    ;     (or (= _mode :v) (= _mode :V) (= _mode "\022")) (set mode-color "%#StatusVisual#") 
+    ;     (= _mode :R) (set mode-color "%#StatusReplace#") 
+    ;     (= _mode :c) (set mode-color "%#StatusCommand#") 
+    ;     (= _mode :t) (set mode-color "%#StatusTerminal#"))
+    (var icon (. modes _mode))
+    (.. mode-color (string.format "  %s " icon :upper))))
+
 
 (fn branch []
   (let [cmd (io.popen "git branch --show-current 2>/dev/null")
@@ -61,25 +66,27 @@
     (cmd:close)
     (if (= branch "")
         ""
-        (string.format (.. "   " branch))
-        )))
+        (string.format (.. "   " branch)))))
 
 (fn recording []
-  (let [recording_reg (vim.fn.reg_recording) playback_reg (vim.fn.reg_executing)]
+  (let [recording-reg (vim.fn.reg_recording) 
+        playback-reg (vim.fn.reg_executing)]
     (var icon "")
-    (if (not= recording_reg "") (set icon (.. " 󰑊 " recording_reg " ")))
-    (if (not= playback_reg "") (set icon (.. " 󰐊 " playback_reg " ")))
+    (if (not= recording-reg "") (set icon (.. " 󰑊 " recording-reg " ")))
+    (if (not= playback-reg "") (set icon (.. " 󰐊 " playback-reg " ")))
     icon))
+
+(fn filetype []
+  (string.format "%s" (or (. filetypes vim.bo.filetype) "")))
 
 (global Status (fn []
     (table.concat [
-        ; (color)
-        (string.format "  %s " (. modes (. (vim.api.nvim_get_mode) :mode)) :upper)
-        "%#StatusActive#"
+        "%#Normal#" ; transparent appearance 
+        (mode)
         (branch)
         (recording)
         "%="
-        (string.format "%s" (or (. icons vim.bo.filetype) ""))
+        (filetype)
         " %t "     ; file name
         ; " %f "   ; full path
         ; (color)
