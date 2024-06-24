@@ -1,18 +1,22 @@
 (local M [
           {1 :ibhagwan/fzf-lua :opts {
-            ; :fzf_opts {
-                ; :--delimiter ":"
-                ; :--nth 1
-                ; :--with-nth 1
-            ; }
+            :fzf_colors true
+            :defaults {
+              :formatter "path.filename_first"            
+            }
             :grep {
                 :prompt "   "
                 ; rg honours global gitignore?
                 :rg_opts "--column --no-heading --color=always --smart-case --hidden --max-columns=4096 --glob='!{.git,node_modules,.mypy_cache}' -e"
+                :fzf_opts {
+                    :--delimiter ":"
+                    ; :--nth "..2"
+                    ; :--with-nth "1"
+                }
             }
             :files {
                 ; :path_shorten true
-                ; fd does not honour global gitignore?
+                :cwd_prompt false
                 :fd_opts "--color=never --type f --hidden --follow --exclude .git --exclude node_modules --exclude .mypy_cache"
                 ; :cmd "rg --files --color=never --follow --hidden --glob='!{.git,node_modules,.mypy_cache}'"
             }
@@ -27,10 +31,12 @@
                 }
             }
             :winopts {
-                :border "none"
+              :preview {
+                  :layout :vertical
+              }
+              ; :border "none"
             }
           }}
-          ;; {1 :junegunn/fzf.vim}
           ; {1 :nvim-telescope/telescope.nvim
           ;  :config (fn [opts]
           ;   (local telescope (require :telescope))
