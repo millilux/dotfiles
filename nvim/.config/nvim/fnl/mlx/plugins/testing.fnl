@@ -1,21 +1,14 @@
-(local M [
-    {1 "nvim-neotest/neotest"}
-    {1 "nvim-neotest/neotest-python"}
-])
-
-
-; (local neotest (require :neotest))
-;; (neotest.setup)
-    ;; adapters = {
-    ;;     require('neotest-vim-test'),
-    ;;     ;; require('neotest-python')({
-    ;;     ;;   dap = { justMyCode = false },
-    ;;     ;; }),
-    ;;     require('neotest-plenary'),
-    ;;     ;; require("neotest-vim-test")({
-    ;;     ;;   ignore_file_types = { "python", "vim", "lua" },
-    ;;     ;; }),
-    ;; }
-
+(local M [{1 :nvim-neotest/neotest
+           :opts (fn [_ _]
+                   (local neotest-python (require :neotest-python))
+                   (local adapters
+                          [(neotest-python {:dap {:justMyCode false}})])
+                   {: adapters})
+           :dependencies [:nvim-lua/plenary.nvim
+                          :nvim-neotest/nvim-nio
+                          :nvim-treesitter/nvim-treesitter
+                          :nvim-neotest/neotest-python
+                          :antoinemadec/FixCursorHold.nvim]}])
 
 M
+
