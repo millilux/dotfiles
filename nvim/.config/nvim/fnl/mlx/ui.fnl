@@ -39,6 +39,13 @@
 (vim.cmd "highlight WinSeparator ctermfg=None ctermbg=None guibg=None guifg=None")
 (vim.cmd "highlight StatusLineNC ctermbg=None guibg=None")
 
+(vim.cmd "highlight Normal ctermbg=None guibg=None")
+(vim.cmd "highlight NormalNC ctermbg=None guibg=None")
+(vim.cmd "highlight SignColumn ctermbg=None guibg=None")
+(vim.cmd "highlight FoldColumn ctermbg=None guibg=None")
+(vim.cmd "highlight LineNr ctermbg=None guibg=None")
+; (vim.cmd "highlight NonText ctermbg=None guibg=None")
+
 ; Remove fold background highlighting
 (vim.api.nvim_set_hl 0 :Folded {:bg :None :fg :#393939})
 

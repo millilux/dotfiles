@@ -12,14 +12,25 @@
           ;      ])
           ;      (tset dashboard :custom_footer {})
           ; )}
-          ; {1 :lukas-reineke/indent-blankline.nvim :main :ibl :config true}
-          ; {1 "https://git.sr.ht/~whynothugo/lsp_lines.nvim" :config true}
+          ; {1 :lukas-reineke/indent-blankline.nvim 
+          ;   :main :ibl 
+          ;   :opts { 
+          ;       :scope {:enabled false } 
+          ;       :indent {:char "│"}
+          ;   }}
+          ; {1 "https://git.sr.ht/~"whynothugo/lsp_lines.nvim" :config true}
           ; {1 :HiPhish/rainbow-delimiters.nvim}
-          ; {1 :junegunn/vim-peekaboo} ; Quite slow
+          {1 :junegunn/vim-peekaboo} ; Quite slow
           {1 :folke/noice.nvim
            :lazy true
            :event :VeryLazy
-           :dependencies [:rcarriga/nvim-notify :MunifTanjim/nui.nvim]
+           :dependencies [
+                {1 :rcarriga/nvim-notify :config (fn [_]
+                  (local notify (require :notify))
+                  (notify.setup { :background_colour "#000000" }))}
+
+                :MunifTanjim/nui.nvim
+            ]
            :opts {:presets {:bottom_search true
                             ;; use a classic bottom cmdline for search
                             ;; :command_palette true ;; position the cmdline and popupmenu together
