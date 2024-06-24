@@ -18,24 +18,58 @@ wezterm.on('toggle-opacity', function(window, pane)
     window:set_config_overrides(overrides)
 end)
 
+function tab_title(tab_info)
+  local title = tab_info.tab_title
+  -- If the tab title is explicitly set, use that
+  if title and #title > 0 then
+    return title
+  end
+  -- Otherwise, use the title from the active tab pane
+  return tab_info.active_pane.title
+end
+
+wezterm.on(
+  'format-tab-title',
+  function(tab, tabs, panes, config, hover, max_width)
+    local title = tab_title(tab)
+    return ' ' .. title .. ' '
+  end
+)
+
 return {
     default_domain = default_domain,
     check_for_updates = false,
     color_scheme = 'Oxocarbon Dark',
     -- color_scheme = "Catppuccin Mocha",
     -- color_scheme = "Operator Mono Dark",
+    colors = {
+        tab_bar = {
+            background = 'None',
+            active_tab = {
+                fg_color = 'white',
+                bg_color = 'None',
+                intensity = 'Bold',
+            },
+            inactive_tab = {
+                fg_color = '#444444',
+                bg_color = 'None',
+            },
+        },
+    },
     macos_window_background_blur = 100,
     enable_tab_bar = true,
     use_fancy_tab_bar = false,
-    tab_bar_at_bottom = false,
+    tab_bar_at_bottom = true,
+    show_new_tab_button_in_tab_bar = false,
+    -- show_tab_index_in_tab_bar = false,
     use_dead_keys = false,
     window_decorations = 'RESIZE',
     window_background_opacity = 0.85,
     window_padding = {
-        left = 0,
-        right = 0,
-        top = 0,
-        bottom = 0,
+        left = 20,
+        right = 20,
+        top = 20,
+        bottom = 20,
     },
     initial_rows = 50,
     initial_cols = 200,
@@ -57,7 +91,7 @@ return {
             action = wezterm.action.EmitEvent 'toggle-opacity'
         },
         {
-            key = 'w',
+            key = 'x',
             mods = 'LEADER',
             action = act.CloseCurrentPane { confirm = false },
         },
