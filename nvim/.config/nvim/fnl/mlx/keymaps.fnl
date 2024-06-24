@@ -48,11 +48,6 @@
 ;; Files
 (map! [:n] "<c-t>"     ":FzfLua files<CR>")
 (map! [:n] "<leader>h" ":FzfLua oldfiles<CR>")
-; Moved to lazyvim config
-; (map! [:n] "<leader>e" ":NvimTreeToggle<CR>")
-; (map! [:n] "<leader>l" ":NvimTreeFindFileToggle!<CR>")
-;; (map! [:n] "<leader>e" ":neotreefloattoggle<CR>")
-;; (map! [:n] "<leader>l" ":neotreerevealtoggle<CR>")
 
 ;; Grep
 (map! [:n] "<leader>f" ":FzfLua grep_project<CR>")
@@ -61,6 +56,14 @@
 ;; Code
 (map! [:n] "<leader>cs" ":FzfLua lsp_document_symbols<CR>")
 (map! [:n] "<leader>cS" ":FzfLua lsp_workspace_symbols<CR>")
+(map! [:n] "<leader>cp" ":CopilotChat<CR>")
+(map! [:n] "<leader>cpc" ":CopilotChatReset<CR>")
+(map! [:n] "<leader>cpe" ":CopilotChatExplain<CR>")
+(map! [:n] "<leader>cpf" ":CopilotChatFix<CR>")
+(map! [:n] "<leader>cpt" ":CopilotChatTests<CR>")
+(map! [:n] "<leader>cpr" ":CopilotChatReview<CR>")
+(map! [:n] "<leader>cpo" ":CopilotChatOptimize<CR>")
+(map! [:n] "<leader>cps" ":Copilot panel<CR>")
 
 ;; Diagnostics
 (map! [:n] "<leader>cd" vim.diagnostic.open_float)
@@ -72,6 +75,7 @@
 (local neotest (require :neotest))
 (map! [:n] "<leader>tn" '(neotest.run.run))
 (map! [:n] "<leader>tf" '(neotest.run.run (vim.fn.expand "%")))
+(map! [:n] "<leader>ts" ":Neotest summary<CR>") 
 
 ;; Git
 (map! [:n] "<leader>bc" ":DiffviewFileHistory % --no-merges<CR>")
@@ -91,10 +95,12 @@
 
 ;; Fuzzy Search
 (map! [:n] "<leader>z" ":FzfLua<CR>")
-; (map! [:n] "<leader>c" ":FzfLua changes<CR>")
+; (map! [:n] "<leader>i" ":FzfLua changes<CR>")
 (map! [:n] "<leader>j" ":FzfLua jumps<CR>")
+(map! [:n] "<leader>k" ":FzfLua keymaps<CR>")
 (map! [:n] "<leader>m" ":FzfLua marks<CR>")
-(map! [:n] "<leader>r" ":FzfLua registers<CR>")
+(map! [:n] "<leader>\"" ":FzfLua registers<CR>")
+(map! [:n] "<leader>:" ":FzfLua command_history")
 
 ;; Low tech code formatter for languages without LSP formatters
 (map! [:n] :<F3> mlx.fmt)
@@ -110,21 +116,41 @@
 ;; Live Coding 
 (map! [:n] "<leader>v" mlx.livecoding)
 
-; WIP Git commit message pop up
-; (local bufnr (vim.api.nvim_create_buf false true))
-; (vim.api.nvim_buf_set_option bufnr :bufhidden :wipe)
-; (vim.api.nvim_buf_set_lines bufnr 0 -1 true ["Hello"])
-; (local opts {
-;     :style "minimal"
-;     :relative "editor"
-;     :width 40
-;     :height 10
-;     :row 10
-;     :col 10
-;     :focusable true
-;     :border "rounded"
-; })
-; (local win_id (vim.api.nvim_open_win bufnr true opts))
+(fn popup [lines]
+  (local bufnr (vim.api.nvim_create_buf false true))
+  (vim.api.nvim_buf_set_lines bufnr 0 -1 true lines)
+  (local opts {
+    :style "minimal"
+    :relative "editor"
+    :width 40
+    :height 20
+    :row 20
+    :col 120
+    :focusable true
+    :border "rounded"
+   })
+  (local win_id (vim.api.nvim_open_win bufnr true opts))
+  ; TODO: close window
+)
+
+(fn show_registers []
+  (local registers (vim.split (vim.fn.execute "registers") "\n"))
+  ; (print registers)
+  ; (local lines [])
+  ; (each [key value (pairs registers)]
+  ;   (if (not (string.match key "[a-z]"))
+  ;     (do
+  ;       (local value (registers key))
+  ;       (local line (string.format "%s: %s" key value))
+  ;       (table.insert lines line)
+  ;     )
+  ;   )
+  ; )
+  ; (popup lines)
+  (popup registers)
+)
+
+; (map! [:n] "<leader>r" show_registers)
 
 ;; " Quit Neovim terminal with esc
 ;; "tnoremap <Esc> <C-\><C-n>

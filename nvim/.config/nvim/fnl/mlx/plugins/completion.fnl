@@ -7,6 +7,13 @@
 
 (local M [
     {1 "github/copilot.vim" }
+    {1 "CopilotC-Nvim/CopilotChat.nvim"
+     :config true
+    :branch "canary"
+    :dependencies [ 
+      "github/copilot.vim"
+      "nvim-lua/plenary.nvim"
+    ]}
     {1 "hrsh7th/nvim-cmp" 
         :dependencies [
             "hrsh7th/cmp-nvim-lua"
