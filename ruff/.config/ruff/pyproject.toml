@@ -48,15 +48,3 @@ known-third-party = [
     "pytest",
     "pytest_appium",
 ]
-known-first-party = [
-    "athena",
-    "collcat",
-    "confcat",
-    "guacamole",
-    "liveevents",
-    "metacat",
-    "playcat",
-    "podcat",
-    "profcat",
-    "source",
-]
