@@ -20,3 +20,7 @@
     prompt = false
 [difftool "nvimdiffview"]
     cmd = nvim -c DiffviewOpen
+[rerere]
+	enabled = true
+[alias]
+    local-only-branches = !git branch --format \"%(refname:short) %(upstream:track)\" | awk '{if($2==\"[gone]\") { print $1 }}'
