@@ -15,6 +15,7 @@ set -x TFENV_ARCH amd64 # Terraform M1 compatibility
 # Haskell
 set -x PATH $PATH ~/.ghcup/bin
 set -x PATH $PATH ~/.cabal/bin
+# source ~/.ghcup/env
 
 set -gx CLICOLOR 1
 set -x COLORTERM truecolor
@@ -45,3 +46,6 @@ fish_add_path ~/.local/share/nvim/lazy/vim-tidal/bin
 
 # opam configuration
 source $HOME/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
+
+# zoxide
+zoxide init fish | source
