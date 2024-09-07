@@ -1,4 +1,5 @@
 # brew "awscli"
+brew "ast-grep"
 brew "aws-iam-authenticator"
 brew "bash"
 brew "bat"

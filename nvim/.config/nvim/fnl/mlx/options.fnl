@@ -2,7 +2,7 @@
 (local mlx (require :mlx.functions))
 
 (g! mapleader " ")
-(g! mapleaderlocal " m")
+(g! maplocalleader ",")
 ; (g! conjure#filetype#fennel :conjure.client.fennel.stdio)
 (g! undotree_WindowLayout 3)
 (g! undotree_HelpLine 0)

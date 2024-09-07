@@ -6,7 +6,8 @@
   (vim.fn.inputrestore)
   (if (= search "")
       (set search (vim.fn.expand :<cword>)))
-  (vim.fn.execute (.. "silent! grep! '" search "'|cwindow|redraw!")))
+  (if (not= search "")
+      (vim.fn.execute (.. "silent! grep! '" search "'|cwindow|redraw!"))))
 
 (fn gitcommit []
   (vim.fn.inputsave)

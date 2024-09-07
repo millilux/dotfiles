@@ -11,6 +11,10 @@
 (map! [:v] :< :<gv)
 (map! [:v] :> :>gv)
 
+;; Substitution
+(map! [:n] "<leader>s" ":%s/\\v")
+; (map! [:n] "<leader>s" mlx.substitute)
+
 ;; Paste 
 ;; This deletes into the black hole register before pasting over a visual selection. 
 ;; This avoids overwriting the unnamed register after the initial replacement, so you can mash p to your heart's content.
