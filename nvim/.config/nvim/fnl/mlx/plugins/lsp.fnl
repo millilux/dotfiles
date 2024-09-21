@@ -156,7 +156,7 @@
             :filetypes ["rust"]
             :root_dir (util.root_pattern "Cargo.toml")
         })
-        (lsp.tsserver.setup {
+        (lsp.ts_ls.setup {
             :on_attach on_attach
             :capabilities capabilities
         })
@@ -175,7 +175,7 @@
     )}
     {1 "joechrisellis/lsp-format-modifications.nvim"}
     {1 "python-rope/pylsp-rope"}
-    {1 "nvim-treesitter/nvim-treesitter" :build ":TSUpdate" :config (fn [opts] 
+    {1 "nvim-treesitter/nvim-treesitter" :build ":TSUpdate" :config (fn [] 
         (local configs (require :nvim-treesitter.configs))
         (configs.setup { 
             :ensure_installed [
