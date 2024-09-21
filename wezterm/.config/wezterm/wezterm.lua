@@ -1,6 +1,8 @@
 local wezterm = require 'wezterm'
 local act = wezterm.action
 
+-- On Mac, command is the super key 
+
 local default_domain = 'local'
 if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
     default_domain = 'WSL:Ubuntu-22.04'
@@ -16,6 +18,15 @@ wezterm.on('toggle-opacity', function(window, pane)
         overrides.window_background_opacity = nil
     end
     window:set_config_overrides(overrides)
+end)
+
+wezterm.on('update-right-status', function(window, pane)
+    local workspace = window:active_workspace()
+    if workspace == "default" then
+        window:set_right_status('')
+        return
+    end
+    window:set_right_status(' ' .. workspace .. ' ')
 end)
 
 function tab_title(tab_info)
@@ -90,6 +101,14 @@ return {
             -- action = wezterm.action.ToggleFullScreen,
             action = wezterm.action.EmitEvent 'toggle-opacity'
         },
+        -- {
+        --     key = 'w',
+        --     mods = 'LEADER',
+        --     action = wezterm.action.ShowLauncherArgs { flags = 'WORKSPACES' },
+        -- },
+        { key = 'l', mods = 'SUPER|SHIFT', action = wezterm.action.ShowLauncherArgs { flags = 'WORKSPACES' }},
+        { key = 'n', mods = 'SUPER|SHIFT', action = act.SwitchWorkspaceRelative(1) },
+        { key = 'p', mods = 'SUPER|SHIFT', action = act.SwitchWorkspaceRelative(-1) },
         {
             key = 'x',
             mods = 'LEADER',
