@@ -62,11 +62,11 @@
 (map! [:n] "<leader>cS" ":FzfLua lsp_workspace_symbols<CR>")
 (map! [:n] "<leader>cp" ":CopilotChat<CR>")
 (map! [:n] "<leader>cpc" ":CopilotChatReset<CR>")
-(map! [:n] "<leader>cpe" ":CopilotChatExplain<CR>")
+(map! [:v] "<leader>cpe" ":CopilotChatExplain<CR>")
 (map! [:n] "<leader>cpf" ":CopilotChatFix<CR>")
 (map! [:n] "<leader>cpt" ":CopilotChatTests<CR>")
 (map! [:n] "<leader>cpr" ":CopilotChatReview<CR>")
-(map! [:n] "<leader>cpo" ":CopilotChatOptimize<CR>")
+(map! [:v] "<leader>cpo" ":CopilotChatOptimize<CR>")
 (map! [:n] "<leader>cps" ":Copilot panel<CR>")
 
 ;; Diagnostics
