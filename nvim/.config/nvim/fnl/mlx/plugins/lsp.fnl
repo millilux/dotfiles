@@ -5,8 +5,6 @@
         :dependencies ["hrsh7th/cmp-nvim-lsp"] 
         :config (fn [plugin opts]
         (fn on_attach [client bufnr]
-            ; (local lsp-format-modifications (require :lsp-format-modifications))
-            ; (lsp-format-modifications.attach client bufnr { :format_on_save false }); <-- stopping things working
             (local bufopts { :noremap true :silent true :buffer bufnr })
             (vim.keymap.set "n" "gd" vim.lsp.buf.definition bufopts)
             (vim.keymap.set "n" "gD" vim.lsp.buf.definition bufopts)
@@ -17,7 +15,7 @@
             (vim.keymap.set "n" "gt" vim.lsp.buf.type_definition bufopts)
             (vim.keymap.set "n" "<leader>r" vim.lsp.buf.rename bufopts)
             (vim.keymap.set ["n" "v"] "<leader>ca" vim.lsp.buf.code_action bufopts)
-            (vim.keymap.set ["n" "v"] "<leader>cf" vim.lsp.buf.format bufopts)
+            ; (vim.keymap.set ["n" "v"] "<leader>cf" vim.lsp.buf.format bufopts) ; Use conform.nvim instead
             (vim.keymap.set "n" "<leader>ci" vim.lsp.buf.incoming_calls bufopts)
             ; (vim.keymap.set "n" "<leader>co" vim.lsp.buf.outgoing_calls bufopts)
             (vim.keymap.set "n" "<leader>wa" vim.lsp.buf.add_workspace_folder bufopts)
@@ -62,7 +60,8 @@
             :capabilities capabilities
             :settings {
               :fennel-ls {
-                :extra-globals "vim hibiscus" 
+                :libraries {:tic-80 true :love2d true}
+                ; :extra-globals "vim hibiscus" 
               }
             }
         })
@@ -119,8 +118,6 @@
             :settings {
                 :pylsp {
                     :plugins {
-                        ; :black { :enabled true }
-                        ; :flake8 { :enabled true }
                         :ruff { :enabled true }
                         :mypy { :enabled true }
                         ; :pycodestyle { :enabled false }
@@ -144,9 +141,14 @@
             :capabilities capabilities
             :settings {
                 :Lua {
-                    :diagnostics {:globals [:vim :love]}
-                    :workspace {:library (vim.api.nvim_get_runtime_file "" true) :checkThirdParty false}
+                    :checkThirdParty false
                     :telemetry {:enable false}
+                    :workspace {
+                        :library [
+                            (vim.api.nvim_get_runtime_file "" true) 
+                            "${3rd}/love2d/library"
+                        ]
+                    }
                 }	
             }
         })
@@ -173,7 +175,6 @@
             }
         })
     )}
-    {1 "joechrisellis/lsp-format-modifications.nvim"}
     {1 "python-rope/pylsp-rope"}
     {1 "nvim-treesitter/nvim-treesitter" :build ":TSUpdate" :config (fn [] 
         (local configs (require :nvim-treesitter.configs))
@@ -216,9 +217,11 @@
                     :enable true
                     :swap_next {
                         "<leader>a" "@parameter.inner"
+                        ; "<leader>a" "@class.outer"
                     }
                     :swap_previous {
                         "<leader>A" "@parameter.inner"
+                        ; "<leader>A" "@class.outer"
                     }
                 }
                 :move { 

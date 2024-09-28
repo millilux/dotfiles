@@ -81,7 +81,7 @@ fi
 
 pip3 install -r requirements.txt
 
-npm install -g typescript-language-server graphql-language-service-cli graphql typescript neovim bash-language-server @vscode/codicons vscode-langservers-extracted
+npm install -g typescript-language-server graphql-language-service-cli graphql typescript neovim bash-language-server @vscode/codicons vscode-langservers-extracted prettier
 
 # Install Fennel
 luarocks --local install fennel
