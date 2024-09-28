@@ -19,7 +19,14 @@
           ;       :indent {:char "│"}
           ;   }}
           ; {1 "https://git.sr.ht/~"whynothugo/lsp_lines.nvim" :config true}
-          ; {1 :HiPhish/rainbow-delimiters.nvim}
+          {1 :HiPhish/rainbow-delimiters.nvim :config (fn [_] 
+              ; TODO: Set some better colours
+              ; https://github.com/HiPhish/rainbow-delimiters.nvim/blob/master/doc/rainbow-delimiters.txt#L196
+                (local rainbow (require :rainbow-delimiters))
+                (local strategy { 
+                                 "" rainbow.strategy.noop 
+                                 "fennel" rainbow.strategy.local})
+                (tset vim.g :rainbow_delimiters {:strategy strategy}))}
           {1 :junegunn/vim-peekaboo} ; Quite slow
           {1 :folke/noice.nvim
            :lazy true
@@ -63,6 +70,7 @@
                         :Event "   "
                         :File "   "
                         :Folder "   "
+                        :Field " 󰜢  "
                         :Function " 󰊕  "
                         :Interface "   "
                         :Keyword " 󰌋  "

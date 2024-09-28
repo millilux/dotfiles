@@ -54,10 +54,4 @@
 ;;   (print obj) 
 ;;   (vim.api.nvim_buf_set_lines 0 0 0 false [ obj ]))
 
-{: findinfiles
- : gitcommit
- : gitcommitamend
- : fmt
- : livecoding
- : foldtext
- : substitute}
+{: findinfiles : gitcommit : gitcommitamend : fmt : livecoding : foldtext}
