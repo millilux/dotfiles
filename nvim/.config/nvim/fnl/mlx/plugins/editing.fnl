@@ -28,7 +28,10 @@
                    2 (fn []
                        ((. (require :conform) :format) {:lsp_fallback true}))
                    :desc :Format}]
-           :opts {:formatters_by_ft {:fennel [:fnlfmt] :yaml [:prettier]}}}
+           :opts {:formatters_by_ft {:fennel [:fnlfmt]
+                                     :yaml [:prettier]
+                                     :json [:jq]
+                                     :sh [:shfmt]}}}
           ; {1 :Pocco81/auto-save.nvim}
           ; {1 :smoka7/multicursors.nvim
           ;  :event :VeryLazy
