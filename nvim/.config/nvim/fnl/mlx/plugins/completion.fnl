@@ -16,7 +16,7 @@
     ]}
     {1 "hrsh7th/nvim-cmp" 
         :dependencies [
-            "hrsh7th/cmp-nvim-lua"
+            {1 "binhtran432k/cmp-nvim-lua" :branch "feature/fennel"}
             "hrsh7th/cmp-nvim-lsp"
             "hrsh7th/cmp-buffer"
             "hrsh7th/cmp-path"
