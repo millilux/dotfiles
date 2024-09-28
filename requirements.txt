@@ -1,9 +1,6 @@
-black
 debugpy
-flake8
 git-when-merged
-harlequin
-isort
+# harlequin
 jedi
 jedi-language-server
 msgpack
@@ -12,14 +9,12 @@ pyls-isort
 pylsp-mypy
 pylsp-rope # pylsp-rope integrates rope refactorings nicely, but not the complete set - hence ropevim, which is *much* more complete as at June 2022
 pynvim # For neovim plugins built in Python
-pyright
+# pyright
 pytest
 pytest-icdiff
-python-lsp-black
 python-lsp-ruff
 python-lsp-server
-requests
 rope
 ropevim
 ruff
-rye
+# rye
