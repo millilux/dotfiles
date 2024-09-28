@@ -9,6 +9,18 @@
     {1 "github/copilot.vim" }
     {1 "CopilotC-Nvim/CopilotChat.nvim"
      :config true
+     :opts {
+      :question_header "❯ " 
+      :answer_header "🤖 "
+      ; :window { :layout :float :border :none}        
+      ; :auto_insert_mode true
+      :show_help false
+      :mappings {
+        :complete {
+          :insert "" ; For some reason, this fixes tab completion
+        }
+      }
+    }
     :branch "canary"
     :dependencies [ 
       "github/copilot.vim"

@@ -50,7 +50,7 @@
 (map! [:n] "]l" ":lnext<CR>")
 
 ;; Files
-(map! [:n] "<c-t>"     ":FzfLua files<CR>")
+(map! [:n] "<C-t>"     ":FzfLua files<CR>")
 (map! [:n] "<leader>h" ":FzfLua oldfiles<CR>")
 
 ;; Grep

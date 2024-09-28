@@ -6,7 +6,7 @@
         :config (fn [plugin opts]
         (fn on_attach [client bufnr]
             (local bufopts { :noremap true :silent true :buffer bufnr })
-            (vim.keymap.set "n" "gd" vim.lsp.buf.definition bufopts)
+            (vim.keymap.set "n" "gd" vim.lsp.buf.definition bufopts) ; <-- breaks CTRL-O after gd in macros
             (vim.keymap.set "n" "gD" vim.lsp.buf.definition bufopts)
             (vim.keymap.set "n" "K" vim.lsp.buf.hover bufopts)
             (vim.keymap.set "n" "gi" vim.lsp.buf.implementation bufopts)
@@ -270,7 +270,7 @@
     {1 "https://github.com/nvim-treesitter/nvim-treesitter-textobjects"}
     ; {1 "nvim-treesitter/nvim-treesitter-context"}
     ; {1 "numToStr/Comment.nvim" :config true} ; Trying 0.10's built-in comments instead
-    {1 "python-rope/ropevim"}
+    ; {1 "python-rope/ropevim"}
     {1 "tikhomirov/vim-glsl"}
     {1 "stevearc/aerial.nvim" :lazy true 
         :keys [["<leader>o" ":AerialToggle!<CR>"]]
