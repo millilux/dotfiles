@@ -17,7 +17,7 @@
     (print obj)))
 
 (fn gitcommitamend []
-  (local prevmessage (vim.fn.system [:git :log :--pretty=format:%s :-1])) ; https://www.reddit.com/r/neovim/comments/zhweuc/whats_a_fast_way_to_load_the_output_of_a_command/
+  (local prevmessage (vim.fn.system [:git :log "--pretty=format:%s" :-1])) ; https://www.reddit.com/r/neovim/comments/zhweuc/whats_a_fast_way_to_load_the_output_of_a_command/
   (vim.fn.inputsave)
   (local message (vim.fn.input "🔧🐙 " prevmessage))
   (vim.fn.inputrestore)
@@ -46,13 +46,18 @@
   ;; ! to run an external command
   ;; % is the current file
   (case vim.bo.filetype
-    "fennel" (vim.cmd "%!fnlfmt %")
-    "sh" (vim.cmd "%!shfmt %")
-    "json" (vim.cmd "%!jq")
-    ))
+    :fennel (vim.cmd "%!fnlfmt %")
+    :sh (vim.cmd "%!shfmt %")
+    :json (vim.cmd "%!jq")))
 
 ;; (let [obj (vim.fn.system [:fnlfmt (vim.api.nvim_buf_get_name 0)])] 
 ;;   (print obj) 
 ;;   (vim.api.nvim_buf_set_lines 0 0 0 false [ obj ]))
 
-{: findinfiles : gitcommit : gitcommitamend : fmt : livecoding : foldtext}
+{: findinfiles
+ : gitcommit
+ : gitcommitamend
+ : fmt
+ : livecoding
+ : foldtext
+ : substitute}
