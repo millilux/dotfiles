@@ -73,19 +73,13 @@
                         :<C-Space> (cmp.mapping.complete)
                         :<C-e> (cmp.mapping.abort)
                         :<CR> (cmp.mapping.confirm { :select true })
-                        :<Tab> (cmp.mapping (fn [fallback]
-                            (if (luasnip.expand_or_jumpable)
-                                ;; You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
-                                ;; that way you will only jump inside the snippet region
-                                (luasnip.expand_or_jump)
-                                ;; (has-words-before) (cmp.complete)
-                                (fallback))	
-                            )
+                        :<C-n> (cmp.mapping (fn [fallback]
+                                (if (luasnip.locally_jumpable 1) (luasnip.jump 1)
+                                    (fallback)))
                             [:i :s]
                         )
-                        :<S-Tab> (cmp.mapping (fn [fallback]
-                                (if (luasnip.jumpable (- 1))
-                                    (luasnip.jump (- 1))
+                        :<C-p> (cmp.mapping (fn [fallback]
+                                (if (luasnip.locally_jumpable -1) (luasnip.jump -1)
                                     (fallback)))
                                 [:i :s])	
                     })
