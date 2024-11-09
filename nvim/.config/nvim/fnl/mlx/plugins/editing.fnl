@@ -52,11 +52,6 @@
            :ft [:fennel :clojure :lisp :racket :scheme :janet :guile]
            :config (fn []
                      ((. (require :nvim-paredit) :setup)))}
-          {1 :julienvincent/nvim-paredit-fennel
-           :ft [:fennel]
-           :dependencies [:julienvincent/nvim-paredit]
-           :config (fn []
-                     ((. (require :nvim-paredit-fennel) :setup)))}
           ; {1 :guns/vim-sexp
           ;  :ft [:fennel :clojure :lisp :racket :scheme :janet :guile]
           ;  :config (tset vim.g :sexp_filetypes
