@@ -14,6 +14,7 @@
       :answer_header "🤖 "
       ; :window { :layout :float :border :none}        
       ; :auto_insert_mode true
+      :selection (fn [] nil)
       :show_help false
       :mappings {
         :complete {
@@ -21,7 +22,6 @@
         }
       }
     }
-    :branch "canary"
     :dependencies [ 
       "github/copilot.vim"
       "nvim-lua/plenary.nvim"
