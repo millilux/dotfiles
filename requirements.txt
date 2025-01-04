@@ -17,4 +17,3 @@ python-lsp-server
 rope
 ropevim
 ruff
-# rye

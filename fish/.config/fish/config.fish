@@ -49,11 +49,9 @@ if test -x "$(command -v brew)"
 end
 fish_add_path ~/.local/share/nvim/lazy/vim-tidal/bin
 
-# set -x PATH $PATH ~/nvim-nightly/bin
-
 # opam configuration
-test -r $HOME/.opam/opam-init/init.fish && source $HOME/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
+#test -r $HOME/.opam/opam-init/init.fish && source $HOME/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
 
+~/.local/bin/mise activate fish | source
 starship init fish | source
 zoxide init fish | source
-~/.local/bin/mise activate fish | source
