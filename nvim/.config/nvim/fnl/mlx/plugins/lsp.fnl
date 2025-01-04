@@ -60,7 +60,11 @@
             :capabilities capabilities
             :settings {
               :fennel-ls {
-                :libraries {:tic-80 true :love2d true}
+                :libraries {
+                  :tic-80 true 
+                  :love2d true 
+                }
+                ; :libraries (vim.api.nvim_list_runtime_paths)
                 ; :extra-globals "vim hibiscus" 
               }
             }
@@ -141,13 +145,15 @@
             :capabilities capabilities
             :settings {
                 :Lua {
-                    :checkThirdParty false
                     :telemetry {:enable false}
                     :workspace {
-                        :library [
-                            (vim.api.nvim_get_runtime_file "" true) 
-                            "${3rd}/love2d/library"
-                        ]
+                        :checkThirdParty "Apply"
+                        :userThirdParty [ (vim.fn.expand "~/.local/share/lua-lsp-addons/") ]
+                        ; Faster simpler version of below if needed
+                        ; :library [
+                        ;       vim.env.VIMRUNTIME
+                        ; ]
+                        :library (vim.api.nvim_get_runtime_file "" true) 
                     }
                 }	
             }
