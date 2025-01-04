@@ -11,17 +11,22 @@ else
     test -d /home/linuxbrew/.linuxbrew && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
     test -r ~/.bash_profile && echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >>~/.bash_profile
     echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >>~/.profile
-    sudo apt-get install build-essential
-    sudo apt-get install libreadline-dev # For better fennel repl support
+    # sudo apt-get install build-essential
+    # sudo apt-get install libreadline-dev # For better fennel repl support
 fi
 
-brew bundle install
+if command -v dnf &> /dev/null; then
+    sudo dnf install $(cat fedora-packages.txt)
+elif command -v brew &> /dev/null; then
+    brew bundle install
+fi
 
 # Setup dotfiles
 for dir in */; do
     stow -v -t ~/ -S $dir
 done
 
+# Setup fish
 # Add fish to list of shells
 if ! grep fish /etc/shells; then
     echo $(which fish) | sudo tee -a /etc/shells
@@ -35,8 +40,68 @@ if ! grep fish_user_paths ~/.config/fish/config.fish; then
     echo 'set -U fish_user_paths (brew --prefix)/bin/ $fish_user_paths' >>~/.config/fish/config.fish
 fi
 
+# Install mise
+curl https://mise.run | sh
+# Install languages and tools
+mise install
+
+mise use python
+pip3 install -r requirements.txt
+
+npm install -g typescript-language-server graphql-language-service-cli graphql typescript neovim bash-language-server @vscode/codicons vscode-langservers-extracted prettier
+
+# Install Fennel
+# luarocks --local install fennel
+# luarocks --local install readline
+
+# Install Lua LSP Addons
+addons_dir=~/.local/share/lua-lsp-addons
+mkdir -p $addons_dir
+cd $addons_dir
+git clone https://github.com/LuaCATS/love2d.git
+cd -
+
+# Install Fennel LSP
+git clone https://git.sr.ht/~xerool/fennel-ls
+cd fennel-ls
+make && make install PREFIX=$HOME
+cd -
+rm -rf fennel-ls
+
+# Install Fennel Format
+git clone https://git.sr.ht/~technomancy/fnlfmt
+cd fnlfmt
+make && make install PREFIX=$HOME
+cd -
+rm -rf fnlfmt
+
+# Install Rust
+# curl https://sh.rustup.rs -sSf | sh
+# rustup component add rust-analyzer
+
+# Install OCaml (opam already installed by mise)
+opam init -y --disable-sandboxing
+opam install dune ocaml-lsp-server ocamlformat utop
+
+# Install F# LSP (dotnet already installed by mise)
+# dotnet tool install --global fsautocomplete
+
+# Install Haskell LSP (ghcup already installed by mise)
+ghcup install hls
+
+# Install WGSL LSP
+cargo install --git https://github.com/wgsl-analyzer/wgsl-analyzer wgsl_analyzer
+
+# Install GLSL Analyzer
+wget https://github.com/nolanderc/glsl_analyzer/releases/download/v1.4.4/x86_64-linux-musl.zip
+unzip x86_64-linux-musl.zip
+
+# Turn off Go telemetry
+go telemetry off
+
 fish -c fish_update_completions
 
+# Setup Mac
 if [[ "$OSTYPE" =~ ^darwin.* ]]; then
     brew bundle install --file=Brewfile.macos
 
@@ -64,6 +129,11 @@ if [[ "$OSTYPE" =~ ^darwin.* ]]; then
 
     # Install dotnet
     curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --version latest
+
+    # Manual steps
+    # Change Caps Lock to Escape in OSX Keyboard > Modifier Keys (far bottom right)
+    # chrome://version copy Profile Path
+    # Copy ~/.local/share/fish for fish_history (similar for fzf etc)
 fi
 
 if [[ $(uname -a) =~ ^WSL.* ]]; then
@@ -76,54 +146,4 @@ if [[ $(uname -a) =~ ^WSL.* ]]; then
 
     # Install dotnet
     sudo apt-get update && sudo apt-get install -y dotnet-sdk-7.0
-
 fi
-
-pip3 install -r requirements.txt
-
-npm install -g typescript-language-server graphql-language-service-cli graphql typescript neovim bash-language-server @vscode/codicons vscode-langservers-extracted prettier
-
-# Install Fennel
-luarocks --local install fennel
-luarocks --local install readline
-
-# Install Fennel LSP
-git clone https://git.sr.ht/~xerool/fennel-ls
-cd fennel-ls
-make && make install PREFIX=$HOME
-cd -
-rm -rf fennel-ls
-
-# Install Haskell
-curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
-
-# Install Haskell LSP
-ghcup install hls
-
-# Install Rust
-curl https://sh.rustup.rs -sSf | sh
-
-# Install WGSL LSP
-cargo install --git https://github.com/wgsl-analyzer/wgsl-analyzer wgsl_analyzer
-
-# Install OCaml
-opam init -y --disable-sandboxing
-opam install dune ocaml-lsp-server ocamlformat utop
-
-# Install F# LSP
-dotnet tool install --global fsautocomplete
-
-# Install GLSL Analyzer
-wget https://github.com/nolanderc/glsl_analyzer/releases/download/v1.4.4/x86_64-linux-musl.zip
-unzip x86_64-linux-musl.zip
-
-# Install debuggers
-VENVPATH=~/.virtualenvs
-python3 -m venv $VENVPATH/debugpy
-$VENVPATH/debugpy/bin/pip install debugpy
-
-# Manual steps
-# Update iTerm2 > Profile > Command to /usr/local/bin/fish
-# Change Caps Lock to Escape in OSX Keyboard > Modifier Keys (far bottom right)
-# chrome://version copy Profile Path
-# Copy ~/.local/share/fish for fish_history (similar for fzf etc)
