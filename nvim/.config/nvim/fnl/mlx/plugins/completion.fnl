@@ -10,21 +10,21 @@
     {1 "CopilotC-Nvim/CopilotChat.nvim"
      :config true
      :opts {
-      :question_header "❯ " 
-      :answer_header "🤖 "
-      ; :window { :layout :float :border :none}        
-      ; :auto_insert_mode true
-      :selection (fn [] nil)
-      :show_help false
-      :mappings {
-        :complete {
-          :insert "" ; For some reason, this fixes tab completion
-        }
-      }
-    }
-    :dependencies [ 
-      "github/copilot.vim"
-      "nvim-lua/plenary.nvim"
+       :question_header "❯ " 
+       :answer_header "🤖 "
+       ; :window { :layout :float :border :none}        
+       ; :auto_insert_mode true
+       :selection (fn [] nil)
+       :show_help false
+       :mappings {
+         :complete {
+           :insert "" ; For some reason, this fixes tab completion
+         }
+       }
+     }
+     :dependencies [ 
+        "github/copilot.vim"
+        "nvim-lua/plenary.nvim"
     ]}
     {1 "hrsh7th/nvim-cmp" 
         :dependencies [
@@ -48,6 +48,9 @@
                     (loader.lazy_load)
                     (loader.lazy_load {:paths ["./snippets"]})) 
                 (cmp.setup {
+                    :sources (cmp.config.sources 
+                                [{:name :buffer} {:name :path}]	
+                                [{:name :luasnip} {:name :nvim_lsp} {:name :nvim_lua}])
                     :snippet {
                         :expand (fn [args]
                                     (luasnip.lsp_expand args.body))
@@ -55,16 +58,13 @@
                     ; :window {
                     ;     :completion (cmp.config.window.bordered)
                     ; }
-                    :sources (cmp.config.sources 
-                                [{:name :luasnip} {:name :nvim_lsp} {:name :nvim_lua}]
-                                [{:name :buffer} {:name :path}])	
                     :formatting {
                         :fields {1 :kind 2 :abbr 3 :menu}
                         :format (lspkind.cmp_format {
                             :mode :symbol
                         ;     -- preset = 'codicons' requires vscode-codicons font
                             :ellipsis_char "..."
-                            :maxwidth 30 
+                            :maxwidth 32 
                         })
                     }
                     :mapping (cmp.mapping.preset.insert {
@@ -73,15 +73,16 @@
                         :<C-Space> (cmp.mapping.complete)
                         :<C-e> (cmp.mapping.abort)
                         :<CR> (cmp.mapping.confirm { :select true })
-                        :<C-n> (cmp.mapping (fn [fallback]
-                                (if (luasnip.locally_jumpable 1) (luasnip.jump 1)
-                                    (fallback)))
-                            [:i :s]
-                        )
-                        :<C-p> (cmp.mapping (fn [fallback]
-                                (if (luasnip.locally_jumpable -1) (luasnip.jump -1)
-                                    (fallback)))
-                                [:i :s])	
+                        ; Messes with Copilot?
+                        ; :<C-n> (cmp.mapping (fn [fallback]
+                        ;         (if (luasnip.locally_jumpable 1) (luasnip.jump 1)
+                        ;             (fallback)))
+                        ;     [:i :s]
+                        ; )
+                        ; :<C-p> (cmp.mapping (fn [fallback]
+                        ;         (if (luasnip.locally_jumpable -1) (luasnip.jump -1)
+                        ;             (fallback)))
+                        ;         [:i :s])	
                     })
                 })
                 ; (cmp.setup.cmdline [":" {
