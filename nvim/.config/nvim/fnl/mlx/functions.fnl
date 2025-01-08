@@ -33,9 +33,10 @@
 (fn livecoding []
   ; TODO Push current values onto a stack, then pop them off to revert
   (vim.cmd "highlight Normal ctermbg=None guibg=None")
-  (vim.cmd "highlight NormalNC ctermbg=None guibg=None")
+  ; (vim.cmd "highlight NormalNC ctermbg=None guibg=None")
   (vim.cmd "highlight SignColumn ctermbg=None guibg=None")
   (vim.cmd "highlight FoldColumn ctermbg=None guibg=None")
+  ; (vim.cmd "highlight NonText ctermbg=none guibg=none"))
   ; (vim.cmd "highlight LiveCoding ctermbg=black guibg=black")
   (vim.api.nvim_set_hl 0 :LiveCoding {:bg :black :blend 50})
   (augroup! :live-coding [[WinEnter] * "match LiveCoding /^.\\+$/"]))

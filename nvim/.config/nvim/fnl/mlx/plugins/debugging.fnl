@@ -62,17 +62,18 @@
         {1 "mfussenegger/nvim-dap-python" :config (fn [opts]
             (local dap-python (require :dap-python))
             (local dap (require :dap))
-            (dap-python.setup "~/.virtualenvs/debugpy/bin/python")
-            (table.insert dap.configurations.python {
-                    :type :python
-                    :request :attach
-                    :name "Docker"
-                    :connect { :port 5678 :host "127.0.0.1" }
-                    :mode :remote
-                    ;; :cwd (vim.fn.getcwd)
-                    :pathMappings [{:localRoot (vim.fn.getcwd)
-                                    :remoteRoot "/athena/backend"}]})
-                    ;; :program "${file}"})	
+            (dap-python.setup "python3")
+            ; (dap-python.setup "~/.virtualenvs/debugpy/bin/python")
+            ; (table.insert dap.configurations.python {
+            ;         :type :python
+            ;         :request :attach
+            ;         :name "Docker"
+            ;         :connect { :port 5678 :host "127.0.0.1" }
+            ;         :mode :remote
+            ;         ;; :cwd (vim.fn.getcwd)
+            ;         :pathMappings [{:localRoot (vim.fn.getcwd)
+            ;                         :remoteRoot "/athena/backend"}]})
+            ;         ;; :program "${file}"})	
         )}
         {1 "nvim-neotest/nvim-nio"}
         {1 "theHamsta/nvim-dap-virtual-text" :config true}

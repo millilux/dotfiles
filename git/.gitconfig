@@ -25,4 +25,6 @@
 [alias]
     local-only-branches = !git branch --format \"%(refname:short) %(upstream:track)\" | awk '{if($2==\"[gone]\") { print $1 }}'
 [alias]
-    delete-local-merged = !git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d
+    delete-local-merged = !git branch --merged main | grep -v -e 'main' -e 'staging' | xargs -n 1 git branch -d
+[merge]
+	conflictStyle = zdiff3

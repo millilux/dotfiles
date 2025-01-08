@@ -9,6 +9,7 @@ set -U fish_greeting
 set -x EDITOR nvim
 set -x GOPATH $HOME/go
 set -x TFENV_ARCH amd64 # Terraform M1 compatibility
+set -x HOMEBREW_NO_AUTO_UPDATE 1
 
 # For demucs on WSL2
 # set -x LD_LIBRARY_PATH="/usr/lib/wsl/lib:$LD_LIBRARY_PATH"
@@ -19,7 +20,9 @@ set -x COLORTERM truecolor
 set -x BAT_THEME "Dracula"
 
 # FZF
+# set -x FZF_CTRL_T_COMMAND fd --exclude .git --exclude node_modules --exclude .mypy_cache --exclude Applications --exclude Library --exclude Movies --exclude Pictures -tf -x echo {/} {//} {} | fzf -d '\s' --with-nth 1..-2 --bind='enter:become(echo {3})'
 set -x FZF_CTRL_T_COMMAND 'fd --exclude .git --exclude node_modules --exclude .mypy_cache --exclude Applications --exclude Library --exclude Movies --exclude Pictures'
+#set -x FZF_CTRL_T_OPTS "--bind 'enter:execute(vim {})'"
 set -x FZF_DEFAULT_OPTIONS '--keep-right'
 set -x CDIFF_OPTIONS '-s -w0'
 
@@ -32,11 +35,10 @@ fish_add_path ~/.ghcup/bin
 fish_add_path ~/.cabal/bin
 # source ~/.ghcup/env
 
+
 test -e ~/.secrets; and source ~/.secrets
 source ~/.config/fish/aliases.fish
 # source ~/.config/fish/nnn.fish
-
-test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
 
 # if test -n $WSL_DISTRO_NAME
 #     set -x DISPLAY (ip route list default | awk '{print $3}'):0
