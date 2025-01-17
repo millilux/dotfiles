@@ -44,6 +44,11 @@
         (lsp.ccls.setup {
             :on_attach on_attach
             :capabilities capabilities
+            :init_options {
+                :compilationDatabaseDirectory "build"
+                :index { :threads 0 }
+                :clang { :excludeArgs ["-frounding-math"] }
+            }
         })
         (lsp.clojure_lsp.setup {
             :on_attach on_attach
@@ -59,6 +64,7 @@
             :on_attach on_attach
             :capabilities capabilities
             :settings {
+              ; Passing settings doesn't work, but a flsproject.fnl file with the same values does
               :fennel-ls {
                 :libraries {
                   :tic-80 true 

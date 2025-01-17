@@ -1,3 +1,2 @@
-(local M [{1 :tidalcycles/vim-tidal}])
+(local M [{1 :tidalcycles/vim-tidal :lazy true}])
 M
-

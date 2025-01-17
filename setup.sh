@@ -2,6 +2,8 @@
 
 set -e
 
+LOCAL_BIN=$HOME/.local
+
 # Install homebrew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 if [[ "$OSTYPE" =~ ^darwin.* ]]; then
@@ -42,7 +44,7 @@ fi
 
 # Install mise
 curl https://mise.run | sh
-# Install languages and tools
+# Install languages and tools from global config
 mise install
 
 mise use python
@@ -64,16 +66,29 @@ cd -
 # Install Fennel LSP
 git clone https://git.sr.ht/~xerool/fennel-ls
 cd fennel-ls
-make && make install PREFIX=$HOME
+make && make install PREFIX=$LOCAL_BIN
 cd -
 rm -rf fennel-ls
 
 # Install Fennel Format
 git clone https://git.sr.ht/~technomancy/fnlfmt
 cd fnlfmt
-make && make install PREFIX=$HOME
+make && make install PREFIX=$LOCAL_BIN
 cd -
 rm -rf fnlfmt
+
+# Install ccls
+git clone --depth=1 --recursive https://github.com/MaskRay/ccls
+cd ccls
+cmake -S. -BRelease
+mv ccls ~/bin/
+# make && make install PREFIX=$HOME
+
+# Install GLSL Analyzer
+git clone https://github.com/nolanderc/glsl_analyzer.git
+cd glsl_analyzer
+zig build install -Doptimize=ReleaseSafe --prefix $LOCAL_BIN
+rm -rf glsl_analyzer
 
 # Install Rust
 # curl https://sh.rustup.rs -sSf | sh
@@ -91,10 +106,6 @@ ghcup install hls
 
 # Install WGSL LSP
 cargo install --git https://github.com/wgsl-analyzer/wgsl-analyzer wgsl_analyzer
-
-# Install GLSL Analyzer
-wget https://github.com/nolanderc/glsl_analyzer/releases/download/v1.4.4/x86_64-linux-musl.zip
-unzip x86_64-linux-musl.zip
 
 # Turn off Go telemetry
 go telemetry off
