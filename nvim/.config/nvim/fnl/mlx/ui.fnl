@@ -2,8 +2,7 @@
 
 (color! :oxocarbon)
 
-(local signs {:Error " " :Warn " " :Info " " :Hint " "})
-
+(local signs {:Error "󰅚 " :Warn " " :Info " " :Hint "󰌶 "})
 (each [type icon (pairs signs)]
   (local hl (.. :DiagnosticSign type))
   (vim.fn.sign_define hl {:text icon :texthl hl :numhl ""}))
@@ -36,15 +35,27 @@
 ;;     }
 ;; })
 
-(vim.cmd "highlight WinSeparator ctermfg=None ctermbg=None guibg=None guifg=None")
-(vim.cmd "highlight StatusLineNC ctermbg=None guibg=None")
+; Transparent backgrounds
+(local groups [:Normal
+               :NormalNC
+               :StatusLine
+               :StatusLineNC
+               :WinSeparator
+               :SignColumn
+               :FoldColumn
+               :LineNr
+               :NonText
+               :NormalFloat
+               :FloatBorder
+               :NvimTreeNormal
+               :NvimTreeWinSeparator
+               :NvimTreeIndentMarker])
 
-(vim.cmd "highlight Normal ctermbg=None guibg=None")
-(vim.cmd "highlight NormalNC ctermbg=None guibg=None")
-(vim.cmd "highlight SignColumn ctermbg=None guibg=None")
-(vim.cmd "highlight FoldColumn ctermbg=None guibg=None")
-(vim.cmd "highlight LineNr ctermbg=None guibg=None")
-; (vim.cmd "highlight NonText ctermbg=None guibg=None")
+(each [_ group (pairs groups)]
+  (vim.cmd (string.format "highlight %s ctermbg=None guibg=None" group)))
+
+; (vim.cmd "highlight WinSeparator ctermfg=None ctermbg=None guibg=None guifg=None")
+(vim.cmd "highlight FloatBorder guifg=white ctermfg=white")
 
 ; Remove fold background highlighting
 (vim.api.nvim_set_hl 0 :Folded {:bg :None :fg :#393939})
@@ -65,8 +76,8 @@
 
 (vim.fn.sign_define :DapBreakpoint
                     {:text "→" :texthl :Special :linehl "" :numhl ""})
+
 (vim.fn.sign_define :DapStopped {:text "→"
                                  :texthl :Error
                                  :linehl ""
                                  :numhl ""})
-

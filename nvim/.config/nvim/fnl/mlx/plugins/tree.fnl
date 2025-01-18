@@ -84,9 +84,8 @@
                 }
             })
            :dependencies [{1 :nvim-tree/nvim-web-devicons
-                           :opts {:override {:fnl {:icon "ﬦ" :name :Fennel}}
                                   ;; :color_icons false
-                                  }}]}
+                                  }]}
             ; {1 "nvim-neo-tree/neo-tree.nvim" :dependencies [ "nvim-lua/plenary.nvim" "MunifTanjim/nui.nvim" ]}
            ])
 
