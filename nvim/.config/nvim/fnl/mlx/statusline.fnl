@@ -11,7 +11,7 @@
               :ix " "
               :s " "
               :S " "
-              :r "﯒ "
+              :r "󰛔 "
               :r? " "
               :c " "
               :t " "
@@ -66,7 +66,7 @@
     (cmd:close)
     (if (= branch "")
         ""
-        (string.format (.. "   " branch)))))
+        (string.format (.. " 󰊢  " branch)))))
 
 (fn recording []
   (let [recording-reg (vim.fn.reg_recording) 
