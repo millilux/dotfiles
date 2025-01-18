@@ -10,7 +10,7 @@ set -x EDITOR nvim
 set -x GOPATH $HOME/go
 set -x TFENV_ARCH amd64 # Terraform M1 compatibility
 set -x HOMEBREW_NO_AUTO_UPDATE 1
-
+set -x ELECTRON_OZONE_PLATFORM_HINT auto
 # For demucs on WSL2
 # set -x LD_LIBRARY_PATH="/usr/lib/wsl/lib:$LD_LIBRARY_PATH"
 
@@ -27,7 +27,7 @@ set -x FZF_DEFAULT_OPTIONS '--keep-right'
 set -x CDIFF_OPTIONS '-s -w0'
 
 if test -x "$(command -v fzf)"
-    source /usr/share/fzf/shell/key-bindings.fish
+    fzf --fish | source
 end
 
 # Haskell
