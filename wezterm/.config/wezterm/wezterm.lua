@@ -159,8 +159,8 @@ return {
                 end),
             },
         },
-        -- Fix Arrow Keys within WSL
-        { key = 'UpArrow', action = wezterm.action { SendString = '\x1b[A' } },
-        { key = 'DownArrow', action = wezterm.action { SendString = '\x1b[B' } },
+        -- Fix Arrow Keys within WSL only
+        -- { key = 'UpArrow', action = wezterm.action { SendString = '\x1b[A' } },
+        -- { key = 'DownArrow', action = wezterm.action { SendString = '\x1b[B' } },
     }
 }
