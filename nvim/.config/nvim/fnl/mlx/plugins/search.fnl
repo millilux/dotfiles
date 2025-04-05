@@ -7,8 +7,10 @@
             :grep {
                 :prompt "   "
                 ; rg honours global gitignore?
-                :rg_opts "--column --no-heading --color=always --smart-case --hidden --max-columns=4096 --glob='!{.git,node_modules,.mypy_cache}' -e"
+                :rg_opts "--column --no-heading --color=always --smart-case --hidden --max-columns=4096 --line-number --glob='!{.git,node_modules,.mypy_cache}' -e"
+                :hidden true
                 :fzf_opts {
+                    :--history (.. (vim.fn.stdpath "data") "/fzf-lua-history")
                     :--delimiter ":"
                     ; :--nth "..2"
                     ; :--with-nth "1"
