@@ -192,8 +192,8 @@
         (local configs (require :nvim-treesitter.configs))
         (configs.setup { 
             :ensure_installed [
-                "bash" "c" "cpp" "clojure" "dockerfile" "elixir" "fennel" "fish" "gleam" "glsl" "go" "graphql" "haskell" "hlsl"
-                "javascript" "json" "kotlin" "lua" "make" "markdown" "markdown_inline" "ocaml" "python" "regex" "rust" "sql" "swift"
+                "bash" "c" "cpp" "clojure" "dockerfile" "diff" "elixir" "fennel" "fish" "gleam" "glsl" "go" "graphql" "haskell" "hlsl"
+                "javascript" "json" "kotlin" "lua" "make" "markdown" "markdown_inline" "ocaml" "python" "query" "regex" "rust" "sql" "swift"
                 "typescript" "toml" "vim" "vimdoc" "wgsl" "yaml"
             ]
             :highlight { 
