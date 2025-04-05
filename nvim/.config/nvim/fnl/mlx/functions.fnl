@@ -5,7 +5,9 @@
   (var search (vim.fn.input "🐕 "))
   (vim.fn.inputrestore)
   (if (= search "")
-      (set search (vim.fn.expand :<cword>)))
+      (let [cword (vim.fn.expand :<cword>)]
+        (if (not= cword "")
+          (set search cword))))
   (if (not= search "")
       (vim.fn.execute (.. "silent! grep! '" search "'|cwindow|redraw!"))))
 
