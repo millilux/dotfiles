@@ -8,8 +8,8 @@
 (map! [:n] "<leader>n" ":set number! relativenumber!<CR>")
 
 ;; Simpler indentation
-(map! [:v] :< :<gv)
-(map! [:v] :> :>gv)
+; (map! [:v] :< :<gv)
+; (map! [:v] :> :>gv)
 
 ;; Substitution
 (map! [:n] "<leader>s" ":%s/\\v")
@@ -153,6 +153,8 @@
   ; (popup lines)
   (popup registers)
 )
+
+(map! [:n] "<leader>db" ":tabnew | DBUI<CR>")
 
 ; (map! [:n] "<leader>r" show_registers)
 
