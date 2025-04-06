@@ -75,11 +75,11 @@
               }
             }
         })
-        (lsp.gleam.setup {
+        (lsp.fsautocomplete.setup {
             :on_attach on_attach
             :capabilities capabilities
         })
-        (lsp.fsautocomplete.setup {
+        (lsp.gleam.setup {
             :on_attach on_attach
             :capabilities capabilities
         })
@@ -98,6 +98,18 @@
         (lsp.html.setup {
             :on_attach on_attach
             :capabilities capabilities
+        })
+        (lsp.jsonls.setup {
+            :on_attach on_attach
+            :capabilities capabilities
+            :settings {
+                :json {
+                    :schemas {
+                        :kubernetes "*.json"
+                        ; :json-schema-store "https://www.schemastore.org/api/json/catalog.json"
+                    }
+                }
+            }
         })
         (lsp.ocamllsp.setup {
             :on_attach on_attach
@@ -194,7 +206,7 @@
             :ensure_installed [
                 "bash" "c" "cpp" "clojure" "dockerfile" "diff" "elixir" "fennel" "fish" "gleam" "glsl" "go" "graphql" "haskell" "hlsl"
                 "javascript" "json" "kotlin" "lua" "make" "markdown" "markdown_inline" "ocaml" "python" "query" "regex" "rust" "sql" "swift"
-                "typescript" "toml" "vim" "vimdoc" "wgsl" "yaml"
+                "typescript" "toml" "vim" "vimdoc" "wgsl" "yaml" "yuck"
             ]
             :highlight { 
                 :enable true 
