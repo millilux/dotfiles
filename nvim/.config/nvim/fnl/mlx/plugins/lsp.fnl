@@ -142,6 +142,7 @@
                     :plugins {
                         :ruff { :enabled true }
                         :mypy { :enabled true }
+                        :rope_autoimport { :enabled true }
                         ; :pycodestyle { :enabled false }
                         ; :autopep8 { :enabled false }
                         ; :pylint { :enabled false }
@@ -154,10 +155,10 @@
         ;;     :on_attach on_attach
         ;;     :capabilities capabilities
         ;; })
-        ; (lsp.jedi_language_server.setup {
-        ;     :on_attach on_attach
-        ;     :capabilities capabilities
-        ; })
+        (lsp.jedi_language_server.setup {
+            :on_attach on_attach
+            :capabilities capabilities
+        })
         (lsp.lua_ls.setup {
             :on_attach on_attach
             :capabilities capabilities
