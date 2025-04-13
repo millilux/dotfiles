@@ -55,6 +55,10 @@
             :capabilities capabilities
             :root_dir (util.root_pattern "*.clj")
         })
+        (lsp.cssls.setup {
+            :on_attach on_attach
+            :capabilities capabilities
+        })
         (lsp.elixirls.setup {
             :cmd [(find_elixir_ls)]
             :on_attach on_attach
