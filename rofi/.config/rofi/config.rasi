@@ -1,4 +1,3 @@
-@theme "theme"
 
 configuration {
 /*	modes: "window,drun,run,ssh";*/
@@ -6,12 +5,14 @@ configuration {
     show-icons: true;
 	drun-display-format: "{name}";
 /*  icon-theme: "Tela-circle-black";*/
-    timeout {
-        action: "kb-cancel";
-        delay:  0;
-    }
+    kb-row-up: "Up,Control+p";
+    kb-row-down: "Down,Control+n";
+    me-accept-entry: "MousePrimary";
+    me-select-entry: "MouseSecondary";
     filebrowser {
         directories-first: true;
         sorting-method:    "name";
     }
 }
+
+@theme "rounded-pink-dark"
