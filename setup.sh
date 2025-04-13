@@ -90,6 +90,12 @@ cd glsl_analyzer
 zig build install -Doptimize=ReleaseSafe --prefix $LOCAL_BIN
 rm -rf glsl_analyzer
 
+# Install LOVR
+image=lovr-x86_64.AppImage
+wget https://lovr.org/f/$image
+mv $image $LOCAL_BIN/bin/lovr
+chmod a+x $LOCAL_BIN/bin/lovr
+
 # Install Rust
 # curl https://sh.rustup.rs -sSf | sh
 # rustup component add rust-analyzer
@@ -111,6 +117,42 @@ cargo install --git https://github.com/wgsl-analyzer/wgsl-analyzer wgsl_analyzer
 go telemetry off
 
 fish -c fish_update_completions
+
+if [ -f /etc/os-release ] && grep -q "Fedora" /etc/os-release; then
+    # Install eww
+    # git clone https://github.com/elkowar/eww
+    # cd eww
+    # cargo build --release --no-default-features --features=wayland
+    # mv target/release/eww $LOCAL_BIN/bin/
+    # chmod +x $LOCAL_BIN/bin/eww
+
+    git clone https://github.com/shaunsingh/SFMono-Nerd-Font-Ligaturized.git && cd SFMono-Nerd-Font-Ligaturized
+    cp *.otf ~/.local/share/fonts
+
+    cp ./fonts/05-language-fallback.conf /etc/fonts/conf.d/
+
+    # Make SDDM default
+    sudo systemctl enable sddm.service -f
+    # Edit config 
+    # sudo nvim /usr/share/sddm/themes/breeze/theme.conf.user
+    # [General]
+    # background=/usr/share/backgrounds/fedora-workstation/montclair_dark.webp
+    # Set theme
+    # sudo nvim /etc/sddm.conf.d/custom.conf
+    # [Theme]
+    # Current=breeze
+
+    # Install multimedia codecs
+    sudo dnf group install multimedia
+    # https://rpmfusion.org/Configuration/
+    sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+    sudo dnf config-manager setopt fedora-cisco-openh264.enabled=1
+    sudo dnf install ffmpeg --allowerasing
+    # https://github.com/devangshekhawat/Fedora-41-Post-Install-Guide
+    
+    # Audio setup
+    # https://wiki.linuxaudio.org/wiki/system_configuration#limitsconfaudioconf
+fi
 
 # Setup Mac
 if [[ "$OSTYPE" =~ ^darwin.* ]]; then
