@@ -6,19 +6,21 @@
     (and (not= col 0) (= (: (: (. lines 1) :sub col col) :match "%s") nil)))	
 
 (local M [
-    {1 "github/copilot.vim" }
+    ; {1 "github/copilot.vim" }
+    {1 "zbirenbaum/copilot.lua" :config true}
     {1 "CopilotC-Nvim/CopilotChat.nvim"
      :config true
+     ; :build "make tiktoken"
      :opts {
        :question_header "❯ " 
        :answer_header "🤖 "
        ; :window { :layout :float :border :none}        
        ; :auto_insert_mode true
-       :selection (fn [] nil)
+       ; :selection (fn [] nil)
        :show_help false
        :mappings {
          :complete {
-           :insert "" ; For some reason, this fixes tab completion
+           ; :insert "" ; For some reason, this fixes tab completion
          }
        }
      }

@@ -18,3 +18,4 @@ rope
 ropevim
 ruff
 uv
+visidata

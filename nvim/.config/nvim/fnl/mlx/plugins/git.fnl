@@ -34,7 +34,8 @@
                                ;; Text object
                                ;; (map! [:o :x] :ih ":<C-U>Gitsigns select_hunk<CR>")
                                )}}
-          {1 :sindrets/diffview.nvim}
+          {1 :sindrets/diffview.nvim
+           :opts {:view {:merge_tool {:layout :diff3_mixed}}}}
           {1 :NeogitOrg/neogit
            :config true
            :dependencies [:nvim-lua/plenary.nvim
@@ -42,4 +43,3 @@
                           :ibhagwan/fzf-lua]}])
 
 M
-

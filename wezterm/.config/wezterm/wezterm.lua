@@ -29,7 +29,7 @@ wezterm.on('update-right-status', function(window, pane)
     window:set_right_status(' ' .. workspace .. ' ')
 end)
 
-function tab_title(tab_info)
+local function tab_title(tab_info)
   local title = tab_info.tab_title
   -- If the tab title is explicitly set, use that
   if title and #title > 0 then
@@ -49,6 +49,7 @@ wezterm.on(
 
 return {
     default_domain = default_domain,
+    front_end = 'WebGpu',
     check_for_updates = false,
     color_scheme = 'Oxocarbon Dark',
     -- color_scheme = "Catppuccin Mocha",
@@ -67,12 +68,11 @@ return {
             },
         },
     },
-    macos_window_background_blur = 100,
+    macos_window_background_blur = 75,
     enable_tab_bar = true,
     use_fancy_tab_bar = false,
     tab_bar_at_bottom = true,
     show_new_tab_button_in_tab_bar = false,
-    -- show_tab_index_in_tab_bar = false,
     use_dead_keys = false,
     window_decorations = 'RESIZE',
     window_background_opacity = 0.85,
@@ -101,11 +101,6 @@ return {
             -- action = wezterm.action.ToggleFullScreen,
             action = wezterm.action.EmitEvent 'toggle-opacity'
         },
-        -- {
-        --     key = 'w',
-        --     mods = 'LEADER',
-        --     action = wezterm.action.ShowLauncherArgs { flags = 'WORKSPACES' },
-        -- },
         { key = 'l', mods = 'SUPER|SHIFT', action = wezterm.action.ShowLauncherArgs { flags = 'WORKSPACES' }},
         { key = 'n', mods = 'SUPER|SHIFT', action = act.SwitchWorkspaceRelative(1) },
         { key = 'p', mods = 'SUPER|SHIFT', action = act.SwitchWorkspaceRelative(-1) },
