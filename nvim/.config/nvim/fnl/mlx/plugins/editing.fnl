@@ -32,6 +32,8 @@
                                      :yaml [:prettier]
                                      :json [:jq]
                                      :sh [:shfmt]}}}
+          {1 :MagicDuck/grug-far.nvim
+           :opts {:showCompactInputs false :helpLine {:enabled false}}}
           ; {1 :Pocco81/auto-save.nvim}
           ; {1 :smoka7/multicursors.nvim
           ;  :event :VeryLazy

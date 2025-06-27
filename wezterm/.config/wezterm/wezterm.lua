@@ -86,12 +86,12 @@ return {
     initial_cols = 200,
 
     font = wezterm.font('Liga SFMono Nerd Font'),
-    --   font = wezterm.font('JetBrains Mono'),
+      -- font = wezterm.font('JetBrainsMono NF'),
     --   font = wezterm.font('SpaceMono NF'),
     --   font = wezterm.font('VictorMono NF', { weight = 'Bold'}),
     font_size = 15,
     line_height = 1.4,
-    cell_width = 0.9,
+    cell_width = 0.85,
 
     leader = { key = ' ', mods = 'CTRL' },
     keys = {

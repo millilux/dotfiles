@@ -15,16 +15,27 @@
     light = false
     side-by-side = true
 [diff]
-    tool = nvimdiffview
+    tool = nvimdiff
 [difftool]
     prompt = false
-[difftool "nvimdiffview"]
-    cmd = nvim -c DiffviewOpen
+[difftool "nvimdiff"]
+    ; cmd = nvim -c DiffviewOpen
+    cmd = nvim -d 
 [rerere]
-	enabled = true
+	enabled = false
+[merge]
+	conflictStyle = zdiff3
+	tool = nvimdiff
+[mergetool]
+	hideResolved = true
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
 [alias]
     local-only-branches = !git branch --format \"%(refname:short) %(upstream:track)\" | awk '{if($2==\"[gone]\") { print $1 }}'
 [alias]
+    merged = !git branch --merged main | grep -v -e 'main' -e 'staging'
+[alias]
     delete-local-merged = !git branch --merged main | grep -v -e 'main' -e 'staging' | xargs -n 1 git branch -d
-[merge]
-	conflictStyle = zdiff3

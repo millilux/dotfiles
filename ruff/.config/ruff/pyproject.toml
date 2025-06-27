@@ -12,6 +12,7 @@ preview = true
 select = [
     "E", "W", # pycodestyle
     "F", # pyflakes
+    "G", # flake-8-logging-format
     "I", # isort
     "C", # mccabe
     "UP", # pyupgrade
@@ -20,6 +21,7 @@ select = [
     # flake8-simplify
     "SIM",
     # "D", # pydocstyle
+    "TID252", # Ban non-explicit relative imports
 ]
 ignore = [
     "E203", "E501", 

@@ -22,6 +22,7 @@
 (set! foldnestmax 1)
 (set! foldmethod "indent")
 ; (set! foldmethod "expr")
+(set! foldexpr "v:lua.vim.lsp.foldexpr()")
 ; (set! foldexpr "nvim_treesitter#foldexpr()")
 (set! foldclose "all")
 (set! foldopen "all")
@@ -29,7 +30,7 @@
 (set! signcolumn "yes:1")
 (set! autoread)
 (set! backspace "indent,eol,start")
-(set+ clipboard "unnamedplus") ; Very slow under WSL
+(set+ clipboard "unnamedplus") ; Use system clipboard. Very slow under WSL.
 (set+ diffopt "vertical")
 (set! linebreak)
 (set! modelines 0)
@@ -47,8 +48,9 @@
 (set! undolevels 1000)
 (set! swapfile false)
 (set! undofile true)
-(set! completeopt "menu,menuone,preview,longest,noselect")
-(set! spell true)
+(set! completeopt "menu,menuone,preview,longest,noselect,popup")
+(set! backupcopy "yes") ;; Fix inode Docker issues https://github.com/moby/moby/issues/15793#issuecomment-161162118
+; (set! spell true)
 (set! spelllang :en_gb)
 
 ;; Formatting
