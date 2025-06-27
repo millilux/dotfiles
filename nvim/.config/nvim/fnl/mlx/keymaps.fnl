@@ -80,6 +80,8 @@
 (map! [:n] "<leader>tn" '(neotest.run.run))
 (map! [:n] "<leader>tf" '(neotest.run.run (vim.fn.expand "%")))
 (map! [:n] "<leader>ts" ":Neotest summary<CR>") 
+(map! [:n] "<leader>tw" '(neotest.watch.toggle))
+ 
 
 ;; Git
 (map! [:n] "<leader>bc" ":DiffviewFileHistory % --no-merges<CR>")

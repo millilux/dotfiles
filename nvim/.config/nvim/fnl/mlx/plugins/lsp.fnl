@@ -146,7 +146,7 @@
                     :plugins {
                         :ruff { :enabled true }
                         :mypy { :enabled true }
-                        :rope_autoimport { :enabled true }
+                        ; :rope_autoimport [:enabled true {:code_actions {:enabled true}}] ; Busted: https://github.com/python-lsp/python-lsp-server/issues/503
                         ; :pycodestyle { :enabled false }
                         ; :autopep8 { :enabled false }
                         ; :pylint { :enabled false }

@@ -6,7 +6,10 @@
     (and (not= col 0) (= (: (: (. lines 1) :sub col col) :match "%s") nil)))	
 
 (local M [
-    ; {1 "github/copilot.vim" }
+    {1 :olimorris/codecompanion.nvim
+      :opts {}
+      :dependencies ["nvim-lua/plenary.nvim"
+                    "nvim-treesitter/nvim-treesitter"]}
     {1 "zbirenbaum/copilot.lua" :config true}
     {1 "CopilotC-Nvim/CopilotChat.nvim"
      :config true
