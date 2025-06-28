@@ -60,14 +60,15 @@
 ;; Code
 (map! [:n] "<leader>cs" ":FzfLua lsp_document_symbols<CR>")
 (map! [:n] "<leader>cS" ":FzfLua lsp_workspace_symbols<CR>")
-(map! [:n] "<leader>cp" ":CopilotChat<CR>")
-(map! [:n] "<leader>cpc" ":CopilotChatReset<CR>")
-(map! [:v] "<leader>cpe" ":CopilotChatExplain<CR>")
-(map! [:n] "<leader>cpf" ":CopilotChatFix<CR>")
-(map! [:n] "<leader>cpt" ":CopilotChatTests<CR>")
-(map! [:n] "<leader>cpr" ":CopilotChatReview<CR>")
-(map! [:v] "<leader>cpo" ":CopilotChatOptimize<CR>")
-(map! [:n] "<leader>cps" ":Copilot panel<CR>")
+(map! [:n] "<leader>cp" ":CodeCompanionChat Toggle<CR>")
+; (map! [:n] "<leader>cp" ":CopilotChat<CR>")
+; (map! [:n] "<leader>cpc" ":CopilotChatReset<CR>")
+; (map! [:v] "<leader>cpe" ":CopilotChatExplain<CR>")
+; (map! [:n] "<leader>cpf" ":CopilotChatFix<CR>")
+; (map! [:n] "<leader>cpt" ":CopilotChatTests<CR>")
+; (map! [:n] "<leader>cpr" ":CopilotChatReview<CR>")
+; (map! [:v] "<leader>cpo" ":CopilotChatOptimize<CR>")
+; (map! [:n] "<leader>cps" ":Copilot panel<CR>")
 
 ;; Diagnostics
 (map! [:n] "<leader>cd" vim.diagnostic.open_float)
