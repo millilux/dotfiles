@@ -14,21 +14,17 @@
           ; {1 "https://git.sr.ht/~"whynothugo/lsp_lines.nvim" :config true}
           {1 :HiPhish/rainbow-delimiters.nvim
            :config (fn [_]
-                  (local rainbow (require :rainbow-delimiters.setup))
-                  (rainbow.setup {
-                      :highlight [
-                        "@punctuation.bracket"
-                        "@diff.plus"
-                        "@diff.minus"
-                        ; "@function"
-                        ; "@variable"
-                        ; "@constant"
-                      ]
-                      :strategy {
-                        "" :rainbow-delimiters.strategy.local
-                    ; "fennel" :rainbow-delimiters.strategy.local
-                }}))
-           }
+                     (local rainbow (require :rainbow-delimiters.setup))
+                     (rainbow.setup {:highlight ["@punctuation.bracket"
+                                                 "@diff.plus"
+                                                 "@diff.minus"
+                                                 ; "@function"
+                                                 ; "@variable"
+                                                 ; "@constant"
+                                                 ]
+                                     :strategy {"" :rainbow-delimiters.strategy.local
+                                                ; "fennel" :rainbow-delimiters.strategy.local
+                                                }}))}
           ; Quite slow 
           {1 :junegunn/vim-peekaboo}
           {1 :folke/noice.nvim
@@ -93,6 +89,8 @@
                                                  :Variable " 󰀫  "
                                                  ;;  ﯟ   ﯨ   פּ    
                                                  }}))}
+          {1 :MeanderingProgrammer/render-markdown.nvim
+           :ft [:markdown :codecompanion]}
           ; {1 :folke/snacks.nvim :opts {:indent {}}}
           ; {1 "folke/trouble.nvim"}
           ; {1 "kevinhwang91/nvim-bqf" :ft "qf"}
