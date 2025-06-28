@@ -75,7 +75,8 @@ return {
     tab_bar_at_bottom = true,
     show_new_tab_button_in_tab_bar = false,
     use_dead_keys = false,
-    window_decorations = 'RESIZE', -- Hides the title bar and window controls on macOS
+    -- RESIZE doesn't play well with hyprland but it's not needed
+    window_decorations = wezterm.target_triple == 'x86_64-unknown-linux-gnu' and 'NONE' or 'RESIZE',
     window_background_opacity = 0.85,
     window_padding = {
         left = 24,
@@ -92,10 +93,11 @@ return {
     -- font = wezterm.font('JetBrains Mono'),
     -- font = wezterm.font('Cascadia Code NF'),
     -- font = wezterm.font('SpaceMono NF'),
+    -- font = wezterm.font('Fira Code'),
     -- font = wezterm.font('VictorMono NF', { weight = 'Bold'}),
     font_size = 15,
     line_height = 1.4,
-    cell_width = 0.85,
+    cell_width = 0.9,
 
     leader = { key = ' ', mods = 'CTRL' },
     keys = {
@@ -149,9 +151,9 @@ return {
             action = act.PromptInputLine {
                 description = 'Enter new name for tab',
                 action = wezterm.action_callback(function(window, pane, line)
-                    -- line will be `nil` if they hit escape without entering anything
-                    -- An empty string if they just hit enter
-                    -- Or the actual line of text they wrote
+                    -- line will be `nil` when hitting escape without entering anything
+                    -- An empty string if just hitting enter
+                    -- Or the actual line of text
                     if line then
                         window:active_tab():set_title(line)
                     end
