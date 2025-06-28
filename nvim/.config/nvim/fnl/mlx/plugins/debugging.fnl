@@ -1,5 +1,6 @@
 (local M [
     {1 "mfussenegger/nvim-dap" 
+    :lazy true
     :config (fn [opts]
         (local dap (require :dap))
         (local dapui (require :dapui))
@@ -59,7 +60,7 @@
                 :max_value_lines 3
             }
         }}
-        {1 "mfussenegger/nvim-dap-python" :config (fn [opts]
+        {1 "mfussenegger/nvim-dap-python" :lazy true :config (fn [opts]
             (local dap-python (require :dap-python))
             (local dap (require :dap))
             (dap-python.setup "python3")

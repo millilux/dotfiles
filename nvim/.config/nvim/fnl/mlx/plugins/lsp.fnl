@@ -28,6 +28,7 @@
         (local lsp (require :lspconfig))
         (local util (require :lspconfig/util))
         (local capabilities ((. (require :cmp_nvim_lsp) :default_capabilities)))
+        ; (local capabilities [:default_capabilities])
         (fn find_elixir_ls []
             (local handle (io.popen "which elixir-ls"))
             (local output (handle:read :*a))
@@ -301,6 +302,19 @@
     ; {1 "numToStr/Comment.nvim" :config true} ; Trying 0.10's built-in comments instead
     ; {1 "python-rope/ropevim"}
     {1 "tikhomirov/vim-glsl"}
+    {1 "bassamsdata/namu.nvim" :opts {
+            :global {}
+            :namu_symbols {
+              :enable true
+              :options {
+                :display {:format :tree_guides}}}}}
+            ; :config (fn []
+            ;           (vim.keymap.set "n" "<leader>ss" ":Namu symbols<cr>"
+            ;             {:desc "Jump to LSP symbol"
+            ;               :silent true})
+            ;           (vim.keymap.set "n" "<leader>sw" ":Namu workspace<cr>"
+            ;             {:desc "LSP Symbols - Workspace"
+            ;               :silent true}))}}
     {1 "stevearc/aerial.nvim" :lazy true 
         :keys [["<leader>o" ":AerialToggle!<CR>"]]
         :config (fn [config opts]

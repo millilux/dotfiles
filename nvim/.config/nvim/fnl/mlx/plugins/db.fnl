@@ -1,5 +1,6 @@
 (local M
        [{1 :kristijanhusak/vim-dadbod-ui
+         :lazy true
          :cmd [:DBUI :DBUIToggle :DBUIAddConnection :DBUIFindBuffer]
          :init (fn []
                  (tset vim.g :db_ui_show_help 0)
