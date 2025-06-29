@@ -6,10 +6,12 @@
                   :enable_check_bracket_line false
                   :disable_filetype [:TelescopePrompt
                                      :vim
-                                     :fennel
-                                     :clojure
-                                     :lisp
-                                     :scheme]}
+                                     ; Lisps should only be disabled if using parinfer
+                                     ; :fennel
+                                     ; :clojure
+                                     ; :lisp
+                                     ; :scheme
+                                     ]}
            :config (fn [plugin opts]
                      (local cmp_autopairs
                             (require :nvim-autopairs.completion.cmp))
