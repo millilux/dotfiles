@@ -20,6 +20,7 @@ fi
 if command -v dnf &> /dev/null; then
     sudo dnf install $(cat fedora-packages.txt)
 elif command -v brew &> /dev/null; then
+    # TODO: only use brew on Mac and WSL
     brew bundle install
 fi
 
@@ -90,12 +91,6 @@ cd glsl_analyzer
 zig build install -Doptimize=ReleaseSafe --prefix $LOCAL_BIN
 rm -rf glsl_analyzer
 
-# Install LOVR
-image=lovr-x86_64.AppImage
-wget https://lovr.org/f/$image
-mv $image $LOCAL_BIN/bin/lovr
-chmod a+x $LOCAL_BIN/bin/lovr
-
 # Install Rust
 # curl https://sh.rustup.rs -sSf | sh
 # rustup component add rust-analyzer
@@ -131,6 +126,10 @@ if [ -f /etc/os-release ] && grep -q "Fedora" /etc/os-release; then
 
     cp ./fonts/05-language-fallback.conf /etc/fonts/conf.d/
 
+    # Set screen resolution in kernel rather than userspace
+    # sudo grubby --update-kernel=ALL --args='nvidia-drm.modeset=1'
+    # /etc/default/grub
+
     # Make SDDM default
     sudo systemctl enable sddm.service -f
     # Edit config 
@@ -152,6 +151,29 @@ if [ -f /etc/os-release ] && grep -q "Fedora" /etc/os-release; then
     
     # Audio setup
     # https://wiki.linuxaudio.org/wiki/system_configuration#limitsconfaudioconf
+    
+    # Install LOVR
+    image=lovr-x86_64.AppImage
+    wget https://lovr.org/f/$image
+    mv $image $LOCAL_BIN/bin/lovr
+    chmod a+x $LOCAL_BIN/bin/lovr
+
+    # Install Gnome theme
+    # https://draculatheme.com/gtk
+    # https://github.com/odziom91/libadwaita-theme-changer/blob/main/libadwaita-tc.py
+    wget https://github.com/dracula/gtk/archive/master.zip
+    7z x master.zip
+    rm master.zip
+    mv gtk-master ~/.themes/Dracula
+    ln -s ~/.themes/Dracula/assets/ ~/.config/assets
+    ln -s ~/.themes/Dracula/gtk-4.0/gtk.css ~/.config/gtk-4.0/gtk.css
+    ln -s ~/.themes/Dracula/gtk-4.0/gtk-dark.css ~/.config/gtk-4.0/gtk-dark.css
+    ln -s ~/.themes/Dracula/gtk-4.0/assets ~/.config/gtk-4.0/assets
+    gsettings set org.gnome.desktop.interface gtk-theme "Dracula"
+    gsettings set org.gnome.desktop.wm.preferences theme "Dracula"
+
+    # Fix Houdini App switcher icon under X
+    # echo "StartupWMClass=Houdini FX" | sudo tee -a /usr/share/applications/com.sidefx.houdini*.desktop
 fi
 
 # Setup Mac
@@ -161,13 +183,6 @@ if [[ "$OSTYPE" =~ ^darwin.* ]]; then
     # Increase OSX Dock animation speed
     defaults write com.apple.dock autohide-time-modifier -float 0.2
     killall Dock
-
-    # Install powerline fonts
-    git clone https://github.com/powerline/fonts.git --depth=1
-    cd fonts
-    ./install.sh
-    cd ..
-    rm -rf fonts
 
     # Setup Yabai scripting-addition (only works if SIP is disabled)
     # sudo yabai --install-sa
