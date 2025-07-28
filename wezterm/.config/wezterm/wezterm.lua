@@ -1,7 +1,7 @@
 local wezterm = require 'wezterm'
 local act = wezterm.action
 
--- On Mac, command is the super key 
+-- On Mac, command is the super key
 
 local default_domain = 'local'
 if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
@@ -30,21 +30,21 @@ wezterm.on('update-right-status', function(window, pane)
 end)
 
 local function tab_title(tab_info)
-  local title = tab_info.tab_title
-  -- If the tab title is explicitly set, use that
-  if title and #title > 0 then
-    return title
-  end
-  -- Otherwise, use the title from the active tab pane
-  return tab_info.active_pane.title
+    local title = tab_info.tab_title
+    -- If the tab title is explicitly set, use that
+    if title and #title > 0 then
+        return title
+    end
+    -- Otherwise, use the title from the active tab pane
+    return tab_info.active_pane.title
 end
 
 wezterm.on(
-  'format-tab-title',
-  function(tab, tabs, panes, config, hover, max_width)
-    local title = tab_title(tab)
-    return ' ' .. tab.tab_index + 1 .. ' ' .. title .. ' '
-  end
+    'format-tab-title',
+    function(tab, tabs, panes, config, hover, max_width)
+        local title = tab_title(tab)
+        return ' ' .. tab.tab_index + 1 .. ' ' .. title .. ' '
+    end
 )
 
 return {
@@ -90,11 +90,29 @@ return {
     font = wezterm.font('Liga SFMono Nerd Font'),
     -- font = wezterm.font('JetBrainsMono NF'),
     -- font = wezterm.font('JetBrains Mono'),
-    -- font = wezterm.font('JetBrains Mono'),
     -- font = wezterm.font('Cascadia Code NF'),
     -- font = wezterm.font('SpaceMono NF'),
     -- font = wezterm.font('Fira Code'),
+    -- font = wezterm.font('FiraCode Nerd Font'),
     -- font = wezterm.font('VictorMono NF', { weight = 'Bold'}),
+    -- font = wezterm.font('Maple Mono NF'),
+    font_rules = {
+        {
+            intensity = 'Bold',
+            italic = true,
+            font = wezterm.font('Maple Mono NF', { weight = 'Bold', style = "Italic" }),
+        },
+        {
+            intensity = 'Half',
+            italic = true,
+            font = wezterm.font('Maple Mono NF', { weight = "DemiBold", style = "Italic" }),
+        },
+        {
+            intensity = 'Normal',
+            italic = true,
+            font = wezterm.font('Maple Mono NF', { style = "Italic" }),
+        },
+    },
     font_size = 15,
     line_height = 1.4,
     cell_width = 0.9,
@@ -107,7 +125,7 @@ return {
             -- action = wezterm.action.ToggleFullScreen,
             action = wezterm.action.EmitEvent 'toggle-opacity'
         },
-        { key = 'l', mods = 'SUPER|SHIFT', action = wezterm.action.ShowLauncherArgs { flags = 'WORKSPACES' }},
+        { key = 'l', mods = 'SUPER|SHIFT', action = wezterm.action.ShowLauncherArgs { flags = 'WORKSPACES' } },
         { key = 'n', mods = 'SUPER|SHIFT', action = act.SwitchWorkspaceRelative(1) },
         { key = 'p', mods = 'SUPER|SHIFT', action = act.SwitchWorkspaceRelative(-1) },
         {
