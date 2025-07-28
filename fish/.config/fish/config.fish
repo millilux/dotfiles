@@ -1,9 +1,10 @@
-fish_add_path $HOME/bin
-fish_add_path $HOME/.local/bin
+fish_add_path ~/bin
+fish_add_path ~/.local/bin
 fish_add_path ~/.emacs.d/bin
 fish_add_path ~/.luarocks/bin
 fish_add_path ~/.cargo/bin
 fish_add_path ~/.dotnet ~/.dotnet/tools
+fish_add_path ~/.opencode/bin
 
 set -U fish_greeting
 set -x EDITOR nvim
@@ -52,7 +53,7 @@ end
 fish_add_path ~/.local/share/nvim/lazy/vim-tidal/bin
 
 # opam configuration
-#test -r $HOME/.opam/opam-init/init.fish && source $HOME/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
+test -r $HOME/.opam/opam-init/init.fish && source $HOME/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
 
 mise activate fish | source
 starship init fish | source
