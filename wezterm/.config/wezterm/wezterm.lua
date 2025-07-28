@@ -127,22 +127,22 @@ return {
         },
         {
             key = 'h',
-            mods = 'LEADER',
+            mods = 'ALT',
             action = act.ActivatePaneDirection 'Left',
         },
         {
             key = 'l',
-            mods = 'LEADER',
+            mods = 'ALT',
             action = act.ActivatePaneDirection 'Right',
         },
         {
             key = 'k',
-            mods = 'LEADER',
+            mods = 'ALT',
             action = act.ActivatePaneDirection 'Up',
         },
         {
             key = 'j',
-            mods = 'LEADER',
+            mods = 'ALT',
             action = act.ActivatePaneDirection 'Down',
         },
         {
