@@ -160,10 +160,10 @@
         ;;     :on_attach on_attach
         ;;     :capabilities capabilities
         ;; })
-        (lsp.jedi_language_server.setup {
-            :on_attach on_attach
-            :capabilities capabilities
-        })
+        ; (lsp.jedi_language_server.setup {
+        ;     :on_attach on_attach
+        ;     :capabilities capabilities
+        ; })
         (lsp.lua_ls.setup {
             :on_attach on_attach
             :capabilities capabilities

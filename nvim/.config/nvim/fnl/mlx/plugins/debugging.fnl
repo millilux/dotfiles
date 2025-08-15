@@ -1,6 +1,5 @@
 (local M [
     {1 "mfussenegger/nvim-dap" 
-    :lazy true
     :config (fn [opts]
         (local dap (require :dap))
         (local dapui (require :dapui))
