@@ -12,7 +12,7 @@
                                      ; :lisp
                                      ; :scheme
                                      ]}
-           :config (fn [plugin opts]
+           :config (fn [_ opts]
                      (local cmp_autopairs
                             (require :nvim-autopairs.completion.cmp))
                      (local cmp (require :cmp))

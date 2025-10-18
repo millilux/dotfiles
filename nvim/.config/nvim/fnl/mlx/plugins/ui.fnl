@@ -107,6 +107,7 @@
           ;  }}
           ; {1 "yamatsum/nvim-nonicons"}
           ; {1 "anuvyklack/hydra.nvim"}
+          {1 :folke/zen-mode.nvim}
           ])
 
 M
