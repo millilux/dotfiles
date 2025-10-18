@@ -51,7 +51,7 @@ mise install
 mise use python
 pip3 install -r requirements.txt
 
-npm install -g typescript-language-server graphql-language-service-cli graphql typescript neovim bash-language-server @vscode/codicons vscode-langservers-extracted prettier
+npm install -g typescript-language-server graphql-language-service-cli graphql typescript neovim bash-language-server @vscode/codicons vscode-langservers-extracted prettier yaml-language-server
 
 # Install Fennel
 # luarocks --local install fennel
@@ -100,7 +100,7 @@ opam init -y --disable-sandboxing
 opam install dune ocaml-lsp-server ocamlformat utop
 
 # Install F# LSP (dotnet already installed by mise)
-# dotnet tool install --global fsautocomplete
+dotnet tool install --global fsautocomplete
 
 # Install Haskell LSP (ghcup already installed by mise)
 ghcup install hls
@@ -123,6 +123,10 @@ if [ -f /etc/os-release ] && grep -q "Fedora" /etc/os-release; then
 
     git clone https://github.com/shaunsingh/SFMono-Nerd-Font-Ligaturized.git && cd SFMono-Nerd-Font-Ligaturized
     cp *.otf ~/.local/share/fonts
+
+    wget https://github.com/subframe7536/maple-font/releases/download/v7.7/MapleMono-NF.zip
+    7z x MapleMono-NF.zip
+    mv Maple*.ttf ~/.local/share/fonts
 
     cp ./fonts/05-language-fallback.conf /etc/fonts/conf.d/
 
@@ -171,6 +175,12 @@ if [ -f /etc/os-release ] && grep -q "Fedora" /etc/os-release; then
     ln -s ~/.themes/Dracula/gtk-4.0/assets ~/.config/gtk-4.0/assets
     gsettings set org.gnome.desktop.interface gtk-theme "Dracula"
     gsettings set org.gnome.desktop.wm.preferences theme "Dracula"
+
+    wget https://github.com/dracula/gtk/files/5214870/Dracula.zip
+    7z x Dracula.zip 
+    rm Dracula.zip
+    mv Dracula/ ~/.icons/
+    gsettings set org.gnome.desktop.interface icon-theme "Dracula"
 
     # Fix Houdini App switcher icon under X
     # echo "StartupWMClass=Houdini FX" | sudo tee -a /usr/share/applications/com.sidefx.houdini*.desktop
