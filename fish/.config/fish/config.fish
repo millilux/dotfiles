@@ -33,7 +33,7 @@ end
 
 # Haskell
 fish_add_path ~/.ghcup/bin
-fish_add_path ~/.cabal/bin
+# fish_add_path ~/.cabal/bin
 # source ~/.ghcup/env
 
 

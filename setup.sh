@@ -103,7 +103,10 @@ opam install dune ocaml-lsp-server ocamlformat utop
 dotnet tool install --global fsautocomplete
 
 # Install Haskell LSP (ghcup already installed by mise)
+ghcup install ghc
 ghcup install hls
+ghcup set ghc
+ghcup set hls
 
 # Install WGSL LSP
 cargo install --git https://github.com/wgsl-analyzer/wgsl-analyzer wgsl_analyzer

@@ -25,7 +25,7 @@
         ;     end, bufopts)
             ; (vim.lsp.inlay_hint.enable true)
         )
-        (local lsp (require :lspconfig))
+        (local lsp vim.lsp)
         (local util (require :lspconfig/util))
         (local capabilities ((. (require :cmp_nvim_lsp) :default_capabilities)))
         ; (local capabilities [:default_capabilities])
@@ -38,11 +38,13 @@
                 (error "elixir-ls not found"))
             path
         )
-        (lsp.bashls.setup {
+        (lsp.config "bashls" {
             :on_attach on_attach
             :capabilities capabilities
         })
-        (lsp.ccls.setup {
+        (lsp.enable "bashls")
+
+        (lsp.config "ccls" {
             :on_attach on_attach
             :capabilities capabilities
             :init_options {
@@ -51,21 +53,29 @@
                 :clang { :excludeArgs ["-frounding-math"] }
             }
         })
-        (lsp.clojure_lsp.setup {
+        (lsp.enable "ccls")
+
+        (lsp.config "clojure_lsp" {
             :on_attach on_attach
             :capabilities capabilities
             :root_dir (util.root_pattern "*.clj")
         })
-        (lsp.cssls.setup {
+        ; (lsp.enable "clojure_lsp")
+
+        (lsp.config "cssls" {
             :on_attach on_attach
             :capabilities capabilities
         })
-        (lsp.elixirls.setup {
+        (lsp.enable "cssls")
+
+        (lsp.config "elixirls" {
             :cmd [(find_elixir_ls)]
             :on_attach on_attach
             :capabilities capabilities
         })
-        (lsp.fennel_ls.setup {
+        ; (lsp.enable "elixirls") ; very busted
+
+        (lsp.config "fennel_ls" {
             :on_attach on_attach
             :capabilities capabilities
             :settings {
@@ -80,31 +90,46 @@
               }
             }
         })
-        (lsp.fsautocomplete.setup {
+        (lsp.enable "fennel_ls")
+
+        (lsp.config "fsautocomplete" {
             :on_attach on_attach
             :capabilities capabilities
         })
-        (lsp.gleam.setup {
+        (lsp.enable "fsautocomplete")
+
+        (lsp.config "gleam" {
             :on_attach on_attach
             :capabilities capabilities
         })
-        (lsp.glsl_analyzer.setup {
+        ; (lsp.enable "gleam")
+
+
+        (lsp.config "glsl_analyzer" {
             :on_attach on_attach
             :capabilities capabilities
         })
-        (lsp.graphql.setup {
+        (lsp.enable "glsl_analyzer")
+
+        (lsp.config "graphql" {
             :on_attach on_attach
             :capabilities capabilities
         })
-        (lsp.hls.setup {
+        (lsp.enable "graphql")
+
+        (lsp.config "hls" {
             :on_attach on_attach
             :capabilities capabilities
         })
-        (lsp.html.setup {
+        (lsp.enable "hls")
+
+        (lsp.config "html" {
             :on_attach on_attach
             :capabilities capabilities
         })
-        (lsp.jsonls.setup {
+        (lsp.enable "html")
+
+        (lsp.config "jsonls" {
             :on_attach on_attach
             :capabilities capabilities
             :settings {
@@ -116,15 +141,18 @@
                 }
             }
         })
-        (lsp.ocamllsp.setup {
+        (lsp.enable "jsonls")
+
+        (lsp.config "ocamllsp" {
             :on_attach on_attach
             :capabilities capabilities
         })
-        ; (lsp.ruff.setup {
+        (lsp.enable "ocamllsp")
+        ; (lsp.config "ruff" {
         ;     :on_attach on_attach
         ;     :capabilities capabilities
         ; })
-        ; (lsp.basedpyright.setup {
+        ; (lsp.config "basedpyright" {
         ;     :on_attach on_attach
         ;     :capabilities capabilities
         ;     :settings {
@@ -138,7 +166,7 @@
         ;     }
         ; })
         ; PyLSP has everything except workspace symbols
-        (lsp.pylsp.setup {
+        (lsp.config "pylsp" {
             :cmd [ "pylsp" "-v" "--log-file" "/tmp/nvim-pylsp.log" ]
             :on_attach on_attach
             :capabilities capabilities
@@ -155,16 +183,17 @@
                 }
             }
         })
+        (lsp.enable "pylsp")
         ;; Pyright supports Workspace Symbol search but no code actions/linters/formatters
-        ;; (lsp.pyright.setup {
+        ;; (lsp.config "pyright" {
         ;;     :on_attach on_attach
         ;;     :capabilities capabilities
         ;; })
-        ; (lsp.jedi_language_server.setup {
+        ; (lsp.config "jedi_language_server" {
         ;     :on_attach on_attach
         ;     :capabilities capabilities
         ; })
-        (lsp.lua_ls.setup {
+        (lsp.config "lua_ls" {
             :on_attach on_attach
             :capabilities capabilities
             :settings {
@@ -182,37 +211,44 @@
                 }	
             }
         })
-        (lsp.rust_analyzer.setup {
+        ; (lsp.enable "lua_ls")
+        (lsp.config "rust_analyzer" {
             :on_attach on_attach
             :capabilities capabilities
-            :filetypes ["rust"]
-            :root_dir (util.root_pattern "Cargo.toml")
+            ; :root_dir (util.root_pattern "Cargo.toml")
         })
-        (lsp.ts_ls.setup {
+        (lsp.enable "rust_analyzer")
+
+        (lsp.config "ts_ls" {
             :on_attach on_attach
             :capabilities capabilities
         })
-        (lsp.wgsl_analyzer.setup {
+        (lsp.enable "ts_ls")
+
+        (lsp.config "wgsl_analyzer" {
             :on_attach on_attach
             :capabilities capabilities
             :filetypes ["wgsl"]
         })
-        (lsp.yamlls.setup {
+        (lsp.enable "wgsl_analyzer")
+
+        (lsp.config "yamlls" {
             :on_attach on_attach
             :capabilities capabilities
             :settings {
                 :yaml { :schemas { :kubernetes "*.yaml" }}
             }
         })
+        (lsp.enable "yamlls")
     )}
     {1 "python-rope/pylsp-rope"}
     {1 "nvim-treesitter/nvim-treesitter" :build ":TSUpdate" :config (fn [] 
         (local configs (require :nvim-treesitter.configs))
         (configs.setup { 
             :ensure_installed [
-                "bash" "c" "cpp" "clojure" "dockerfile" "diff" "elixir" "fennel" "fish" "gleam" "glsl" "go" "graphql" "haskell" "hlsl"
+                "bash" "c" "cpp" "css" "clojure" "dockerfile" "diff" "elixir" "fennel" "fish" "gleam" "glsl" "go" "graphql" "haskell" "hlsl"
                 "javascript" "json" "kotlin" "lua" "make" "markdown" "markdown_inline" "ocaml" "python" "query" "regex" "rust" "sql" "swift"
-                "typescript" "toml" "vim" "vimdoc" "wgsl" "yaml" "yuck"
+                "typescript" "toml" "vim" "vimdoc" "wgsl" "xml" "yaml" "yuck"
             ]
             :highlight { 
                 :enable true 
