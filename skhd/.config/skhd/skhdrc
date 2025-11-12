@@ -1,6 +1,6 @@
 # alt == option key on Mac
 
-alt - return : /Applications/iTerm.app
+alt - return : /Applications/WezTerm.app
 
 alt + shift - q : yabai -m window --close
 

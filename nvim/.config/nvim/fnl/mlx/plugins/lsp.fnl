@@ -246,7 +246,7 @@
         (local configs (require :nvim-treesitter.configs))
         (configs.setup { 
             :ensure_installed [
-                "bash" "c" "cpp" "css" "clojure" "dockerfile" "diff" "elixir" "fennel" "fish" "gleam" "glsl" "go" "graphql" "haskell" "hlsl"
+                "bash" "c" "cpp" "css" "clojure" "dockerfile" "diff" "elixir" "fennel" "fish" "gleam" "glsl" "go" "graphql" "groovy" "haskell" "hlsl"
                 "javascript" "json" "kotlin" "lua" "make" "markdown" "markdown_inline" "ocaml" "python" "query" "regex" "rust" "sql" "swift"
                 "typescript" "toml" "vim" "vimdoc" "wgsl" "xml" "yaml" "yuck"
             ]

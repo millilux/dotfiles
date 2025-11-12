@@ -54,6 +54,12 @@
 (each [_ group (pairs groups)]
   (vim.cmd (string.format "highlight %s ctermbg=None guibg=None" group)))
 
+; Highlight current line number, but don't show cursorline
+(vim.cmd "highlight clear CursorLine")
+(vim.cmd "highlight CursorLineNR cterm=bold")
+; TODO autocmd to set on scheme change: https://stackoverflow.com/questions/8247243/highlighting-the-current-line-number-in-vim
+; (vim.api.nvim_set_hl 0 :CursorLineNR {:bg :None :fg :#00dfff :bold true})
+
 ; (vim.cmd "highlight WinSeparator ctermfg=None ctermbg=None guibg=None guifg=None")
 (vim.cmd "highlight FloatBorder guifg=white ctermfg=white")
 
