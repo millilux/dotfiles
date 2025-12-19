@@ -28,6 +28,7 @@
                    :desc :Format}]
            :opts {:formatters_by_ft {:fennel [:fnlfmt]
                                      :yaml [:prettier]
+                                     :graphql [:prettier]
                                      :json [:jq]
                                      :sh [:shfmt]}}}
           {1 :MagicDuck/grug-far.nvim
