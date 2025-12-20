@@ -211,6 +211,7 @@
                 }	
             }
         })
+        (lsp.enable "rescriptls")
         ; (lsp.enable "lua_ls")
         (lsp.config "rust_analyzer" {
             :on_attach on_attach
@@ -247,7 +248,7 @@
         (configs.setup { 
             :ensure_installed [
                 "bash" "c" "cpp" "css" "clojure" "dockerfile" "diff" "elixir" "fennel" "fish" "gleam" "glsl" "go" "graphql" "groovy" "haskell" "hlsl"
-                "javascript" "json" "kotlin" "lua" "make" "markdown" "markdown_inline" "ocaml" "python" "query" "regex" "rust" "sql" "swift"
+                "javascript" "json" "kotlin" "lua" "make" "markdown" "markdown_inline" "ocaml" "python" "query" "qmljs" "regex" "rescript" "rust" "sql" "swift"
                 "typescript" "toml" "vim" "vimdoc" "wgsl" "xml" "yaml" "yuck"
             ]
             :highlight { 
