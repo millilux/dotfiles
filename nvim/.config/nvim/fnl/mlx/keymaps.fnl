@@ -60,7 +60,10 @@
 ;; Code
 (map! [:n] "<leader>cs" ":FzfLua lsp_document_symbols<CR>")
 (map! [:n] "<leader>cS" ":FzfLua lsp_workspace_symbols<CR>")
-(map! [:n] "<leader>cp" ":CodeCompanionChat Toggle<CR>")
+(map! [:nv] "<leader>ac" ":CodeCompanionChat Toggle<CR>")
+(map! [:nv] "<leader>aa" ":CodeCompanionActions<CR>")
+(map! [:v] "<leader>ae" ":CodeCompanion /explain<CR>")
+(map! [:v] "<leader>af" ":CodeCompanion /fix<CR>")
 ; (map! [:n] "<leader>cp" ":CopilotChat<CR>")
 ; (map! [:n] "<leader>cpc" ":CopilotChatReset<CR>")
 ; (map! [:v] "<leader>cpe" ":CopilotChatExplain<CR>")
