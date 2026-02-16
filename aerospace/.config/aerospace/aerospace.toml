@@ -16,7 +16,13 @@ after-login-command = []
 
 # Default behaviour is weird that workspace 1 always is accordion layout. Let's override to make it normal.
 # https://github.com/nikitabobko/AeroSpace/issues/775#issuecomment-2516931688 
-after-startup-command = ['layout tiles']  
+after-startup-command = [
+    'layout tiles',
+    # 'exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=5.0'
+    'exec-and-forget borders active_color=0xff3ddbd9 inactive_color=0x00ee5396' # 0xargb
+     
+]
+
 
 # Start AeroSpace at login
 start-at-login = true
@@ -89,6 +95,7 @@ PATH = '/opt/homebrew/bin:/opt/homebrew/sbin:${PATH}'
 alt-enter = 'exec-and-forget open -n /Applications/WezTerm.app'
 alt-e = 'exec-and-forget open .'
 alt-f = 'layout floating tiling'
+alt-shift-m = 'fullscreen' # This is really maximize 
 alt-q = 'close'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#layout
@@ -164,7 +171,7 @@ if.app-id = 'com.apple.Safari'
 run = 'move-node-to-workspace 9'  
 
 [[on-window-detected]]
-if.app-id = 'com.apple.com.google.Chrome'
+if.app-id = 'com.google.Chrome'
 run = 'move-node-to-workspace 10'  
 
 [[on-window-detected]]
