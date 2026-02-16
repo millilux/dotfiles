@@ -114,6 +114,9 @@ cargo install --git https://github.com/wgsl-analyzer/wgsl-analyzer wgsl_analyzer
 # Turn off Go telemetry
 go telemetry off
 
+# Install yazi theme
+ya pkg add yazi-rs/flavors:dracula
+
 fish -c fish_update_completions
 
 if [ -f /etc/os-release ] && grep -q "Fedora" /etc/os-release; then

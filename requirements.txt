@@ -16,6 +16,6 @@ python-lsp-ruff
 python-lsp-server
 rope
 ropevim
-ruff
-uv
+# ruff - use mise
+# uv - use mise
 visidata
