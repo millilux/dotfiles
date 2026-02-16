@@ -75,6 +75,7 @@ return {
     tab_bar_at_bottom = true,
     show_new_tab_button_in_tab_bar = false,
     use_dead_keys = false,
+    -- native_macos_fullscreen_mode = false,
     -- RESIZE doesn't play well with hyprland but it's not needed
     window_decorations = wezterm.target_triple == 'x86_64-unknown-linux-gnu' and 'NONE' or 'RESIZE',
     window_background_opacity = 0.85,
