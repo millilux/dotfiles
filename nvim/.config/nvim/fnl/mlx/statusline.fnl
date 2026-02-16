@@ -61,6 +61,7 @@
 
 
 (fn branch []
+  ; vim.b.gitsigns_head ; depends on gitsigns, but nice and short?
   (let [cmd (io.popen "git branch --show-current 2>/dev/null")
         branch (or (cmd:read :*l) (cmd:read :*a))]
     (cmd:close)
@@ -79,7 +80,7 @@
 (fn filetype []
   (string.format "%s" (or (. filetypes vim.bo.filetype) "")))
 
-(global Status (fn []
+(global statusline (fn []
     (table.concat [
         "%#Normal#" ; transparent appearance 
         (mode)
@@ -93,7 +94,7 @@
         " %l:%c  " ; line & column
         ])))
 
-(vim.api.nvim_create_autocmd [:WinEnter :BufEnter]
-                             {:command "setlocal statusline=%!v:lua.Status()"
-                              :pattern "*"})
 
+(vim.api.nvim_create_autocmd [:WinEnter :BufEnter]
+                             {:command "setlocal statusline=%!v:lua.statusline()"
+                              :pattern "*"})
