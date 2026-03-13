@@ -1,7 +1,7 @@
 ;; extends
 
 (("lambda" @keyword) (#set! conceal "ﬦ "))
-(("def"    @keyword) (#set! conceal "󰊕  "))
+(("def"    @keyword) (#set! conceal "ƒ "))
 (("class"  @keyword) (#set! conceal "𝑇 "))
 (("in"     @keyword) (#set! conceal "∈ "))
 (("or"     @keyword) (#set! conceal "∨ "))
