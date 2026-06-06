@@ -51,7 +51,7 @@ mise install
 mise use python
 pip3 install -r requirements.txt
 
-npm install -g typescript-language-server graphql-language-service-cli graphql typescript neovim bash-language-server @vscode/codicons vscode-langservers-extracted prettier yaml-language-server
+npm install -g typescript-language-server graphql-language-service-cli graphql typescript neovim bash-language-server @rescript/language-server @vscode/codicons vscode-langservers-extracted prettier yaml-language-server
 
 # Install Fennel
 # luarocks --local install fennel
@@ -190,6 +190,37 @@ if [ -f /etc/os-release ] && grep -q "Fedora" /etc/os-release; then
 
     # Fix Houdini App switcher icon under X
     # echo "StartupWMClass=Houdini FX" | sudo tee -a /usr/share/applications/com.sidefx.houdini*.desktop
+   
+    # Desktop Shell
+    mkdir -p ~/.config/quickshell/noctalia-shell && \
+    curl -sL https://github.com/noctalia-dev/noctalia-shell/releases/latest/download/noctalia-latest.tar.gz | \
+    tar -xz --strip-components=1 -C ~/.config/quickshell/noctalia-shell
+
+    # Theme for fcitx
+    mkdir -p ~/.local/share/fcitx5/themes/dracula
+    git clone https://github.com/drbbr/fcitx5-dracula-theme.git ~/.local/share/fcitx5/themes/dracula
+
+    function setup_fcitx_env
+        set -l envdir ~/.config/environment.d
+        set -l envfile $envdir/input.conf
+
+        # Ensure directory exists
+        mkdir -p $envdir
+
+        # Write environment variables (overwrite safely)
+        printf "%s\n" \
+            "GTK_IM_MODULE=fcitx" \
+            "QT_IM_MODULE=fcitx" \
+            "XMODIFIERS=@im=fcitx" \
+            > $envfile
+
+        # Reload systemd user environment
+        systemctl --user import-environment GTK_IM_MODULE QT_IM_MODULE XMODIFIERS
+
+        echo "Updated $envfile and reloaded environment."
+    end
+
+    setup_fcitx_env
 fi
 
 # Setup Mac
@@ -231,3 +262,7 @@ if [[ $(uname -a) =~ ^WSL.* ]]; then
     # Install dotnet
     sudo apt-get update && sudo apt-get install -y dotnet-sdk-7.0
 fi
+
+# Firefox settings
+# widget.wayland.fractional-scale.enabled = false # fix extension scaling weirdness on hyprland
+#
