@@ -97,6 +97,11 @@
           ; {1 :sphamba/smear-cursor.nvim :opts {}}
           {1 :yorickpeterse/nvim-pqf :config true}
           ; {1 :chentoast/marks.nvim :config true}
+          ; {1 :dimtion/guttermarks.nvim
+          ;  ; :lazy true
+          ;  ; :event :VeryLazy
+          ;   :event [:BufReadPost :BufNewFile :BufWritePre :FileType]}
+
           ; {1 :kevinhwang91/nvim-ufo
           ;  :dependencies [:kevinhwang91/promise-async]
           ;  :opts {:open_fold_hl_timeout 0

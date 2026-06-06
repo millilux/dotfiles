@@ -81,6 +81,11 @@
   (string.format "%s" (or (. filetypes vim.bo.filetype) "")))
 
 (global statusline (fn []
+
+; lua print(vim.inspect(_G.codecompanion_chat_metadata))
+;
+; (let [bufnr (vim.api.nvim_get_current_buf)])
+
     (table.concat [
         "%#Normal#" ; transparent appearance 
         (mode)
