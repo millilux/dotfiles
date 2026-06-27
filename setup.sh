@@ -18,7 +18,12 @@ else
 fi
 
 if command -v dnf &> /dev/null; then
-    sudo dnf install $(cat fedora-packages.txt)
+    # Enable copr repos first — some packages below are served from them.
+    # `sed 's/#.*//'` strips inline/standalone comments; word-splitting drops blanks.
+    for repo in $(sed 's/#.*//' fedora-copr.txt); do
+        sudo dnf copr enable -y "$repo"
+    done
+    sudo dnf install -y $(sed 's/#.*//' fedora-packages.txt)
 elif command -v brew &> /dev/null; then
     # TODO: only use brew on Mac and WSL
     brew bundle install

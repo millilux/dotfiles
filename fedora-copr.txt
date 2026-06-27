@@ -1,0 +1,13 @@
+# Copr repositories to enable BEFORE installing fedora-packages.txt.
+# Several packages there come from these (e.g. fsearch, Hyprland, wezterm,
+# quickshell, iosevka, bibata-cursor-themes). setup.sh runs `dnf copr enable`
+# on each of these first. Inline `# comments` are stripped at enable time.
+cboxdoerfer/fsearch
+che/nerd-fonts
+emixampp/synology-drive
+heus-sueh/packages # For mutagen
+lionheartp/Hyprland
+peterwu/iosevka
+peterwu/rendezvous # bibata-cursor-themes
+wezfurlong/wezterm-nightly
+errornointernet/quickshell

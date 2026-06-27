@@ -1,0 +1,100 @@
+bat
+btop
+
+# For ccls
+clang
+clang-devel
+llvm-devel
+ 
+bibata-cursor-themes
+chafa
+emacs
+dotnet-sdk-8.0
+dotnet-sdk-9.0
+entr
+eza
+fd-find
+fennel
+fish
+fsearch
+fzf
+gh
+git-delta
+helix
+hyprland
+hyprland-devel
+hyprland-guiutils
+hyprlock
+hyprpaper
+hyprpicker
+hyprshot
+jack-audio-connection-kit 
+libXScrnSaver
+libjpeg-turbo-devel
+love.x86_64
+lua-language-server
+mate-polkit
+imv # fast Wayland-native image viewer (bound to $mod+I, floats)
+mpv
+mpv-mpris
+ncdu
+libva-nvidia-driver # VA-API -> NVDEC bridge for browser HW video decode (needs NVD_BACKEND=direct)
+libva-utils # provides vainfo to verify VA-API
+neovim
+nerd-fonts # fontconfig allows fallbacks if certain symbols are missing from a used font. It doesn't install patched copies of the fonts
+nethogs
+nvtop
+opam
+pandoc # Needed to build fennel-ls
+p7zip*
+pavucontrol
+quickshell
+qjackctl
+qt6-qtimageformats
+renderdoc
+ripgrep
+rofi
+sddm
+sddm-breeze
+sqlite
+stow
+swww
+udiskie
+waybar
+wezterm
+wlogout
+zoxide
+
+SwayNotificationCenter
+
+# For eww
+gdk-pixbuf2-devel
+gtk-layer-shell-devel
+libdbusmenu-devel
+libdbusmenu-gtk3-devel
+
+# Copr repos moved to fedora-copr.txt (must be enabled before these install)
+
+# Fonts
+fira-code-fonts
+cascadia-code-nf-fonts
+jetbrains-mono-fonts
+iosevka
+
+# Desktop apps
+blender
+dialect
+gnome-tweaks
+nicotine+
+
+# Boot
+plymouth-plugin-script
+
+# VMs
+@virtualization
+
+# Keyboard Input
+fcitx5
+fcitx5-mozc 
+fcitx5-configtool
+
