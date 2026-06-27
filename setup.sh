@@ -188,6 +188,13 @@ if [ -f /etc/os-release ] && grep -q "Fedora" /etc/os-release; then
     mv Dracula/ ~/.icons/
     gsettings set org.gnome.desktop.interface icon-theme "Dracula"
 
+    # Default apps: open images in loupe instead of letting the browser grab them
+    xdg-mime default org.gnome.Loupe.desktop image/png image/jpeg image/gif image/webp image/bmp image/tiff image/svg+xml image/x-icon image/heif image/avif image/x-portable-pixmap
+
+    # swaync runs via exec-once in hyprland.conf; mask its bus-activated systemd unit so it
+    # doesn't double-start and flap once graphical-session.target is active.
+    systemctl --user mask swaync.service
+
     # Fix Houdini App switcher icon under X
     # echo "StartupWMClass=Houdini FX" | sudo tee -a /usr/share/applications/com.sidefx.houdini*.desktop
    
