@@ -1,0 +1,14 @@
+# Minimal systemd session target for Hyprland (non-uwsm).
+# Started from hyprland.conf via `exec-once = systemctl --user start hyprland-session.target`.
+# Its only job: activate graphical-session.target (which RefuseManualStart=yes, so it can
+# only be pulled up as a dependency) so that xdg-desktop-portal can start. Without this the
+# portal stack never runs and Flatpaks ignore the system dark theme, file pickers/screenshare
+# break, etc. See https://wiki.hypr.land/Useful-Utilities/Systemd-start/
+[Unit]
+Description=Hyprland session
+BindsTo=graphical-session.target
+Before=graphical-session.target
+Wants=graphical-session-pre.target
+After=graphical-session-pre.target
+Wants=xdg-desktop-autostart.target
+Before=xdg-desktop-autostart.target
