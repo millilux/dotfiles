@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+#
+# tmux-sessionizer — fuzzy-jump to a project as a tmux session.
+#
+# One session per project, so all of a project's windows (edit, test, k9s,
+# logs, notes) travel together and stay hidden until you switch to them.
+#
+# Usage:
+#   tmux-sessionizer            fzf-pick a project dir
+#   tmux-sessionizer <dir>      jump straight to <dir>
+#
+# Bound to prefix+f inside tmux (see tmux.conf) and $mod+O in Hyprland.
+
+# Directories to search for projects (one level deep). Edit to taste.
+ROOTS=("$HOME/projects")
+
+if [[ $# -eq 1 ]]; then
+    selected=$1
+else
+    selected=$(find "${ROOTS[@]}" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | fzf)
+fi
+
+[[ -z $selected ]] && exit 0
+
+# tmux session names can't contain dots or colons.
+selected_name=$(basename "$selected" | tr '.:' '__')
+tmux_running=$(pgrep tmux)
+
+# No tmux server at all: start one, attached, in the project dir.
+if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+    tmux new-session -s "$selected_name" -c "$selected"
+    exit 0
+fi
+
+# Create the session detached if it doesn't exist yet.
+if ! tmux has-session -t="$selected_name" 2>/dev/null; then
+    tmux new-session -ds "$selected_name" -c "$selected"
+fi
+
+# Attach (from a bare shell) or switch (from inside tmux).
+if [[ -z $TMUX ]]; then
+    tmux attach-session -t "$selected_name"
+else
+    tmux switch-client -t "$selected_name"
+fi

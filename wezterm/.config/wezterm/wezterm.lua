@@ -1,6 +1,16 @@
 local wezterm = require 'wezterm'
 local act = wezterm.action
 
+-- Send the tmux prefix (C-b) then <key>, so tmux commands become single
+-- "prefixless" Alt chords. The tmux prefix stays at its default C-b, which
+-- this hard-codes. (Pattern from joshmedeski/dotfiles-wezterm.)
+local function tmux(key)
+    return act.Multiple {
+        act.SendKey { mods = 'CTRL', key = 'b' },
+        act.SendKey { key = key },
+    }
+end
+
 -- On Mac, command is the super key
 
 local default_domain = 'local'
@@ -70,9 +80,10 @@ return {
         },
     },
     macos_window_background_blur = 75,
-    enable_tab_bar = true,
-    use_fancy_tab_bar = false,
-    tab_bar_at_bottom = true,
+    enable_tab_bar = false,
+    -- enable_tab_bar = true,
+    -- use_fancy_tab_bar = false,
+    -- tab_bar_at_bottom = true,
     show_new_tab_button_in_tab_bar = false,
     use_dead_keys = false,
     -- native_macos_fullscreen_mode = false,
@@ -120,65 +131,45 @@ return {
 
     leader = { key = ' ', mods = 'CTRL' },
     keys = {
+        -- Wezterm-native nicety kept on the leader; tmux owns everything else.
         {
             key = 'Enter',
             mods = 'LEADER',
             -- action = wezterm.action.ToggleFullScreen,
             action = wezterm.action.EmitEvent 'toggle-opacity'
         },
-        { key = 'l', mods = 'SUPER|SHIFT', action = wezterm.action.ShowLauncherArgs { flags = 'WORKSPACES' } },
-        { key = 'n', mods = 'SUPER|SHIFT', action = act.SwitchWorkspaceRelative(1) },
-        { key = 'p', mods = 'SUPER|SHIFT', action = act.SwitchWorkspaceRelative(-1) },
-        {
-            key = 'x',
-            mods = 'LEADER',
-            action = act.CloseCurrentPane { confirm = false },
-        },
-        {
-            key = 'v',
-            mods = 'LEADER',
-            action = act.SplitHorizontal { domain = 'CurrentPaneDomain' },
-        },
-        {
-            key = 's',
-            mods = 'LEADER',
-            action = act.SplitVertical { domain = 'CurrentPaneDomain' },
-        },
-        {
-            key = 'h',
-            mods = 'ALT',
-            action = act.ActivatePaneDirection 'Left',
-        },
-        {
-            key = 'l',
-            mods = 'ALT',
-            action = act.ActivatePaneDirection 'Right',
-        },
-        {
-            key = 'k',
-            mods = 'ALT',
-            action = act.ActivatePaneDirection 'Up',
-        },
-        {
-            key = 'j',
-            mods = 'ALT',
-            action = act.ActivatePaneDirection 'Down',
-        },
-        {
-            key = 'r',
-            mods = 'LEADER',
-            action = act.PromptInputLine {
-                description = 'Enter new name for tab',
-                action = wezterm.action_callback(function(window, pane, line)
-                    -- line will be `nil` when hitting escape without entering anything
-                    -- An empty string if just hitting enter
-                    -- Or the actual line of text
-                    if line then
-                        window:active_tab():set_title(line)
-                    end
-                end),
-            },
-        },
+
+        -- Prefixless tmux layer: Alt+<key> injects `C-b <key>`. tmux is the sole
+        -- multiplexer; Wezterm's own panes/workspaces are retired in its favour.
+        -- Concentric hjkl nav: Ctrl=nvim splits, Alt=tmux panes, Super=Hyprland.
+        { key = 'h', mods = 'ALT', action = tmux 'h' }, -- pane left
+        { key = 'j', mods = 'ALT', action = tmux 'j' }, -- pane down
+        { key = 'k', mods = 'ALT', action = tmux 'k' }, -- pane up
+        { key = 'l', mods = 'ALT', action = tmux 'l' }, -- pane right
+
+        { key = 'v', mods = 'ALT', action = tmux 'v' }, -- split side-by-side
+        { key = 's', mods = 'ALT', action = tmux 's' }, -- split stacked
+        { key = 'x', mods = 'ALT', action = tmux 'x' }, -- kill pane
+        { key = 'z', mods = 'ALT', action = tmux 'z' }, -- zoom pane toggle
+        { key = '[', mods = 'ALT', action = tmux '[' }, -- copy mode
+
+        { key = 'c', mods = 'ALT', action = tmux 'c' }, -- new window
+        { key = 'n', mods = 'ALT', action = tmux 'n' }, -- next window
+        { key = 'p', mods = 'ALT', action = tmux 'p' }, -- prev window
+        { key = 'w', mods = 'ALT', action = tmux 'w' }, -- window/session tree
+        { key = 'r', mods = 'ALT', action = tmux 'r' }, -- rename window
+        { key = 'o', mods = 'ALT', action = tmux 'f' }, -- sessionizer (mirrors Super+O)
+
+        { key = '1', mods = 'ALT', action = tmux '1' },
+        { key = '2', mods = 'ALT', action = tmux '2' },
+        { key = '3', mods = 'ALT', action = tmux '3' },
+        { key = '4', mods = 'ALT', action = tmux '4' },
+        { key = '5', mods = 'ALT', action = tmux '5' },
+        { key = '6', mods = 'ALT', action = tmux '6' },
+        { key = '7', mods = 'ALT', action = tmux '7' },
+        { key = '8', mods = 'ALT', action = tmux '8' },
+        { key = '9', mods = 'ALT', action = tmux '9' },
+
         -- Fix Arrow Keys within WSL only
         -- { key = 'UpArrow', action = wezterm.action { SendString = '\x1b[A' } },
         -- { key = 'DownArrow', action = wezterm.action { SendString = '\x1b[B' } },
