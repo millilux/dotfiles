@@ -110,7 +110,8 @@
 ;; Set to 3 for neovim's global statusline, 0 to turn it off completely
 (set! laststatus 3)
 
-; (set! statuscolumn "%s %=%l %C ")
+
+(set! statuscolumn "%s %=%l %C ")
 
 (set! scrolloff 12)
 
