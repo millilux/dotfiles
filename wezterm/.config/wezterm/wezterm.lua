@@ -153,6 +153,7 @@ return {
         { key = '[', mods = 'ALT', action = tmux '[' }, -- copy mode
 
         { key = 't', mods = 'ALT', action = tmux 'c' }, -- new window
+        { key = 't', mods = 'ALT|SHIFT', action = tmux 'T' }, -- new session (bind T new-session)
         { key = 'n', mods = 'ALT', action = tmux 'n' }, -- next window
         { key = 'p', mods = 'ALT', action = tmux 'p' }, -- prev window
         { key = 'n', mods = 'ALT|SHIFT', action = tmux ')' }, -- next session (tmux native ))
