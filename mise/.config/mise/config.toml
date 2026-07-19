@@ -34,6 +34,7 @@ stylua   = "latest"
 ruff     = "latest"              # global=latest; pin per-project for CI parity
 starship = "latest"
 yazi     = "latest"
+tree-sitter = "latest"   # CLI used by nvim-treesitter (main branch) to compile parsers
 "ubi:nolanderc/glsl_analyzer"     = "latest"   # was: `zig build` in setup.sh
 "ubi:wgsl-analyzer/wgsl-analyzer" = "latest"   # was: `cargo install --git ...`
 

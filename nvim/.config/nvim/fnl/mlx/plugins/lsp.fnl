@@ -243,119 +243,62 @@
         (lsp.enable "yamlls")
     )}
     {1 "python-rope/pylsp-rope"}
-    {1 "nvim-treesitter/nvim-treesitter" :build ":TSUpdate" :config (fn [] 
-        (local configs (require :nvim-treesitter.configs))
-        (configs.setup { 
-            :ensure_installed [
-                "bash" "c" "cpp" "css" "clojure" "dockerfile" "diff" "elixir" "fennel" "fish" "gleam" "glsl" "go" "graphql" "groovy" "haskell" "hlsl"
-                "javascript" "json" "kotlin" "lua" "make" "markdown" "markdown_inline" "ocaml" "python" "query" "qmljs" "regex" "rescript" "rust" "sql" "swift"
-                "typescript" "toml" "vim" "vimdoc" "wgsl" "xml" "yaml" "yuck"
-            ]
-            :highlight { 
-                :enable true 
-                :additional_vim_regex_highlighting false 
-            }
-            :textobjects {
-                :select {
-                    :enable true
-                    :lookahead true
-                    :keymaps {
-                        "aa" "@parameter.outer"
-                        "ia" "@parameter.inner"
-                        "ai" "@conditional.outer"
-                        "ii" "@conditional.inner"
-                        "al" "@loop.outer"
-                        "il" "@loop.inner"
-                        "af" "@function.outer"
-                        "if" "@function.inner"
-                        "ac" "@class.outer"
-                        "ic" "@class.inner"
-                        "ab" "@block.outer"
-                        "ib" "@block.inner"
-                    }
-                    ;; You can choose the select mode (default is charwise 'v')
-                    ;; selection_modes = {
-                    ;;     ['@parameter.outer'] = 'v' -- charwise
-                    ;;     ['@function.outer'] = 'V' -- linewise
-                    ;;     ['@class.outer'] = '<c-v>' -- blockwise
-                    ;; }
-                }
-                :swap {
-                    :enable true
-                    :swap_next {
-                        "<leader>a" "@parameter.inner"
-                        ; "<leader>a" "@class.outer"
-                    }
-                    :swap_previous {
-                        "<leader>A" "@parameter.inner"
-                        ; "<leader>A" "@class.outer"
-                    }
-                }
-                :move { 
-                    :enable true 
-                    :set_jumps true
-                    :goto_next_start {
-                        "]a" "@parameter.outer"
-                        "]l" "@loop.outer"
-                        "]i" "@conditional.outer"
-                        "]f" "@function.outer"
-                        "]b" "@block.outer"
-                        "]r" "@return.outer"
-                        "]s" "@statement.outer"
-                    }
-                    :goto_next_end {
-                        "]A" "@parameter.outer"
-                        "]L" "@loop.outer"
-                        "]I" "@conditional.outer"
-                        "]F" "@function.outer"
-                        "]B" "@block.outer"
-                        "]R" "@return.outer"
-                        "]S" "@statement.outer"
-                    }
-                    :goto_previous_start {
-                        "[a" "@parameter.outer"
-                        "[l" "@loop.outer"
-                        "[i" "@conditional.outer"
-                        "[f" "@function.outer"
-                        "[b" "@block.outer"
-                        "[r" "@return.outer"
-                        "[s" "@statement.outer"
-                    }
-                    :goto_previous_end {
-                        "[A" "@parameter.outer"
-                        "[L" "@loop.outer"
-                        "[I" "@conditional.outer"
-                        "[F" "@function.outer"
-                        "[B" "@block.outer"
-                        "[R" "@return.outer"
-                        "[S" "@statement.outer"
-                    }
-                }
-            }
-        })
-        ;; nvim-treesitter (master branch, now EOL) breaks on nvim 0.11+: query
-        ;; match captures became TSNode *arrays*, but its injection directive
-        ;; `set-lang-from-info-string!` still treats them as single nodes. Parsing
-        ;; any ```lang fenced block (e.g. when render-markdown forces a full
-        ;; injection parse — this crashed on README.md) then errors with
-        ;; "attempt to call method 'range' (a nil value)". Re-register the
-        ;; directive array-aware until we migrate to the `main` branch.
-        (pcall require :nvim-treesitter.query_predicates)
-        (local ts-lang-aliases {:ex :elixir :pl :perl :sh :bash :uxn :uxntal :ts :typescript})
-        (vim.treesitter.query.add_directive "set-lang-from-info-string!"
-            (fn [matches _ bufnr pred metadata]
-                (var node (. matches (. pred 2)))
-                (when (= (type node) :table)
-                    (set node (. node (length node))))
-                (when node
-                    (local alias (string.lower (vim.treesitter.get_node_text node bufnr)))
-                    (tset metadata "injection.language"
-                        (or (vim.filetype.match {:filename (.. "a." alias)})
-                            (. ts-lang-aliases alias)
-                            alias))))
-            {:force true})
-    )}
-    {1 "https://github.com/nvim-treesitter/nvim-treesitter-textobjects"}
+    {1 "nvim-treesitter/nvim-treesitter"
+     :branch "main"       ; the rewrite for nvim 0.11+; master is EOL
+     :lazy false          ; main branch does not support lazy-loading
+     :build ":TSUpdate"
+     :config (fn []
+        (local ts (require :nvim-treesitter))
+        ;; Ensure parsers are installed (async; no-op if already present).
+        ;; Compiled by the tree-sitter CLI (mise-managed) into stdpath('data')/site.
+        (ts.install [
+            "bash" "c" "cpp" "css" "clojure" "dockerfile" "diff" "elixir" "fennel" "fish" "gleam" "glsl" "go" "graphql" "groovy" "haskell" "hlsl"
+            "javascript" "json" "kotlin" "lua" "make" "markdown" "markdown_inline" "ocaml" "python" "query" "qmljs" "regex" "rescript" "rust" "sql" "swift"
+            "typescript" "toml" "vim" "vimdoc" "wgsl" "xml" "yaml" "yuck"
+        ])
+        ;; Highlighting is no longer a module — enable Neovim-native treesitter
+        ;; highlighting for every filetype that has a parser (pcall no-ops where
+        ;; there is none). Injections and folds are handled natively too, which is
+        ;; what fixes the fenced-code-block crash the old master shim worked around.
+        (vim.api.nvim_create_autocmd :FileType
+            {:callback (fn [ev] (pcall vim.treesitter.start ev.buf))}))}
+    {1 "nvim-treesitter/nvim-treesitter-textobjects"
+     :branch "main"
+     :config (fn []
+        (local tobj (require :nvim-treesitter-textobjects))
+        (local ts-select (require :nvim-treesitter-textobjects.select))
+        (local ts-swap (require :nvim-treesitter-textobjects.swap))
+        (local ts-move (require :nvim-treesitter-textobjects.move))
+        (tobj.setup {:select {:lookahead true} :move {:set_jumps true}})
+        ;; select (visual / operator-pending)
+        (fn sel [key obj] (vim.keymap.set [:x :o] key #(ts-select.select_textobject obj :textobjects)))
+        (sel "aa" "@parameter.outer")   (sel "ia" "@parameter.inner")
+        (sel "ai" "@conditional.outer") (sel "ii" "@conditional.inner")
+        (sel "al" "@loop.outer")        (sel "il" "@loop.inner")
+        (sel "af" "@function.outer")    (sel "if" "@function.inner")
+        (sel "ac" "@class.outer")       (sel "ic" "@class.inner")
+        (sel "ab" "@block.outer")       (sel "ib" "@block.inner")
+        ;; swap
+        (vim.keymap.set :n "<leader>a" #(ts-swap.swap_next "@parameter.inner"))
+        (vim.keymap.set :n "<leader>A" #(ts-swap.swap_previous "@parameter.inner"))
+        ;; move (next/prev * start/end)
+        (fn mv [f key obj] (vim.keymap.set [:n :x :o] key #((. ts-move f) obj :textobjects)))
+        (mv :goto_next_start "]a" "@parameter.outer")   (mv :goto_next_start "]l" "@loop.outer")
+        (mv :goto_next_start "]i" "@conditional.outer") (mv :goto_next_start "]f" "@function.outer")
+        (mv :goto_next_start "]b" "@block.outer")       (mv :goto_next_start "]r" "@return.outer")
+        (mv :goto_next_start "]s" "@statement.outer")
+        (mv :goto_next_end "]A" "@parameter.outer")   (mv :goto_next_end "]L" "@loop.outer")
+        (mv :goto_next_end "]I" "@conditional.outer") (mv :goto_next_end "]F" "@function.outer")
+        (mv :goto_next_end "]B" "@block.outer")       (mv :goto_next_end "]R" "@return.outer")
+        (mv :goto_next_end "]S" "@statement.outer")
+        (mv :goto_previous_start "[a" "@parameter.outer")   (mv :goto_previous_start "[l" "@loop.outer")
+        (mv :goto_previous_start "[i" "@conditional.outer") (mv :goto_previous_start "[f" "@function.outer")
+        (mv :goto_previous_start "[b" "@block.outer")       (mv :goto_previous_start "[r" "@return.outer")
+        (mv :goto_previous_start "[s" "@statement.outer")
+        (mv :goto_previous_end "[A" "@parameter.outer")   (mv :goto_previous_end "[L" "@loop.outer")
+        (mv :goto_previous_end "[I" "@conditional.outer") (mv :goto_previous_end "[F" "@function.outer")
+        (mv :goto_previous_end "[B" "@block.outer")       (mv :goto_previous_end "[R" "@return.outer")
+        (mv :goto_previous_end "[S" "@statement.outer"))}
     ; {1 "nvim-treesitter/nvim-treesitter-context"}
     ; {1 "numToStr/Comment.nvim" :config true} ; Trying 0.10's built-in comments instead
     ; {1 "python-rope/ropevim"}
