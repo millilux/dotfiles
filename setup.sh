@@ -53,10 +53,18 @@ curl https://mise.run | sh
 # Install languages and tools from global config
 mise install
 
-mise use python
-pip3 install -r requirements.txt
+# Runtimes + most LSPs/formatters/linters are declared in
+# mise/.config/mise/config.toml (npm:/pipx:/ubi:/aqua: backends) and installed
+# by `mise install` above — one cross-platform source of truth.
 
-npm install -g typescript-language-server graphql-language-service-cli graphql typescript neovim bash-language-server @rescript/language-server @vscode/codicons vscode-langservers-extracted prettier yaml-language-server
+# pylsp is the exception: its plugins must share ONE venv, which pipx/mise can't
+# express, so install it with uv (uv is a mise-managed tool).
+uv tool install python-lsp-server \
+    --with pyls-isort --with pylsp-mypy --with python-lsp-ruff --with pylsp-rope
+
+# Neovim's Python provider libs must live in the interpreter nvim calls as its
+# python3 host — kept in requirements.txt (now trimmed to provider-only).
+pip3 install -r requirements.txt
 
 # Install Fennel
 # luarocks --local install fennel
@@ -90,15 +98,12 @@ cmake -S. -BRelease
 mv ccls ~/bin/
 # make && make install PREFIX=$HOME
 
-# Install GLSL Analyzer
-git clone https://github.com/nolanderc/glsl_analyzer.git
-cd glsl_analyzer
-zig build install -Doptimize=ReleaseSafe --prefix $LOCAL_BIN
-rm -rf glsl_analyzer
+# glsl_analyzer + wgsl-analyzer now come from mise (ubi: backend, prebuilt release
+# binaries) instead of a zig build / cargo-from-git. See mise config.toml.
 
 # Install Rust
 # curl https://sh.rustup.rs -sSf | sh
-# rustup component add rust-analyzer
+# rust-analyzer now via mise (aqua:rust-lang/rust-analyzer)
 
 # Install OCaml (opam already installed by mise)
 opam init -y --disable-sandboxing
@@ -112,9 +117,6 @@ ghcup install ghc
 ghcup install hls
 ghcup set ghc
 ghcup set hls
-
-# Install WGSL LSP
-cargo install --git https://github.com/wgsl-analyzer/wgsl-analyzer wgsl_analyzer
 
 # Turn off Go telemetry
 go telemetry off

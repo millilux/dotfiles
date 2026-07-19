@@ -1,20 +1,64 @@
+# ~/.config/mise/config.toml — GLOBAL toolchain (this dotfiles repo).
+#
+# One cross-platform source of truth for language runtimes AND editor tooling
+# (LSPs, formatters, linters). Backends resolve to the same upstream binaries on
+# Fedora and macOS, so nvim/helix/shell/CI all see identical tools on both boxes.
+#
+# Layering: per-project `mise.toml` files override this (runtime version pins,
+# CI-parity linter pins). GLOBAL = daily-driver runtimes + every LSP the editor
+# needs everywhere. PROJECT = "this repo needs node 20 / ruff 0.6.9".
+
 [tools]
-elixir = "latest"
-elixir-ls = "latest"
-elm = "latest"
-erlang = "latest"
-gleam = "latest"
-go = "latest"
-ghcup = "latest"
-lua-language-server = "latest"
-node = "latest"
-opam = "latest"
+# ── Language runtimes ────────────────────────────────────────────────────────
+node   = "latest"
 python = "latest"
-rust = "latest"
-# rust-analyzer = "latest"
-ruff = "0.6.9"
-shfmt = "latest"
+rust   = "latest"
+go     = "latest"
+zig    = "latest"
+erlang = "latest"
+elixir = "latest"
+gleam  = "latest"
+elm    = "latest"
+
+# Toolchain managers — bootstrap their own ecosystems, so their LSPs stay in the
+# source stage (setup.d/40-source): opam→ocaml-lsp, ghcup→haskell-language-server.
+opam = "latest"
+ghcup = "latest"
+uv   = "latest"   # Python packaging + uvx; also backs the pipx: tools below
+
+# ── Standalone-binary tooling (aqua/ubi: one relocatable binary, no runtime) ──
+lua-language-server = "latest"
+rust-analyzer       = "latest"   # was: `rustup component add rust-analyzer`
+shfmt    = "latest"
+stylua   = "latest"
+ruff     = "latest"              # global=latest; pin per-project for CI parity
 starship = "latest"
-uv = "latest"
-yazi = "latest"
-zig = "latest"
+yazi     = "latest"
+"ubi:nolanderc/glsl_analyzer"     = "latest"   # was: `zig build` in setup.sh
+"ubi:wgsl-analyzer/wgsl-analyzer" = "latest"   # was: `cargo install --git ...`
+
+# ── npm-based language servers (npm: backend, each isolated) ──────────────────
+# Replaces the entire `npm install -g ...` line in setup.sh.
+"npm:typescript-language-server"   = "latest"
+"npm:typescript"                   = "latest"   # tsserver; peer of the above
+"npm:bash-language-server"         = "latest"
+"npm:yaml-language-server"         = "latest"
+"npm:vscode-langservers-extracted" = "latest"   # html/css/json/eslint servers
+"npm:graphql-language-service-cli" = "latest"
+"npm:@rescript/language-server"    = "latest"
+"npm:prettier"                     = "latest"
+"npm:neovim"                       = "latest"   # node host for nvim's node provider
+
+# ── Python tooling (pipx: backend, each in its own isolated venv) ─────────────
+# Replaces the standalone-tool half of requirements.txt (see note in that file).
+# NOTE: pylsp (the active Python LSP) is NOT here — it needs its plugins
+# (pyls-isort, pylsp-mypy, python-lsp-ruff, pylsp-rope) injected into ONE venv,
+# which pipx: can't express. It's installed in setup.d/40-source via:
+#   uv tool install python-lsp-server --with pyls-isort --with pylsp-mypy \
+#       --with python-lsp-ruff --with pylsp-rope
+"pipx:mypy"            = "latest"   # standalone mypy for shell/CI use
+"pipx:visidata"       = "latest"
+"pipx:git-when-merged" = "latest"
+
+# ── Language-server plugins managed as mise plugins ──────────────────────────
+elixir-ls = "latest"

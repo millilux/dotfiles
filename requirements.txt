@@ -1,21 +1,16 @@
-debugpy
-git-when-merged
-# harlequin
-jedi
-jedi-language-server
-msgpack
-mypy
-pyls-isort
-pylsp-mypy
-pylsp-rope # pylsp-rope integrates rope refactorings nicely, but not the complete set - hence ropevim, which is *much* more complete as at June 2022
-pynvim # For neovim plugins built in Python
-# pyright
-pytest
-pytest-icdiff
-python-lsp-ruff
-python-lsp-server
-rope
-ropevim
-# ruff - use mise
-# uv - use mise
-visidata
+# Neovim Python-PROVIDER packages ONLY — these must live in the interpreter that
+# nvim calls as its python3 host (they're imported by the provider, not run as
+# CLI tools). Installed via `pip3 install -r` into the mise-managed python.
+#
+# Everything that IS a standalone tool moved out of here:
+#   - pylsp + plugins (pyls-isort/pylsp-mypy/python-lsp-ruff/pylsp-rope)
+#       -> `uv tool install python-lsp-server --with ...` in setup.sh
+#   - mypy, visidata, git-when-merged   -> mise (pipx: backend)
+#   - jedi-language-server              -> unused (nvim drives pylsp)
+#   - ruff/uv                           -> mise
+#   - pytest/pytest-icdiff              -> per-project deps, not global
+pynvim          # neovim python host
+msgpack         # msgpack-rpc for the host
+ropevim         # rope refactorings in nvim (more complete than pylsp-rope, as of 2022)
+rope            # backing library for ropevim
+debugpy         # DAP adapter used by nvim-dap-python

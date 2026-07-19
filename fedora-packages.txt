@@ -32,7 +32,6 @@ jack-audio-connection-kit
 libXScrnSaver
 libjpeg-turbo-devel
 love.x86_64
-lua-language-server
 mate-polkit
 imv # fast Wayland-native image viewer (bound to $mod+I, floats)
 mpv
