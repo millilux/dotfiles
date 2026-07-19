@@ -2,13 +2,10 @@
 # nvim calls as its python3 host (they're imported by the provider, not run as
 # CLI tools). Installed via `pip3 install -r` into the mise-managed python.
 #
-# Everything that IS a standalone tool moved out of here:
+# Standalone Python tools live elsewhere:
 #   - pylsp + plugins (pyls-isort/pylsp-mypy/python-lsp-ruff/pylsp-rope)
 #       -> `uv tool install python-lsp-server --with ...` in setup.sh
 #   - mypy, visidata, git-when-merged   -> mise (pipx: backend)
-#   - jedi-language-server              -> unused (nvim drives pylsp)
-#   - ruff/uv                           -> mise
-#   - pytest/pytest-icdiff              -> per-project deps, not global
 pynvim          # neovim python host
 msgpack         # msgpack-rpc for the host
 ropevim         # rope refactorings in nvim (more complete than pylsp-rope, as of 2022)

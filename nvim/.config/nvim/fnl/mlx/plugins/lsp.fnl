@@ -244,7 +244,7 @@
     )}
     {1 "python-rope/pylsp-rope"}
     {1 "nvim-treesitter/nvim-treesitter"
-     :branch "main"       ; the rewrite for nvim 0.11+; master is EOL
+     :branch "main"       ; requires nvim 0.11+
      :lazy false          ; main branch does not support lazy-loading
      :build ":TSUpdate"
      :config (fn []
@@ -256,10 +256,9 @@
             "javascript" "json" "kotlin" "lua" "make" "markdown" "markdown_inline" "ocaml" "python" "query" "qmljs" "regex" "rescript" "rust" "sql" "swift"
             "typescript" "toml" "vim" "vimdoc" "wgsl" "xml" "yaml" "yuck"
         ])
-        ;; Highlighting is no longer a module — enable Neovim-native treesitter
-        ;; highlighting for every filetype that has a parser (pcall no-ops where
-        ;; there is none). Injections and folds are handled natively too, which is
-        ;; what fixes the fenced-code-block crash the old master shim worked around.
+        ;; Enable Neovim-native treesitter highlighting for every filetype that
+        ;; has a parser (pcall no-ops where there is none). Injections and folds
+        ;; are handled natively by Neovim as well.
         (vim.api.nvim_create_autocmd :FileType
             {:callback (fn [ev] (pcall vim.treesitter.start ev.buf))}))}
     {1 "nvim-treesitter/nvim-treesitter-textobjects"

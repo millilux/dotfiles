@@ -28,18 +28,17 @@ uv   = "latest"   # Python packaging + uvx; also backs the pipx: tools below
 
 # ── Standalone-binary tooling (aqua/ubi: one relocatable binary, no runtime) ──
 lua-language-server = "latest"
-rust-analyzer       = "latest"   # was: `rustup component add rust-analyzer`
+rust-analyzer       = "latest"
 shfmt    = "latest"
 stylua   = "latest"
 ruff     = "latest"              # global=latest; pin per-project for CI parity
 starship = "latest"
 yazi     = "latest"
 tree-sitter = "latest"   # CLI used by nvim-treesitter (main branch) to compile parsers
-"ubi:nolanderc/glsl_analyzer"     = "latest"   # was: `zig build` in setup.sh
-"ubi:wgsl-analyzer/wgsl-analyzer" = "latest"   # was: `cargo install --git ...`
+"ubi:nolanderc/glsl_analyzer"     = "latest"
+"ubi:wgsl-analyzer/wgsl-analyzer" = "latest"
 
 # ── npm-based language servers (npm: backend, each isolated) ──────────────────
-# Replaces the entire `npm install -g ...` line in setup.sh.
 "npm:typescript-language-server"   = "latest"
 "npm:typescript"                   = "latest"   # tsserver; peer of the above
 "npm:bash-language-server"         = "latest"
@@ -51,7 +50,6 @@ tree-sitter = "latest"   # CLI used by nvim-treesitter (main branch) to compile 
 "npm:neovim"                       = "latest"   # node host for nvim's node provider
 
 # ── Python tooling (pipx: backend, each in its own isolated venv) ─────────────
-# Replaces the standalone-tool half of requirements.txt (see note in that file).
 # NOTE: pylsp (the active Python LSP) is NOT here — it needs its plugins
 # (pyls-isort, pylsp-mypy, python-lsp-ruff, pylsp-rope) injected into ONE venv,
 # which pipx: can't express. It's installed in setup.d/40-source via:
