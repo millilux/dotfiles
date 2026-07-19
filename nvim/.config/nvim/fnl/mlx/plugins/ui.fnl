@@ -90,7 +90,13 @@
                                                  ;;  ﯟ   ﯨ   פּ    
                                                  }}))}
           {1 :MeanderingProgrammer/render-markdown.nvim
-           :ft [:markdown :codecompanion]}
+           :ft [:markdown :codecompanion]
+           ;; The html/latex tree-sitter parsers aren't installed, so disable
+           ;; both features (render-markdown's own :checkhealth advice) — stops
+           ;; the parser warnings. To use LaTeX math instead, install the latex
+           ;; parser + a converter (pylatexenc's latex2text) and drop :latex.
+           :opts {:html {:enabled false}
+                  :latex {:enabled false}}}
           ; {1 :folke/snacks.nvim :opts {:indent {}}}
           ; {1 "folke/trouble.nvim"}
           ; {1 "kevinhwang91/nvim-bqf" :ft "qf"}

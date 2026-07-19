@@ -333,6 +333,27 @@
                 }
             }
         })
+        ;; nvim-treesitter (master branch, now EOL) breaks on nvim 0.11+: query
+        ;; match captures became TSNode *arrays*, but its injection directive
+        ;; `set-lang-from-info-string!` still treats them as single nodes. Parsing
+        ;; any ```lang fenced block (e.g. when render-markdown forces a full
+        ;; injection parse — this crashed on README.md) then errors with
+        ;; "attempt to call method 'range' (a nil value)". Re-register the
+        ;; directive array-aware until we migrate to the `main` branch.
+        (pcall require :nvim-treesitter.query_predicates)
+        (local ts-lang-aliases {:ex :elixir :pl :perl :sh :bash :uxn :uxntal :ts :typescript})
+        (vim.treesitter.query.add_directive "set-lang-from-info-string!"
+            (fn [matches _ bufnr pred metadata]
+                (var node (. matches (. pred 2)))
+                (when (= (type node) :table)
+                    (set node (. node (length node))))
+                (when node
+                    (local alias (string.lower (vim.treesitter.get_node_text node bufnr)))
+                    (tset metadata "injection.language"
+                        (or (vim.filetype.match {:filename (.. "a." alias)})
+                            (. ts-lang-aliases alias)
+                            alias))))
+            {:force true})
     )}
     {1 "https://github.com/nvim-treesitter/nvim-treesitter-textobjects"}
     ; {1 "nvim-treesitter/nvim-treesitter-context"}
