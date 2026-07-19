@@ -1,17 +1,15 @@
 local wezterm = require 'wezterm'
 local act = wezterm.action
 
--- Send the tmux prefix (C-b) then <key>, so tmux commands become single
--- "prefixless" Alt chords. The tmux prefix stays at its default C-b, which
--- this hard-codes. (Pattern from joshmedeski/dotfiles-wezterm.)
+-- Send the tmux prefix (C-a) then <key>, so tmux commands become single
+-- "prefixless" Alt chords. (Pattern from joshmedeski/dotfiles-wezterm.)
 local function tmux(key)
     return act.Multiple {
-        act.SendKey { mods = 'CTRL', key = 'b' },
+        act.SendKey { mods = 'CTRL', key = 'a' },
         act.SendKey { key = key },
     }
 end
 
--- On Mac, command is the super key
 
 local default_domain = 'local'
 if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
@@ -129,6 +127,7 @@ return {
     line_height = 1.4,
     cell_width = 0.9,
 
+    -- On Mac, command is the super key
     leader = { key = ' ', mods = 'CTRL' },
     keys = {
         -- Wezterm-native nicety kept on the leader; tmux owns everything else.
@@ -141,7 +140,7 @@ return {
 
         -- Prefixless tmux layer: Alt+<key> injects `C-b <key>`. tmux is the sole
         -- multiplexer; Wezterm's own panes/workspaces are retired in its favour.
-        -- Concentric hjkl nav: Ctrl=nvim splits, Alt=tmux panes, Super=Hyprland.
+        -- Concentric hjkl nav: Ctrl=nvim splits, Alt=tmux panes, Alt+Shift=tmux sessions, Super=Hyprland.
         { key = 'h', mods = 'ALT', action = tmux 'h' }, -- pane left
         { key = 'j', mods = 'ALT', action = tmux 'j' }, -- pane down
         { key = 'k', mods = 'ALT', action = tmux 'k' }, -- pane up
@@ -149,15 +148,20 @@ return {
 
         { key = 'v', mods = 'ALT', action = tmux 'v' }, -- split side-by-side
         { key = 's', mods = 'ALT', action = tmux 's' }, -- split stacked
-        { key = 'x', mods = 'ALT', action = tmux 'x' }, -- kill pane
+        { key = 'w', mods = 'ALT', action = tmux 'x' }, -- kill pane
         { key = 'z', mods = 'ALT', action = tmux 'z' }, -- zoom pane toggle
         { key = '[', mods = 'ALT', action = tmux '[' }, -- copy mode
 
-        { key = 'c', mods = 'ALT', action = tmux 'c' }, -- new window
+        { key = 't', mods = 'ALT', action = tmux 'c' }, -- new window
         { key = 'n', mods = 'ALT', action = tmux 'n' }, -- next window
         { key = 'p', mods = 'ALT', action = tmux 'p' }, -- prev window
-        { key = 'w', mods = 'ALT', action = tmux 'w' }, -- window/session tree
+        { key = 'n', mods = 'ALT|SHIFT', action = tmux ')' }, -- next session (tmux native ))
+        { key = 'p', mods = 'ALT|SHIFT', action = tmux '(' }, -- prev session (tmux native ()
+        { key = 'Tab', mods = 'ALT', action = tmux 'n' }, -- next window
+        { key = 'Tab', mods = 'ALT|SHIFT', action = tmux 'p' }, -- prev window
+        { key = ' ', mods = 'ALT', action = tmux 'w' }, -- window/session tree
         { key = 'r', mods = 'ALT', action = tmux 'r' }, -- rename window
+        { key = 'r', mods = 'ALT|SHIFT', action = tmux '$' }, -- rename session (tmux native $)
         { key = 'o', mods = 'ALT', action = tmux 'f' }, -- sessionizer (mirrors Super+O)
 
         { key = '1', mods = 'ALT', action = tmux '1' },
