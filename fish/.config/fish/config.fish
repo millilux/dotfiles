@@ -6,6 +6,8 @@ fish_add_path ~/.cargo/bin
 fish_add_path ~/.dotnet ~/.dotnet/tools
 fish_add_path ~/.opencode/bin
 
+
+set -g fish_key_bindings fish_vi_key_bindings
 set -U fish_greeting
 set -x EDITOR nvim
 set -x GOPATH $HOME/go
