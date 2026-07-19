@@ -55,7 +55,7 @@
 (set! ttyfast)
 (set! history 1000)
 (set! undolevels 1000)
-(set! swapfile false)
+(set! swapfile true)
 (set! undofile true)
 (set! completeopt "menu,menuone,preview,longest,noselect,popup")
 (set! backupcopy :yes)

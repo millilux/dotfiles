@@ -94,7 +94,7 @@
           ; {1 :folke/snacks.nvim :opts {:indent {}}}
           ; {1 "folke/trouble.nvim"}
           ; {1 "kevinhwang91/nvim-bqf" :ft "qf"}
-          ; {1 :sphamba/smear-cursor.nvim :opts {}}
+          {1 :sphamba/smear-cursor.nvim :opts {}}
           {1 :yorickpeterse/nvim-pqf :config true}
           ; {1 :chentoast/marks.nvim :config true}
           ; {1 :dimtion/guttermarks.nvim

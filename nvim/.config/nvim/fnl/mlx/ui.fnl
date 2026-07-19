@@ -57,6 +57,22 @@
 ; Highlight current line number, but don't show cursorline
 (vim.cmd "highlight clear CursorLine")
 (vim.cmd "highlight CursorLineNR cterm=bold")
+
+(vim.cmd "highlight Comment cterm=italic gui=italic")
+
+
+; Italicize keywords. oxocarbon defines @keyword AND several @keyword.* subgroups
+; (e.g. @keyword.function for `def`) as distinct colors, so italicizing one won't
+; cascade — add italic to every concrete @keyword* group, preserving each fg.
+(each [name def (pairs (vim.api.nvim_get_hl 0 {}))]
+  (when (string.match name "^@keyword")
+    (tset def :italic true)
+    (when (= (type def.cterm) :table) (tset def.cterm :italic true))
+    (vim.api.nvim_set_hl 0 name def)))
+
+; Legacy syntax group, for filetypes without a treesitter parser.
+(vim.cmd "highlight Keyword cterm=italic gui=italic")
+
 ; TODO autocmd to set on scheme change: https://stackoverflow.com/questions/8247243/highlighting-the-current-line-number-in-vim
 ; (vim.api.nvim_set_hl 0 :CursorLineNR {:bg :None :fg :#00dfff :bold true})
 
