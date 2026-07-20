@@ -44,16 +44,13 @@
         })
         (lsp.enable "bashls")
 
-        (lsp.config "ccls" {
+        ;; C/C++. Finds compile_commands.json by walking up from the file; a
+        ;; compile_flags.txt at the project root works for simple projects.
+        (lsp.config "clangd" {
             :on_attach on_attach
             :capabilities capabilities
-            :init_options {
-                :compilationDatabaseDirectory "build"
-                :index { :threads 0 }
-                :clang { :excludeArgs ["-frounding-math"] }
-            }
         })
-        (lsp.enable "ccls")
+        (lsp.enable "clangd")
 
         (lsp.config "clojure_lsp" {
             :on_attach on_attach

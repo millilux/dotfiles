@@ -29,12 +29,14 @@ uv   = "latest"   # Python packaging + uvx; also backs the pipx: tools below
 # ── Standalone-binary tooling (aqua/ubi: one relocatable binary, no runtime) ──
 lua-language-server = "latest"
 rust-analyzer       = "latest"
-shfmt    = "latest"
-stylua   = "latest"
+shfmt      = "latest"
+shellcheck = "latest"            # shell linter; bash-language-server surfaces its diagnostics
+stylua     = "latest"
 ruff     = "latest"              # global=latest; pin per-project for CI parity
 starship = "latest"
 yazi     = "latest"
 tree-sitter = "latest"   # CLI used by nvim-treesitter (main branch) to compile parsers
+"ubi:clangd/clangd"               = "latest"   # C/C++ LSP, standalone LLVM release
 "ubi:nolanderc/glsl_analyzer"     = "latest"
 "ubi:wgsl-analyzer/wgsl-analyzer" = "latest"
 

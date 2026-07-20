@@ -4,17 +4,41 @@ set -e
 
 LOCAL_BIN=$HOME/.local
 
-# Install homebrew
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+# Scratch space for source builds. The trap fires on every exit path — success,
+# failure, Ctrl-C — so a failed build never leaves a tree behind to wedge the
+# next run.
+TMPROOT=$(mktemp -d)
+trap 'rm -rf "$TMPROOT"' EXIT
+
+# Build a source tree and install into $LOCAL_BIN. `make -C` keeps the working
+# directory untouched, so these are position-independent and re-runnable.
+build_from_source() {
+    local url=$1 name=$2
+    git clone --depth=1 "$url" "$TMPROOT/$name"
+    make -C "$TMPROOT/$name"
+    make -C "$TMPROOT/$name" install PREFIX="$LOCAL_BIN"
+}
+
+# Clone to a fixed location, or fast-forward it when already present.
+clone_or_update() {
+    local url=$1 dest=$2
+    if [ -d "$dest/.git" ]; then
+        git -C "$dest" pull --ff-only
+    else
+        git clone --depth=1 "$url" "$dest"
+    fi
+}
+
 if [[ "$OSTYPE" =~ ^darwin.* ]]; then
-    echo "Mac"
-else
-    test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"
-    test -d /home/linuxbrew/.linuxbrew && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-    test -r ~/.bash_profile && echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >>~/.bash_profile
-    echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >>~/.profile
-    # sudo apt-get install build-essential
-    # sudo apt-get install libreadline-dev # For better fennel repl support
+    # Command Line Tools supply clang and make, which the source builds below and
+    # nvim-treesitter's parser compilation both need.
+    xcode-select -p >/dev/null 2>&1 || xcode-select --install
+
+    # Homebrew is Mac-only here: it owns GUI casks and Mac-native formulae.
+    # On Linux that role belongs to dnf, and portable CLI tools come from mise.
+    if ! command -v brew >/dev/null 2>&1; then
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+    fi
 fi
 
 if command -v dnf &> /dev/null; then
@@ -23,30 +47,27 @@ if command -v dnf &> /dev/null; then
     for repo in $(sed 's/#.*//' fedora-copr.txt); do
         sudo dnf copr enable -y "$repo"
     done
+    # shellcheck disable=SC2046  # word-splitting is intended: one argument per package
     sudo dnf install -y $(sed 's/#.*//' fedora-packages.txt)
 elif command -v brew &> /dev/null; then
-    # TODO: only use brew on Mac and WSL
     brew bundle install
 fi
 
 # Setup dotfiles
 for dir in */; do
-    stow -v -t ~/ -S $dir
+    stow -v -t ~/ -S "$dir"
 done
 
 # Setup fish
 # Add fish to list of shells
 if ! grep fish /etc/shells; then
-    echo $(which fish) | sudo tee -a /etc/shells
+    which fish | sudo tee -a /etc/shells
 fi
 
 # Set fish as default
-chsh -s $(which fish)
+chsh -s "$(which fish)"
 
-# Add homebrew path to fish config
-if ! grep fish_user_paths ~/.config/fish/config.fish; then
-    echo 'set -U fish_user_paths (brew --prefix)/bin/ $fish_user_paths' >>~/.config/fish/config.fish
-fi
+# config.fish adds the brew prefix to PATH itself, guarded on brew existing.
 
 # Install mise
 curl https://mise.run | sh
@@ -70,36 +91,18 @@ pip3 install -r requirements.txt
 # luarocks --local install fennel
 # luarocks --local install readline
 
-# Install Lua LSP Addons
-addons_dir=~/.local/share/lua-lsp-addons
-mkdir -p $addons_dir
-cd $addons_dir
-git clone https://github.com/LuaCATS/love2d.git
-cd -
+# Lua LSP addons — type definitions lua-language-server reads in place.
+clone_or_update https://github.com/LuaCATS/love2d.git \
+    "$HOME/.local/share/lua-lsp-addons/love2d"
 
-# Install Fennel LSP
-git clone https://git.sr.ht/~xerool/fennel-ls
-cd fennel-ls
-make && make install PREFIX=$LOCAL_BIN
-cd -
-rm -rf fennel-ls
+# fennel-ls and fnlfmt are sr.ht projects with no release binaries, so they are
+# the only tools still built from source. Both are pure Lua: `make install`
+# copies files, no compiler involved.
+build_from_source https://git.sr.ht/~xerool/fennel-ls fennel-ls
+build_from_source https://git.sr.ht/~technomancy/fnlfmt fnlfmt
 
-# Install Fennel Format
-git clone https://git.sr.ht/~technomancy/fnlfmt
-cd fnlfmt
-make && make install PREFIX=$LOCAL_BIN
-cd -
-rm -rf fnlfmt
-
-# Install ccls
-git clone --depth=1 --recursive https://github.com/MaskRay/ccls
-cd ccls
-cmake -S. -BRelease
-mv ccls ~/bin/
-# make && make install PREFIX=$HOME
-
-# glsl_analyzer + wgsl-analyzer now come from mise (ubi: backend, prebuilt release
-# binaries) instead of a zig build / cargo-from-git. See mise config.toml.
+# clangd, glsl_analyzer and wgsl-analyzer come from mise (ubi: backend, prebuilt
+# release binaries). See mise config.toml.
 
 # Install Rust
 # curl https://sh.rustup.rs -sSf | sh
@@ -137,8 +140,9 @@ if [ -f /etc/os-release ] && grep -q "Fedora" /etc/os-release; then
     # mv target/release/eww $LOCAL_BIN/bin/
     # chmod +x $LOCAL_BIN/bin/eww
 
-    git clone https://github.com/shaunsingh/SFMono-Nerd-Font-Ligaturized.git && cd SFMono-Nerd-Font-Ligaturized
-    cp *.otf ~/.local/share/fonts
+    clone_or_update https://github.com/shaunsingh/SFMono-Nerd-Font-Ligaturized.git \
+        "$TMPROOT/SFMono"
+    cp "$TMPROOT"/SFMono/*.otf ~/.local/share/fonts
 
     wget https://github.com/subframe7536/maple-font/releases/download/v7.7/MapleMono-NF.zip
     7z x MapleMono-NF.zip
@@ -164,7 +168,7 @@ if [ -f /etc/os-release ] && grep -q "Fedora" /etc/os-release; then
     # Install multimedia codecs
     sudo dnf group install multimedia
     # https://rpmfusion.org/Configuration/
-    sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+    sudo dnf install "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
     sudo dnf config-manager setopt fedora-cisco-openh264.enabled=1
     sudo dnf install ffmpeg --allowerasing
     # https://github.com/devangshekhawat/Fedora-41-Post-Install-Guide
@@ -174,9 +178,9 @@ if [ -f /etc/os-release ] && grep -q "Fedora" /etc/os-release; then
     
     # Install LOVR
     image=lovr-x86_64.AppImage
-    wget https://lovr.org/f/$image
-    mv $image $LOCAL_BIN/bin/lovr
-    chmod a+x $LOCAL_BIN/bin/lovr
+    wget "https://lovr.org/f/$image"
+    mv "$image" "$LOCAL_BIN/bin/lovr"
+    chmod a+x "$LOCAL_BIN/bin/lovr"
 
     # Install Gnome theme
     # https://draculatheme.com/gtk
@@ -214,30 +218,9 @@ if [ -f /etc/os-release ] && grep -q "Fedora" /etc/os-release; then
     tar -xz --strip-components=1 -C ~/.config/quickshell/noctalia-shell
 
     # Theme for fcitx
-    mkdir -p ~/.local/share/fcitx5/themes/dracula
-    git clone https://github.com/drbbr/fcitx5-dracula-theme.git ~/.local/share/fcitx5/themes/dracula
+    clone_or_update https://github.com/drbbr/fcitx5-dracula-theme.git \
+        ~/.local/share/fcitx5/themes/dracula
 
-    function setup_fcitx_env
-        set -l envdir ~/.config/environment.d
-        set -l envfile $envdir/input.conf
-
-        # Ensure directory exists
-        mkdir -p $envdir
-
-        # Write environment variables (overwrite safely)
-        printf "%s\n" \
-            "GTK_IM_MODULE=fcitx" \
-            "QT_IM_MODULE=fcitx" \
-            "XMODIFIERS=@im=fcitx" \
-            > $envfile
-
-        # Reload systemd user environment
-        systemctl --user import-environment GTK_IM_MODULE QT_IM_MODULE XMODIFIERS
-
-        echo "Updated $envfile and reloaded environment."
-    end
-
-    setup_fcitx_env
 fi
 
 # Setup Mac
@@ -282,4 +265,5 @@ fi
 
 # Firefox settings
 # widget.wayland.fractional-scale.enabled = false # fix extension scaling weirdness on hyprland
+#
 #

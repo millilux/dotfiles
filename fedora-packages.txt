@@ -1,11 +1,10 @@
 bat
 btop
 
-# For ccls
-clang
-clang-devel
-llvm-devel
- 
+# Toolchain for building nvim-treesitter parsers and the source-built Lua tools
+gcc
+make
+
 bibata-cursor-themes
 chafa
 emacs
