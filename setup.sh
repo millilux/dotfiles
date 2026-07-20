@@ -121,8 +121,11 @@ ghcup set hls
 # Turn off Go telemetry
 go telemetry off
 
-# Install yazi theme
-ya pkg add yazi-rs/flavors:dracula
+# Install yazi flavors/plugins from the tracked package.toml manifest.
+# Only package.toml is version-controlled (flavors/ is gitignored), so this
+# materialises the pinned flavor on a fresh machine. Use `ya pkg add` to add a
+# NEW dependency; use `ya pkg upgrade` to bump the pins.
+ya pkg install
 
 fish -c fish_update_completions
 
