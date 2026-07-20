@@ -60,3 +60,12 @@ test -r $HOME/.opam/opam-init/init.fish && source $HOME/.opam/opam-init/init.fis
 mise activate fish | source
 starship init fish | source
 zoxide init fish | source
+
+# SSH Agent
+# systemd owns the agent on Linux (ssh-agent.socket, socket-activated at a fixed
+# path under $XDG_RUNTIME_DIR, which is wiped on logout so the socket is never
+# stale). macOS uses its own launchd/Keychain agent. The shell only points at
+# whichever exists — it never spawns one, and never persists the path.
+if test (uname) != Darwin; and set -q XDG_RUNTIME_DIR
+    set -gx SSH_AUTH_SOCK $XDG_RUNTIME_DIR/ssh-agent.socket
+end
