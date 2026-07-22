@@ -1,4 +1,3 @@
-bat
 btop
 
 # Toolchain for building nvim-treesitter parsers and the source-built Lua tools
@@ -11,14 +10,9 @@ emacs
 dotnet-sdk-8.0
 dotnet-sdk-9.0
 entr
-eza
-fd-find
 fennel
 fish
 fsearch
-fzf
-gh
-git-delta
 helix
 hyprland
 hyprland-devel
@@ -50,7 +44,6 @@ quickshell
 qjackctl
 qt6-qtimageformats
 renderdoc
-ripgrep
 rofi
 sddm
 sddm-breeze
@@ -61,7 +54,6 @@ udiskie
 waybar
 wezterm
 wlogout
-zoxide
 
 SwayNotificationCenter
 

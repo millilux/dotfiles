@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 
-set -e
+# pipefail matters for the `curl … | sh` installers below: without it only the
+# last command's status counts, so a failed download still looks like success.
+set -euo pipefail
+
+# fedora-copr.txt, fedora-packages.txt, requirements.txt, Brewfile and ./fonts/
+# are all read relative to the repo, so anchor to the script rather than the
+# caller's working directory.
+cd "$(dirname "${BASH_SOURCE[0]}")"
 
 LOCAL_BIN=$HOME/.local
 
@@ -39,11 +46,19 @@ if [[ "$OSTYPE" =~ ^darwin.* ]]; then
     if ! command -v brew >/dev/null 2>&1; then
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
     fi
+
+    # dotnet must land before the `dotnet tool update` step further down. On
+    # Fedora it arrives with the dnf packages; macOS has no such package, so it
+    # is bootstrapped here rather than in the macOS section at the end.
+    if ! command -v dotnet >/dev/null 2>&1; then
+        curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --version latest
+    fi
 fi
 
 if command -v dnf &> /dev/null; then
     # Enable copr repos first — some packages below are served from them.
     # `sed 's/#.*//'` strips inline/standalone comments; word-splitting drops blanks.
+    # shellcheck disable=SC2013  # word-splitting is intended: one repo per word
     for repo in $(sed 's/#.*//' fedora-copr.txt); do
         sudo dnf copr enable -y "$repo"
     done
@@ -53,24 +68,52 @@ elif command -v brew &> /dev/null; then
     brew bundle install
 fi
 
-# Setup dotfiles
+# Create the theme target directory BEFORE stow runs. stow folds an entire
+# package subtree into one symlink when the target directory doesn't exist yet,
+# so on a fresh machine ~/.config/gtk-4.0 would become a link into the repo —
+# and the Dracula symlinks further down would then write inside the repo.
+mkdir -p ~/.config/gtk-4.0
+
+# Setup dotfiles. stow aborts on the first conflict, so on a machine that
+# already has real config files in place you would otherwise discover them one
+# failed run at a time. Dry-run everything first and report the whole list.
+STOW_PACKAGES=()
 for dir in */; do
-    stow -v -t ~/ -S "$dir"
+    STOW_PACKAGES+=("${dir%/}")
 done
 
-# Setup fish
-# Add fish to list of shells
-if ! grep fish /etc/shells; then
-    which fish | sudo tee -a /etc/shells
+if ! conflicts=$(stow -n -t ~/ -S "${STOW_PACKAGES[@]}" 2>&1); then
+    echo "stow: existing files block these links. Move or delete them, then re-run:" >&2
+    echo "$conflicts" >&2
+    exit 1
 fi
 
-# Set fish as default
-chsh -s "$(which fish)"
+stow -v -t ~/ -S "${STOW_PACKAGES[@]}"
+
+# Setup fish
+FISH_PATH=$(command -v fish)
+
+# Add fish to list of shells
+if ! grep -q "^$FISH_PATH\$" /etc/shells; then
+    echo "$FISH_PATH" | sudo tee -a /etc/shells
+fi
+
+# Set fish as default. Guarded because chsh prompts for a password on macOS —
+# unguarded it would block every re-run even with nothing to change.
+if [ "${SHELL:-}" != "$FISH_PATH" ]; then
+    chsh -s "$FISH_PATH"
+fi
 
 # config.fish adds the brew prefix to PATH itself, guarded on brew existing.
 
-# Install mise
+# Install mise. The installer drops the binary in ~/.local/bin, which is NOT on
+# a fresh machine's PATH, so add it before the first `mise` call. Everything from
+# here on (uv, opam, ghcup, go, ya, dotnet on Fedora) is a mise-managed tool, so
+# prepend the shims dir too — this script is bash and never sources config.fish's
+# `mise activate`, so without the shims those later commands are not found.
 curl https://mise.run | sh
+export PATH="$HOME/.local/bin:$HOME/.local/share/mise/shims:$PATH"
+
 # Install languages and tools from global config
 mise install
 
@@ -80,7 +123,9 @@ mise install
 
 # pylsp is the exception: its plugins must share ONE venv, which pipx/mise can't
 # express, so install it with uv (uv is a mise-managed tool).
-uv tool install python-lsp-server \
+# --force rebuilds the venv: a plain install is a no-op once pylsp exists, so
+# edits to the --with list below would silently never reach the environment.
+uv tool install --force python-lsp-server \
     --with pyls-isort --with pylsp-mypy --with python-lsp-ruff --with pylsp-rope
 
 # Neovim's Python provider libs must live in the interpreter nvim calls as its
@@ -109,11 +154,16 @@ build_from_source https://git.sr.ht/~technomancy/fnlfmt fnlfmt
 # rust-analyzer now via mise (aqua:rust-lang/rust-analyzer)
 
 # Install OCaml (opam already installed by mise)
-opam init -y --disable-sandboxing
-opam install dune ocaml-lsp-server ocamlformat utop
+if [ ! -d "$HOME/.opam" ]; then
+    opam init -y --disable-sandboxing
+fi
+opam install -y dune ocaml-lsp-server ocamlformat utop
 
-# Install F# LSP (dotnet already installed by mise)
-dotnet tool install --global fsautocomplete
+# Install F# LSP. `tool update` installs when absent and upgrades when present;
+# `tool install` exits 1 on an already-installed tool, aborting the script.
+# dotnet itself comes from dnf on Fedora (fedora-packages.txt) and from the
+# dotnet-install.sh in the macOS block below.
+dotnet tool update --global fsautocomplete
 
 # Install Haskell LSP (ghcup already installed by mise)
 ghcup install ghc
@@ -140,15 +190,22 @@ if [ -f /etc/os-release ] && grep -q "Fedora" /etc/os-release; then
     # mv target/release/eww $LOCAL_BIN/bin/
     # chmod +x $LOCAL_BIN/bin/eww
 
+    # Targets for the font/theme/binary installs below.
+    mkdir -p ~/.local/share/fonts ~/.themes ~/.icons "$LOCAL_BIN/bin"
+
     clone_or_update https://github.com/shaunsingh/SFMono-Nerd-Font-Ligaturized.git \
         "$TMPROOT/SFMono"
     cp "$TMPROOT"/SFMono/*.otf ~/.local/share/fonts
 
-    wget https://github.com/subframe7536/maple-font/releases/download/v7.7/MapleMono-NF.zip
-    7z x MapleMono-NF.zip
-    mv Maple*.ttf ~/.local/share/fonts
+    # Downloads and unpacking stay inside TMPROOT so the repo never collects
+    # artefacts. `wget -O` overwrites rather than writing a .1 suffix on a
+    # re-run, and `7z -y` answers the overwrite prompt that would otherwise
+    # block an unattended run.
+    wget -O "$TMPROOT/MapleMono-NF.zip" \
+        https://github.com/subframe7536/maple-font/releases/download/v7.7/MapleMono-NF.zip
+    7z x -y -o"$TMPROOT/maple" "$TMPROOT/MapleMono-NF.zip"
+    cp "$TMPROOT"/maple/Maple*.ttf ~/.local/share/fonts
 
-    cp ./fonts/05-language-fallback.conf /etc/fonts/conf.d/
 
     # Set screen resolution in kernel rather than userspace
     # sudo grubby --update-kernel=ALL --args='nvidia-drm.modeset=1'
@@ -166,40 +223,43 @@ if [ -f /etc/os-release ] && grep -q "Fedora" /etc/os-release; then
     # Current=breeze
 
     # Install multimedia codecs
-    sudo dnf group install multimedia
+    sudo dnf group install -y multimedia
     # https://rpmfusion.org/Configuration/
-    sudo dnf install "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
+    sudo dnf install -y "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
     sudo dnf config-manager setopt fedora-cisco-openh264.enabled=1
-    sudo dnf install ffmpeg --allowerasing
+    sudo dnf install -y ffmpeg --allowerasing
     # https://github.com/devangshekhawat/Fedora-41-Post-Install-Guide
     
     # Audio setup
     # https://wiki.linuxaudio.org/wiki/system_configuration#limitsconfaudioconf
     
-    # Install LOVR
-    image=lovr-x86_64.AppImage
-    wget "https://lovr.org/f/$image"
-    mv "$image" "$LOCAL_BIN/bin/lovr"
+    # Install LOVR — download straight to its destination, no intermediate file.
+    wget -O "$LOCAL_BIN/bin/lovr" https://lovr.org/f/lovr-x86_64.AppImage
     chmod a+x "$LOCAL_BIN/bin/lovr"
 
     # Install Gnome theme
     # https://draculatheme.com/gtk
     # https://github.com/odziom91/libadwaita-theme-changer/blob/main/libadwaita-tc.py
-    wget https://github.com/dracula/gtk/archive/master.zip
-    7z x master.zip
-    rm master.zip
-    mv gtk-master ~/.themes/Dracula
-    ln -s ~/.themes/Dracula/assets/ ~/.config/assets
-    ln -s ~/.themes/Dracula/gtk-4.0/gtk.css ~/.config/gtk-4.0/gtk.css
-    ln -s ~/.themes/Dracula/gtk-4.0/gtk-dark.css ~/.config/gtk-4.0/gtk-dark.css
-    ln -s ~/.themes/Dracula/gtk-4.0/assets ~/.config/gtk-4.0/assets
+    # `rm -rf` before each `mv`: moving onto an existing directory nests a second
+    # copy inside it (~/.themes/Dracula/gtk-master) rather than failing, so a
+    # re-run would silently corrupt the theme. `ln -sfn` replaces the existing
+    # links instead of erroring; -n stops -f dereferencing a link to a directory
+    # and creating the new link underneath it.
+    wget -O "$TMPROOT/dracula-gtk.zip" https://github.com/dracula/gtk/archive/master.zip
+    7z x -y -o"$TMPROOT/dracula-gtk" "$TMPROOT/dracula-gtk.zip"
+    rm -rf ~/.themes/Dracula
+    mv "$TMPROOT/dracula-gtk/gtk-master" ~/.themes/Dracula
+    ln -sfn ~/.themes/Dracula/assets ~/.config/assets
+    ln -sfn ~/.themes/Dracula/gtk-4.0/gtk.css ~/.config/gtk-4.0/gtk.css
+    ln -sfn ~/.themes/Dracula/gtk-4.0/gtk-dark.css ~/.config/gtk-4.0/gtk-dark.css
+    ln -sfn ~/.themes/Dracula/gtk-4.0/assets ~/.config/gtk-4.0/assets
     gsettings set org.gnome.desktop.interface gtk-theme "Dracula"
     gsettings set org.gnome.desktop.wm.preferences theme "Dracula"
 
-    wget https://github.com/dracula/gtk/files/5214870/Dracula.zip
-    7z x Dracula.zip 
-    rm Dracula.zip
-    mv Dracula/ ~/.icons/
+    wget -O "$TMPROOT/dracula-icons.zip" https://github.com/dracula/gtk/files/5214870/Dracula.zip
+    7z x -y -o"$TMPROOT/dracula-icons" "$TMPROOT/dracula-icons.zip"
+    rm -rf ~/.icons/Dracula
+    mv "$TMPROOT/dracula-icons/Dracula" ~/.icons/Dracula
     gsettings set org.gnome.desktop.interface icon-theme "Dracula"
 
     # Default apps: open images in loupe instead of letting the browser grab them
@@ -209,13 +269,17 @@ if [ -f /etc/os-release ] && grep -q "Fedora" /etc/os-release; then
     # doesn't double-start and flap once graphical-session.target is active.
     systemctl --user mask swaync.service
 
+    # Socket-activated ssh-agent at a fixed path under $XDG_RUNTIME_DIR.
+    # config.fish points SSH_AUTH_SOCK at it; nothing else spawns an agent.
+    systemctl --user enable ssh-agent.socket
+
     # Fix Houdini App switcher icon under X
     # echo "StartupWMClass=Houdini FX" | sudo tee -a /usr/share/applications/com.sidefx.houdini*.desktop
    
     # Desktop Shell
-    mkdir -p ~/.config/quickshell/noctalia-shell && \
-    curl -sL https://github.com/noctalia-dev/noctalia-shell/releases/latest/download/noctalia-latest.tar.gz | \
-    tar -xz --strip-components=1 -C ~/.config/quickshell/noctalia-shell
+    # mkdir -p ~/.config/quickshell/noctalia-shell && \
+    # curl -sL https://github.com/noctalia-dev/noctalia-shell/releases/latest/download/noctalia-latest.tar.gz | \
+    # tar -xz --strip-components=1 -C ~/.config/quickshell/noctalia-shell
 
     # Theme for fcitx
     clone_or_update https://github.com/drbbr/fcitx5-dracula-theme.git \
@@ -229,21 +293,17 @@ if [[ "$OSTYPE" =~ ^darwin.* ]]; then
 
     # Increase OSX Dock animation speed
     defaults write com.apple.dock autohide-time-modifier -float 0.2
-    killall Dock
+    # killall exits non-zero when nothing matches, which would abort under set -e.
+    killall Dock || true
 
-    # Setup Yabai scripting-addition (only works if SIP is disabled)
-    # sudo yabai --install-sa
     # brew services start koekeishiya/formulae/yabai
     # brew services start koekeishiya/formulae/skhd
 
     # k9s doesn't read from .config on OSX...
-    ln -s ~/.config/k9s/ ~/Library/Application\ Support/k9s
+    ln -sfn ~/.config/k9s ~/Library/Application\ Support/k9s
 
     # Ruff also doesn't
-    ln -s ~/.config/ruff/ ~/Library/Application\ Support/ruff
-
-    # Install dotnet
-    curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --version latest
+    ln -sfn ~/.config/ruff ~/Library/Application\ Support/ruff
 
     # Manual steps
     # Change Caps Lock to Escape in OSX Keyboard > Modifier Keys (far bottom right)

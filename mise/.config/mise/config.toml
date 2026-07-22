@@ -36,6 +36,22 @@ ruff     = "latest"              # global=latest; pin per-project for CI parity
 starship = "latest"
 yazi     = "latest"
 tree-sitter = "latest"   # CLI used by nvim-treesitter (main branch) to compile parsers
+
+# Portable CLI tools. These are Tier 2: one version on Fedora and macOS, so they
+# are deliberately absent from fedora-packages.txt and the Brewfile — a second
+# copy from dnf or brew would shadow these on PATH.
+bat      = "latest"
+eza      = "latest"
+fd       = "latest"
+fzf      = "latest"
+gh       = "latest"
+delta    = "latest"              # registry name for git-delta
+ripgrep  = "latest"
+zoxide   = "latest"
+jq       = "latest"
+sops     = "latest"
+ast-grep = "latest"
+aws-iam-authenticator = "latest"
 "ubi:clangd/clangd"               = "latest"   # C/C++ LSP, standalone LLVM release
 "ubi:nolanderc/glsl_analyzer"     = "latest"
 "ubi:wgsl-analyzer/wgsl-analyzer" = "latest"
