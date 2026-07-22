@@ -50,9 +50,9 @@ if [[ "$OSTYPE" =~ ^darwin.* ]]; then
     # dotnet must land before the `dotnet tool update` step further down. On
     # Fedora it arrives with the dnf packages; macOS has no such package, so it
     # is bootstrapped here rather than in the macOS section at the end.
-    if ! command -v dotnet >/dev/null 2>&1; then
-        curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --version latest
-    fi
+    # if ! command -v dotnet >/dev/null 2>&1; then
+    #     curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --version latest
+    # fi
 fi
 
 if command -v dnf &> /dev/null; then
@@ -163,7 +163,7 @@ opam install -y dune ocaml-lsp-server ocamlformat utop
 # `tool install` exits 1 on an already-installed tool, aborting the script.
 # dotnet itself comes from dnf on Fedora (fedora-packages.txt) and from the
 # dotnet-install.sh in the macOS block below.
-dotnet tool update --global fsautocomplete
+# dotnet tool update --global fsautocomplete
 
 # Install Haskell LSP (ghcup already installed by mise)
 ghcup install ghc
@@ -311,7 +311,7 @@ if [[ "$OSTYPE" =~ ^darwin.* ]]; then
     # Copy ~/.local/share/fish for fish_history (similar for fzf etc)
 fi
 
-if [[ $(uname -a) =~ ^WSL.* ]]; then
+# if [[ $(uname -a) =~ ^WSL.* ]]; then
     # Under WSL, win32yank is needed to make clipboard paste work as expected in vim
     # TODO: this is now only needed on the Windows side?
     # curl -sLo/tmp/win32yank.zip https://github.com/equalsraf/win32yank/releases/download/v0.0.4/win32yank-x64.zip
@@ -320,8 +320,8 @@ if [[ $(uname -a) =~ ^WSL.* ]]; then
     # sudo mv /tmp/win32yank.exe /usr/local/bin/
 
     # Install dotnet
-    sudo apt-get update && sudo apt-get install -y dotnet-sdk-7.0
-fi
+    # sudo apt-get update && sudo apt-get install -y dotnet-sdk-7.0
+# fi
 
 # Firefox settings
 # widget.wayland.fractional-scale.enabled = false # fix extension scaling weirdness on hyprland
