@@ -164,6 +164,7 @@ return {
         { key = 'r', mods = 'ALT', action = tmux 'r' }, -- rename window
         { key = 'r', mods = 'ALT|SHIFT', action = tmux '$' }, -- rename session (tmux native $)
         { key = 'o', mods = 'ALT', action = tmux 'f' }, -- sessionizer (mirrors Super+O)
+        { key = '.', mods = 'ALT', action = tmux '.' }, -- set session root to pane cwd
 
         { key = '1', mods = 'ALT', action = tmux '1' },
         { key = '2', mods = 'ALT', action = tmux '2' },
