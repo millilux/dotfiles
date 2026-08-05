@@ -1,0 +1,11 @@
+# Neovim Python-provider libs ONLY — imported by nvim's python3 host, not run as
+# CLI tools. Installed by the `python` postinstall hook in config.toml, into
+# whichever interpreter mise is installing. Lives beside config.toml so the hook
+# can find it without knowing where the dotfiles repo is checked out.
+#
+# Libraries only, never tools: this interpreter's bin/ precedes mise's on $PATH, so
+# a mypy or pylsp added here would shadow the real one — including for pylsp-mypy,
+# which resolves mypy from $PATH. Standalone tools belong in config.toml.
+pynvim          # neovim python host
+msgpack         # msgpack-rpc for the host
+debugpy         # DAP adapter used by nvim-dap-python

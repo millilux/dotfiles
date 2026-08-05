@@ -37,7 +37,7 @@ manager to reason about.
 | `fedora-copr.txt` | Copr repos enabled *before* `fedora-packages.txt` |
 | `Brewfile` | Homebrew formulae (CLI) — macOS and non-`dnf` Linux/WSL; slims as mise absorbs tools |
 | `Brewfile.macos` | macOS-only casks + Mac-specific formulae (yabai, skhd, borders…) |
-| `requirements.txt` | **Neovim Python-provider libs only** (pynvim, msgpack, ropevim…) — not standalone tools |
+| `mise/.config/mise/requirements.txt` | **Neovim Python-provider libs only** (pynvim, msgpack, debugpy) — not standalone tools; installed by the `python` postinstall hook |
 
 ## mise: global vs per-project
 
@@ -52,11 +52,21 @@ project's virtualenv at runtime.
 
 ## Special cases (not plain mise backends)
 
-- **pylsp** — the active Python LSP; its plugins must share one venv, which `pipx:`
-  can't express. Installed in `setup.sh` via
-  `uv tool install python-lsp-server --with <plugin>…`.
-- **Neovim Python provider** — `pynvim`/`msgpack`/`ropevim`/`rope`/`debugpy` must live
-  in the interpreter nvim calls (`g:python3_host_prog`); kept in `requirements.txt`.
+- **pylsp** — mise-owned, but its plugins go in `uvx_args` (`--with <plugin>…`) rather
+  than separate `[tools]` entries: they must be importable from pylsp's *own* venv, and
+  a `pipx:` entry per plugin would give each its own. `extras` can't do this either —
+  those are package extras, not injected packages. **mise does not rebuild when
+  `uvx_args` changes**: `mise uninstall pipx:python-lsp-server && mise install`.
+- **mypy** — mise-owned, and must be the *only* copy on `$PATH`. `pylsp-mypy` shells
+  out to whichever `mypy` it finds, so a second install silently costs CI parity.
+  pylsp's venv bundles its own mypy and ruff, but mise exposes only the `pylsp`
+  binary, so those stay off `$PATH` and can't shadow the mise-owned pins.
+- **Neovim Python provider** — `pynvim`/`msgpack`/`debugpy` must live in the *same*
+  interpreter nvim runs, so the `python` tool's `postinstall` hook pip-installs
+  `mise/.config/mise/requirements.txt` into each new install: `latest` can then move
+  without leaving the provider dead. Libraries only — that interpreter's `bin/`
+  precedes mise's on `$PATH`, so a tool added there shadows the mise-owned copy.
+  Editing requirements.txt does *not* re-trigger the hook; pip-install it by hand.
 - **Source-build holdouts** (`setup.sh`, no release binaries): `fennel-ls`, `fnlfmt`
   (sourcehut), `ccls`.
 - **Toolchain-bound LSPs**: `ocaml-lsp` (via `opam`), `haskell-language-server` (via

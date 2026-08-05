@@ -4,7 +4,7 @@
 # last command's status counts, so a failed download still looks like success.
 set -euo pipefail
 
-# fedora-copr.txt, fedora-packages.txt, requirements.txt, Brewfile and ./fonts/
+# fedora-copr.txt, fedora-packages.txt, Brewfile and ./fonts/
 # are all read relative to the repo, so anchor to the script rather than the
 # caller's working directory.
 cd "$(dirname "${BASH_SOURCE[0]}")"
@@ -116,21 +116,6 @@ export PATH="$HOME/.local/bin:$HOME/.local/share/mise/shims:$PATH"
 
 # Install languages and tools from global config
 mise install
-
-# Runtimes + most LSPs/formatters/linters are declared in
-# mise/.config/mise/config.toml (npm:/pipx:/ubi:/aqua: backends) and installed
-# by `mise install` above — one cross-platform source of truth.
-
-# pylsp is the exception: its plugins must share ONE venv, which pipx/mise can't
-# express, so install it with uv (uv is a mise-managed tool).
-# --force rebuilds the venv: a plain install is a no-op once pylsp exists, so
-# edits to the --with list below would silently never reach the environment.
-uv tool install --force python-lsp-server \
-    --with pyls-isort --with pylsp-mypy --with python-lsp-ruff --with pylsp-rope
-
-# Neovim's Python provider libs must live in the interpreter nvim calls as its
-# python3 host — kept in requirements.txt (now trimmed to provider-only).
-pip3 install -r requirements.txt
 
 # Install Fennel
 # luarocks --local install fennel

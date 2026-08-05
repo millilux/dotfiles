@@ -11,7 +11,12 @@
 [tools]
 # ── Language runtimes ────────────────────────────────────────────────────────
 node   = "latest"
-python = "latest"
+# postinstall provisions nvim's python3 host into the interpreter being installed,
+# so a `latest` bump arrives with the provider working instead of dead until
+# setup.sh reruns. Fires on fresh installs only: after editing requirements.txt,
+# run `pip3 install -r` against it by hand.
+# NB {{config_root}} is $HOME for a global config, not this directory — hence xdg.
+python = { version = "latest", postinstall = "pip3 install -r {{xdg_config_home}}/mise/requirements.txt" }
 rust   = "latest"
 go     = "latest"
 zig    = "latest"
@@ -20,8 +25,8 @@ elixir = "latest"
 gleam  = "latest"
 elm    = "latest"
 
-# Toolchain managers — bootstrap their own ecosystems, so their LSPs stay in the
-# source stage (setup.d/40-source): opam→ocaml-lsp, ghcup→haskell-language-server.
+# Toolchain managers — bootstrap their own ecosystems, so their LSPs are built in
+# setup.sh instead: opam→ocaml-lsp, ghcup→haskell-language-server.
 opam = "latest"
 ghcup = "latest"
 uv   = "latest"   # Python packaging + uvx; also backs the pipx: tools below
@@ -32,7 +37,7 @@ rust-analyzer       = "latest"
 shfmt      = "latest"
 shellcheck = "latest"            # shell linter; bash-language-server surfaces its diagnostics
 stylua     = "latest"
-ruff     = "latest"              # global=latest; pin per-project for CI parity
+ruff     = "0.6.9"               # pinned for work CI parity; unpin when work moves
 starship = "latest"
 yazi     = "latest"
 tree-sitter = "latest"   # CLI used by nvim-treesitter (main branch) to compile parsers
@@ -68,12 +73,17 @@ aws-iam-authenticator = "latest"
 "npm:neovim"                       = "latest"   # node host for nvim's node provider
 
 # ── Python tooling (pipx: backend, each in its own isolated venv) ─────────────
-# NOTE: pylsp (the active Python LSP) is NOT here — it needs its plugins
-# (pyls-isort, pylsp-mypy, python-lsp-ruff, pylsp-rope) injected into ONE venv,
-# which pipx: can't express. It's installed in setup.d/40-source via:
-#   uv tool install python-lsp-server --with pyls-isort --with pylsp-mypy \
-#       --with python-lsp-ruff --with pylsp-rope
+# mypy is the authoritative type checker (editor and CI must agree), so it lives
+# here and nowhere else — see requirements.txt.
 "pipx:mypy"            = "latest"   # standalone mypy for shell/CI use
+# pylsp needs its plugins importable from its OWN venv, so they go in uvx_args
+# rather than being separate [tools] entries — those would each get their own
+# venv, where pylsp could not see them. mise exposes only the `pylsp` binary,
+# so the venv's bundled mypy/ruff stay off $PATH and cannot shadow the pins above.
+#
+# mise does NOT rebuild when this line changes. After editing:
+#   mise uninstall pipx:python-lsp-server && mise install
+"pipx:python-lsp-server" = { version = "latest", uvx_args = "--with pylsp-mypy --with python-lsp-ruff --with pylsp-rope" }
 "pipx:visidata"       = "latest"
 "pipx:git-when-merged" = "latest"
 

@@ -30,6 +30,9 @@
                                      :yaml [:prettier]
                                      :graphql [:prettier]
                                      :json [:jq]
+                                     :python [:ruff_fix
+                                              :ruff_organize_imports
+                                              :ruff_format]
                                      :sh [:shfmt]}}}
           {1 :MagicDuck/grug-far.nvim
            :opts {:showCompactInputs false :helpLine {:enabled false}}}

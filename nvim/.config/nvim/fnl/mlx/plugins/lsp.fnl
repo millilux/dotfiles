@@ -163,14 +163,18 @@
         ;     }
         ; })
         ; PyLSP has everything except workspace symbols
+        ;; mise shim, not a bare `pylsp`: a stray copy earlier on $PATH would
+        ;; start fine and then silently drop the plugin settings below.
         (lsp.config "pylsp" {
-            :cmd [ "pylsp" "-v" "--log-file" "/tmp/nvim-pylsp.log" ]
+            :cmd [ (vim.fn.expand "~/.local/share/mise/shims/pylsp") "-v" "--log-file" "/tmp/nvim-pylsp.log" ]
             :on_attach on_attach
             :capabilities capabilities
             :settings {
                 :pylsp {
                     :plugins {
-                        :ruff { :enabled true }
+                        ; :executable pins ruff to the mise one; python-lsp-ruff
+                        ; otherwise prefers its own bundled copy.
+                        :ruff { :enabled true :executable "ruff" }
                         :mypy { :enabled true }
                         ; :rope_autoimport [:enabled true {:code_actions {:enabled true}}] ; Busted: https://github.com/python-lsp/python-lsp-server/issues/503
                         ; :pycodestyle { :enabled false }
