@@ -131,13 +131,6 @@ clone_or_update https://github.com/LuaCATS/love2d.git \
 build_from_source https://git.sr.ht/~xerool/fennel-ls fennel-ls
 build_from_source https://git.sr.ht/~technomancy/fnlfmt fnlfmt
 
-# clangd, glsl_analyzer and wgsl-analyzer come from mise (ubi: backend, prebuilt
-# release binaries). See mise config.toml.
-
-# Install Rust
-# curl https://sh.rustup.rs -sSf | sh
-# rust-analyzer now via mise (aqua:rust-lang/rust-analyzer)
-
 # Install OCaml (opam already installed by mise)
 if [ ! -d "$HOME/.opam" ]; then
     opam init -y --disable-sandboxing
@@ -155,9 +148,6 @@ ghcup install ghc
 ghcup install hls
 ghcup set ghc
 ghcup set hls
-
-# Turn off Go telemetry
-go telemetry off
 
 # Install yazi flavors/plugins from the tracked package.toml manifest.
 # Only package.toml is version-controlled (flavors/ is gitignored), so this

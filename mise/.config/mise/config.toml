@@ -18,7 +18,7 @@ node   = "latest"
 # NB {{config_root}} is $HOME for a global config, not this directory — hence xdg.
 python = { version = "latest", postinstall = "pip3 install -r {{xdg_config_home}}/mise/requirements.txt" }
 rust   = "latest"
-go     = "latest"
+go     = { version = "latest", postinstall = "go telemetry off" }
 zig    = "latest"
 erlang = "latest"
 elixir = "latest"
