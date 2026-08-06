@@ -104,15 +104,10 @@ if [ "${SHELL:-}" != "$FISH_PATH" ]; then
     chsh -s "$FISH_PATH"
 fi
 
-# config.fish adds the brew prefix to PATH itself, guarded on brew existing.
-
-# Install mise. The installer drops the binary in ~/.local/bin, which is NOT on
-# a fresh machine's PATH, so add it before the first `mise` call. Everything from
-# here on (uv, opam, ghcup, go, ya, dotnet on Fedora) is a mise-managed tool, so
-# prepend the shims dir too — this script is bash and never sources config.fish's
-# `mise activate`, so without the shims those later commands are not found.
-curl https://mise.run | sh
 export PATH="$HOME/.local/bin:$HOME/.local/share/mise/shims:$PATH"
+if ! command -v mise >/dev/null 2>&1; then
+    curl https://mise.run | sh
+fi
 
 # Install languages and tools from global config
 mise install
@@ -143,11 +138,8 @@ opam install -y dune ocaml-lsp-server ocamlformat utop
 # dotnet-install.sh in the macOS block below.
 # dotnet tool update --global fsautocomplete
 
-# Install Haskell LSP (ghcup already installed by mise)
-ghcup install ghc
-ghcup install hls
-ghcup set ghc
-ghcup set hls
+# Haskell (ghc + hls) is provisioned by ghcup's postinstall in mise's config.toml,
+# so `mise install` above has already handled it.
 
 # Install yazi flavors/plugins from the tracked package.toml manifest.
 # Only package.toml is version-controlled (flavors/ is gitignored), so this

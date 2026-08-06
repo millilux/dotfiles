@@ -11,11 +11,6 @@
 [tools]
 # ── Language runtimes ────────────────────────────────────────────────────────
 node   = "latest"
-# postinstall provisions nvim's python3 host into the interpreter being installed,
-# so a `latest` bump arrives with the provider working instead of dead until
-# setup.sh reruns. Fires on fresh installs only: after editing requirements.txt,
-# run `pip3 install -r` against it by hand.
-# NB {{config_root}} is $HOME for a global config, not this directory — hence xdg.
 python = { version = "latest", postinstall = "pip3 install -r {{xdg_config_home}}/mise/requirements.txt" }
 rust   = "latest"
 go     = { version = "latest", postinstall = "go telemetry off" }
@@ -25,10 +20,8 @@ elixir = "latest"
 gleam  = "latest"
 elm    = "latest"
 
-# Toolchain managers — bootstrap their own ecosystems, so their LSPs are built in
-# setup.sh instead: opam→ocaml-lsp, ghcup→haskell-language-server.
 opam = "latest"
-ghcup = "latest"
+ghcup = { version = "latest", postinstall = "ghcup install ghc --set && ghcup install hls --set" }
 uv   = "latest"   # Python packaging + uvx; also backs the pipx: tools below
 
 # ── Standalone-binary tooling (aqua/ubi: one relocatable binary, no runtime) ──
