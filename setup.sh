@@ -126,26 +126,11 @@ clone_or_update https://github.com/LuaCATS/love2d.git \
 build_from_source https://git.sr.ht/~xerool/fennel-ls fennel-ls
 build_from_source https://git.sr.ht/~technomancy/fnlfmt fnlfmt
 
-# Install OCaml (opam already installed by mise)
-if [ ! -d "$HOME/.opam" ]; then
-    opam init -y --disable-sandboxing
-fi
-opam install -y dune ocaml-lsp-server ocamlformat utop
-
 # Install F# LSP. `tool update` installs when absent and upgrades when present;
 # `tool install` exits 1 on an already-installed tool, aborting the script.
 # dotnet itself comes from dnf on Fedora (fedora-packages.txt) and from the
 # dotnet-install.sh in the macOS block below.
 # dotnet tool update --global fsautocomplete
-
-# Haskell (ghc + hls) is provisioned by ghcup's postinstall in mise's config.toml,
-# so `mise install` above has already handled it.
-
-# Install yazi flavors/plugins from the tracked package.toml manifest.
-# Only package.toml is version-controlled (flavors/ is gitignored), so this
-# materialises the pinned flavor on a fresh machine. Use `ya pkg add` to add a
-# NEW dependency; use `ya pkg upgrade` to bump the pins.
-ya pkg install
 
 fish -c fish_update_completions
 

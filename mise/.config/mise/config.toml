@@ -20,20 +20,22 @@ elixir = "latest"
 gleam  = "latest"
 elm    = "latest"
 
-opam = "latest"
+# opam init is skipped on an existing root (only --reinit re-runs setup), so the
+# guard just avoids the redundant call on an opam upgrade.
+opam = { version = "latest", postinstall = "[ -d $HOME/.opam ] || opam init -y --disable-sandboxing && opam install -y dune ocaml-lsp-server ocamlformat utop" }
 ghcup = { version = "latest", postinstall = "ghcup install ghc --set && ghcup install hls --set" }
 uv   = "latest"   # Python packaging + uvx; also backs the pipx: tools below
 
 # ── Standalone-binary tooling (aqua/ubi: one relocatable binary, no runtime) ──
 lua-language-server = "latest"
 rust-analyzer       = "latest"
-shfmt      = "latest"
-shellcheck = "latest"            # shell linter; bash-language-server surfaces its diagnostics
-stylua     = "latest"
-ruff     = "0.6.9"               # pinned for work CI parity; unpin when work moves
-starship = "latest"
-yazi     = "latest"
-tree-sitter = "latest"   # CLI used by nvim-treesitter (main branch) to compile parsers
+shfmt               = "latest"
+shellcheck          = "latest"
+stylua              = "latest"
+ruff                = "0.6.9"
+starship            = "latest"
+yazi                = { version = "latest", postinstall = "ya pkg install" }
+tree-sitter         = "latest"   # CLI used by nvim-treesitter (main branch) to compile parsers
 
 # Portable CLI tools. These are Tier 2: one version on Fedora and macOS, so they
 # are deliberately absent from fedora-packages.txt and the Brewfile — a second
@@ -77,8 +79,8 @@ aws-iam-authenticator = "latest"
 # mise does NOT rebuild when this line changes. After editing:
 #   mise uninstall pipx:python-lsp-server && mise install
 "pipx:python-lsp-server" = { version = "latest", uvx_args = "--with pylsp-mypy --with python-lsp-ruff --with pylsp-rope" }
-"pipx:visidata"       = "latest"
-"pipx:git-when-merged" = "latest"
+"pipx:visidata"          = "latest"
+"pipx:git-when-merged"   = "latest"
 
 # ── Language-server plugins managed as mise plugins ──────────────────────────
 elixir-ls = "latest"
