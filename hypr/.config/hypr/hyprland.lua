@@ -242,7 +242,7 @@ hl.window_rule({ match = { class = "^(imv)$" }, center = true })
 
 hl.window_rule({ match = { class = "gcr-prompter" }, float = true })
 
-hl.window_rule({ match = { class = "^(match:class org.tildearrow.furnace|com.bitwig.BitwigStudi|dev.zed.Zed)" }, fullscreen = true })
+hl.window_rule({ match = { class = "^(org.tildearrow.furnace|com.bitwig.BitwigStudi|dev.zed.Zed)" }, fullscreen = true })
 hl.window_rule({ match = { title = "Renoise \\(x86_64\\)" }, fullscreen = true })
 
 -- hl.window_rule({ match = { class = "^(org.wezfurlong.wezterm|kitty)$" }, workspace = "1" })
