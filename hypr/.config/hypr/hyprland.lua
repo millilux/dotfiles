@@ -236,6 +236,8 @@ hl.window_rule({ match = { class = "org.gnome.Nautilus" }, size = { "monitor_w*0
 hl.window_rule({ match = { class = "org.keepassxc.KeePassXC" }, float = true })
 hl.window_rule({ match = { class = "org.keepassxc.KeePassXC" }, size = { "monitor_w*0.3", "monitor_h*0.6" } })
 
+hl.window_rule({ match = { class = "com.vixalien.sticky" }, float = true })
+
 hl.window_rule({ match = { class = "^(imv)$" }, float = true })
 hl.window_rule({ match = { class = "^(imv)$" }, size = { "monitor_w*0.7", "monitor_h*0.7" } })
 hl.window_rule({ match = { class = "^(imv)$" }, center = true })
