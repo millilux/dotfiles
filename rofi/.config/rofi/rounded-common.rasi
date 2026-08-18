@@ -1,9 +1,5 @@
-/* ROUNDED THEME FOR ROFI */
-/* Author: Newman Sanchez (https://github.com/newmanls) */
-
 * {
     /*font:   "Roboto 12";*/
-
     background-color:   transparent;
     text-color:         @fg0;
 
@@ -15,10 +11,12 @@
 }
 
 window {
+    // location: center;
+    // anchor: center;
     width:          20%;
     border-radius:  24px;
-
     background-color:   @bg0;
+    // height: 600px;
 }
 
 mainbox {
@@ -60,11 +58,13 @@ textbox {
 listview {
     background-color:   transparent;
 
+    // fixed-height: false;
+    // dynamic: false;  // This stops the window height shrinking when fixed-height: false
+
     margin:     22px 0 0;
     lines:      8;
     columns:    1;
 
-    fixed-height: false;
 }
 
 element {

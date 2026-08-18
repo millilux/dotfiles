@@ -4,7 +4,15 @@ configuration {
 	font: "sans-serif 18";
     show-icons: true;
 	drun-display-format: "{name}";
+    drun-match-fields: "name";
+    // history: false;
 /*  icon-theme: "Tela-circle-black";*/
+    matching: "prefix";
+    tokenize: false;
+    levenshtein-sort: false;
+    levenshtein-match: false;
+    // sort: true;
+    // sorting-method: "fzf";
     kb-row-up: "Up,Control+p";
     kb-row-down: "Down,Control+n";
     me-accept-entry: "MousePrimary";
@@ -16,3 +24,6 @@ configuration {
 }
 
 @theme "rounded-pink-dark"
+// @theme "tokyonight"
+// @theme "nord"
+
