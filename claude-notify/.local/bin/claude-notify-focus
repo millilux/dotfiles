@@ -4,10 +4,10 @@
 #
 # Usage: claude-notify-focus "Title" "Body message"
 #
-# Relies on $WEZTERM_PANE (set inside every WezTerm pane). The Hyprland window
-# address is resolved *now* and baked into the click handler, so the animating
-# Claude spinner glyph in the title doesn't matter at click time. WezTerm can't
-# raise its own window on Wayland, so the compositor (hyprctl) does the focusing.
+# Relies on $WEZTERM_PANE (set inside every WezTerm pane). The compositor's window
+# id is resolved *now* and baked into the click handler, so the animating Claude
+# spinner glyph in the title doesn't matter at click time. WezTerm can't raise its
+# own window on Wayland, so the compositor (hyprctl or Mango's mmsg) does the focusing.
 
 set -u
 title=${1:-"Claude Code"}
@@ -20,19 +20,25 @@ wintitle=$(wezterm cli list --format json 2>/dev/null \
   | head -1)
 key=$(printf '%s' "$wintitle" | sed 's/^[^[:alnum:]]*//')   # strip leading spinner/space
 
-# Hyprland address of the WezTerm window whose title ends with that stable text.
+# The WezTerm window whose title ends with that stable text, as seen by whichever
+# compositor answers: a Hyprland address or a Mango client id.
 addr=$(hyprctl clients -j 2>/dev/null \
   | jq -r --arg k "$key" \
       '.[] | select(.class=="org.wezfurlong.wezterm") | select(.title|endswith($k)) | .address' \
   | head -1)
+mango_id=$(mmsg get all-clients 2>/dev/null \
+  | jq -r --arg k "$key" \
+      '.clients[] | select(.appid=="org.wezfurlong.wezterm") | select(.title|endswith($k)) | .id' \
+  | head -1)
 
 # Fire the notification in the background so the hook returns immediately.
 # notify-send --action implies --wait; clicking the body invokes "default".
-CNF_PANE=$pane CNF_ADDR=$addr CNF_TITLE=$title CNF_BODY=$body setsid -f bash -c '
+CNF_PANE=$pane CNF_ADDR=$addr CNF_MANGO_ID=$mango_id CNF_TITLE=$title CNF_BODY=$body setsid -f bash -c '
   chosen=$(notify-send -a "Claude Code" -i utilities-terminal \
              --action="default=Focus" "$CNF_TITLE" "$CNF_BODY")
   if [ "$chosen" = default ]; then
     [ -n "$CNF_PANE" ] && wezterm cli activate-pane --pane-id "$CNF_PANE"
     [ -n "$CNF_ADDR" ] && hyprctl dispatch focuswindow "address:$CNF_ADDR"
+    [ -n "$CNF_MANGO_ID" ] && mmsg dispatch focusid "client,$CNF_MANGO_ID"
   fi
 ' >/dev/null 2>&1
