@@ -81,6 +81,7 @@ aws-iam-authenticator = "latest"
 "pipx:python-lsp-server" = { version = "latest", uvx_args = "--with pylsp-mypy --with python-lsp-ruff --with pylsp-rope" }
 "pipx:visidata"          = "latest"
 "pipx:git-when-merged"   = "latest"
+"pipx:meikiocr"          = { version = "latest", os = ["linux"] }   # Japanese OCR engine for ocr-ja
 
 # ── Language-server plugins managed as mise plugins ──────────────────────────
 elixir-ls = "latest"

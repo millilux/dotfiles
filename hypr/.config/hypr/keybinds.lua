@@ -146,3 +146,7 @@ hl.bind("PRINT", hl.dsp.exec_cmd("hyprshot -m output"))
 hl.bind(mod .. " + PRINT", hl.dsp.exec_cmd("hyprshot -m window"))
 -- Screenshot region
 hl.bind(mod .. " + SHIFT + PRINT", hl.dsp.exec_cmd("hyprshot -m region"))
+
+-- Japanese OCR to clipboard
+hl.bind(mod .. " + CTRL + PRINT", hl.dsp.exec_cmd("ocr-ja"))
+hl.bind(mod .. " + CTRL + SHIFT + PRINT", hl.dsp.exec_cmd("ocr-ja last"))
