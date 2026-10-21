@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+#
+# ocr-ja — select a screen region, OCR its Japanese text, copy it to the clipboard.
+#
+# Usage:
+#   ocr-ja          select a region
+#   ocr-ja last     re-capture the previous region (e.g. a game's dialogue box)
+#
+# Capture is DMS's screenshot tool, OCR is meikiocr (local, installed via mise).
+# meikiocr is strong on horizontal text; vertical text is beta and often comes back empty.
+
+set -u
+
+# The compositor's PATH holds mise install dirs from login time, missing tools added since.
+PATH="$HOME/.local/share/mise/shims:$PATH"
+
+mode=region
+[[ ${1:-} == last ]] && mode=last
+
+img=$(mktemp --suffix=.png)
+trap 'rm -f "$img"' EXIT
+
+dms screenshot "$mode" --stdout --no-file --no-clipboard --no-notify --no-confirm > "$img"
+[[ -s $img ]] || exit 0   # selection cancelled
+
+# Models are cached after the first run; offline skips a Hugging Face check on every call.
+text=$(HF_HUB_OFFLINE=1 meikiocr "$img" 2>/dev/null) || text=$(meikiocr "$img" 2>/dev/null)
+
+if [[ -z $text ]]; then
+    notify-send -a ocr-ja "No Japanese text found"
+    exit 1
+fi
+
+printf '%s' "$text" | wl-copy
+notify-send -a ocr-ja "Copied" "$text"
