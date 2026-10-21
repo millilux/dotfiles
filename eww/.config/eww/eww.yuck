@@ -1,0 +1,26 @@
+;(defvar eww "eww -c ~/.config/eww/")
+(defvar volume false)
+(defpoll current-volume :interval "1s" :initial "0" "pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}' | sed 's/%//'")
+(defpoll volume-icon :interval "1s" "~/.config/eww/scripts/get-volume-icons.sh")
+;(defwindow example
+;           :monitor 0
+;           :geometry (geometry :x "0%"
+;                               :y "20px"
+;                               :width "90%"
+;                               :height "30px"
+;                               :anchor "top center")
+;           :stacking "fg"
+;           :reserve (struts :distance "40px" :side "top")
+;           :windowtype "dock"
+;           :wm-ignore false
+;  :(greeter :text "Hello" :name "Eww")
+;  (volume))
+;
+;(defwidget greeter [?text name]
+;  (box :orientation "horizontal"
+;       :halign "center"
+;    text
+;    (button :onclick "notify-send 'Hello' 'Hello, ${name}'"
+;      "Greet")))
+
+(include "widgets/bar.yuck")

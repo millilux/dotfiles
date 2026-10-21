@@ -1,0 +1,68 @@
+(defwidget right []
+  (box  :class "right"
+        :orientation "horizontal"
+        :space-evenly "false"
+        :halign "end"
+        :vexpand "false"
+        :hexpand "false"
+    (volume)))
+
+;; Bar ;;
+(defwidget bar []
+  (box  :class "main-bar"
+        :orientation "horizontal"
+        :vexpand "false"
+        :hexpand "false"
+;    (left)
+;    (center)
+    (right)))
+
+;; bar ;;
+(defwindow bar
+          :monitor '[1, 0]'
+          :geometry (geometry :x "10px"
+                              :y "10px"
+                              :width "99%"
+                              :height "20px"
+                              :anchor "top center")
+          :stacking "bg"
+          :exclusive "true"
+          :focusable "false"
+          (bar))
+
+;(defwindow calendar
+;          :monitor '[1, 0]'
+;          :geometry (geometry :x "10px"
+;                              :y "5px"
+;                              :width "270px"
+;                              :height "60px"
+;                              :anchor "top right")
+;          (cal))
+
+
+
+
+
+;;;;; Widgets ;;;;;
+
+;; Volume ;;
+(defwidget volume []
+  (eventbox :onhover "eww update volume=true"
+            :onhoverlost "eww update volume=false"
+            :cursor "pointer"
+    (box  :class "volume"
+          :tooltip "Volume: ${current-volume}%"
+          :orientation "horizontal"
+          :space-evenly "false"
+          :spacing "2"
+      (button :class "volume-icon" volume-icon)
+      (revealer :transition "slideleft"
+                :reveal volume
+                :duration "300ms"
+        (scale :class "volbar"
+               :value current-volume
+               :orientation "horizontal"
+               :max 101
+               :min 0
+               :onchange "pactl set-sink-volume @DEFAULT_SINK@ {}%")))))
+
