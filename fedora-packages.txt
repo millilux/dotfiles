@@ -6,6 +6,7 @@ make
 
 bibata-cursor-themes
 chafa
+dankcalendar # native, the Flatpak's portal notifications crash xdg-desktop-portal-gtk
 emacs
 dotnet-sdk-8.0
 dotnet-sdk-9.0
