@@ -1,0 +1,400 @@
+@define-color foreground rgb(248, 248, 242);
+@define-color foreground-alpha rgba(248, 248, 242, 0.5);
+@define-color background rgba(36, 35, 45, 0.5);
+@define-color background-alpha rgba(40, 42, 54, 0.8);
+@define-color accent rgba(189, 147, 249, 0.8);
+@define-color current-line rgb(68, 71, 90);
+@define-color comment rgb(98, 114, 164);
+
+/**** The actual pop up ****/
+.notification {
+    transition: all 200ms ease;
+    background: @background-color;
+    margin: 0;
+    /* margin: 12px 7px 0px 7px; */
+    /* margin: 50px; */
+    padding: 0;
+    /* box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.5); */
+    /* This is needed or the inner border doesn't show.. */
+}
+
+.notification-content {
+    background: @background;
+    padding: 0.5em;
+    margin: 0;
+    /* border-radius: 0; */
+}
+
+/* The container rect for a notification */
+.notification-row {
+    transition: all 200ms ease;
+    outline: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+    /* margin: 20px; */
+    /* padding: 20px; */
+    /* margin-bottom: 4px; */
+    /* margin-right: 13px; */
+    /* margin-top: 8px; */
+    /* border-radius: 80px; */
+}
+
+.floating-notifications {
+    background: transparent;
+    margin: 0;
+    padding: 0;
+}
+
+/* Notification title */
+.summary {
+    font-size: 1em;
+    font-weight: bold;
+    background: transparent;
+    color: @foreground;
+    text-shadow: none;
+    padding: 0;
+    margin: 0 0 0 0;
+}
+
+.time {
+    font-size: 0.8em;
+    font-weight: normal;
+    background: transparent;
+    color: @foreground-alpha;
+    text-shadow: none;
+    padding: 0;
+    margin: 0 1em 0 0;
+}
+
+.body {
+    font-size: 1em;
+    font-weight: normal;
+    background: transparent;
+    color: @foreground;
+    text-shadow: none;
+    margin: 0;
+    padding: 0;
+}
+
+/**** Control Center ****/
+.control-center {
+    background: rgba(0, 0, 0, 0.01);
+    /* background: transparent; */
+    /* border-radius: 10px; */
+    /* background-clip: border-box; */
+    padding: 0.5em;
+    margin: 0;
+    /* box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.7), */
+    /* 0 2px 6px 2px rgba(0, 0, 0, 0.3); */
+    color: @foreground;
+    /* border: 2px solid @accent; */
+}
+
+.control-center-list {
+    /* border: 5px solid red; */
+    padding: 0;
+    margin: 0;
+    /* background: transparent; */
+}
+
+.control-center .notification-row:focus,
+.control-center .notification-row:hover {
+    /* opacity: 1; */
+    /* background: transparent; */
+    /* border: 1px solid red; */
+}
+
+.notification-row:focus .notification,
+.notification-row:hover .notification {
+    /* box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.5); */
+    /* border: 0px solid @accent; */
+    /* background: @current-line; */
+}
+
+.control-center .notification {
+    box-shadow: none;
+}
+
+.control-center .notification-row {
+    /* opacity: 0.5; */
+    /* margin: -5px; */
+}
+
+/* Uncomment to enable specific urgency colors
+.low {
+  background: yellow;
+  padding: 6px;
+  border-radius: 12px;
+}
+
+.normal {
+  background: green;
+  padding: 6px;
+  border-radius: 12px;
+}
+
+.critical {
+  background: red;
+  padding: 6px;
+  border-radius: 12px;
+}
+*/
+
+/* The close button within a notification within Control Center */
+.close-button {
+    background: @background;
+    color: @foreground;
+    text-shadow: none;
+    padding: 0;
+    border-radius: 100%;
+    /* margin-top: 17px; */
+    /* margin-right: 10px; */
+    box-shadow: none;
+    border: none;
+    min-width: 24px;
+    min-height: 24px;
+}
+
+.close-button:hover {
+    box-shadow: none;
+    background: @comment;
+    transition: all 0.15s ease-in-out;
+    border: none;
+}
+
+.notification-default-action,
+.notification-action {
+    /* padding: 20px; */
+    /* margin: 0; */
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    /* background: @current-line; */
+    /* border: 2px solid @accent; */
+    /* color: @foreground; */
+}
+
+.notification-default-action:hover,
+.notification-action:hover {
+    -gtk-icon-effect: none;
+    /* background: @current-line; */
+}
+
+.notification-default-action {
+    border-radius: 8px;
+}
+
+/* When alternative actions are visible */
+.notification-default-action:not(:only-child) {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.notification-action {
+    border-radius: 0px;
+    border-top: none;
+    border-right: none;
+}
+
+/* add bottom border radius to eliminate clipping */
+.notification-action:first-child {
+    border-bottom-left-radius: 8px;
+}
+
+.notification-action:last-child {
+    border-bottom-right-radius: 8px;
+    border-right: 1px solid @accent;
+}
+
+.image {
+    /* border: 1px solid red; */
+    padding: 0;
+    margin: 0.5em 0.5em 0.5em 0;
+}
+
+/* No idea what this is... */
+.body-image {
+    /* margin-top: 6px; */
+    /* background-color: @foreground; */
+    /* border-radius: 8px; */
+    background-color: red;
+    border: 1px solid red;
+    /* border: 0; */
+}
+
+.top-action-title {
+    color: @foreground;
+    text-shadow: none;
+    border: 1px solid red;
+}
+
+/* Clear All button */
+.control-center-clear-all {
+    color: @foreground;
+    text-shadow: none;
+    background: @background;
+    /* border: 2px solid @accent; */
+    box-shadow: none;
+}
+
+/* .control-center-clear-all:hover { */
+/*   background: @background; */
+/* } */
+
+/* Window behind control center and on all other monitors */
+.blank-window {
+    background: transparent;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Contains the list of notifications */
+.notification-group {
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+.notification-group .notification-group-headers {
+    /* Notification Group Headers */
+    margin: 0 .8em;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.notification-group .notification-group-headers .notification-group-icon {
+    /* color: @text-color; */
+}
+
+.notification-group .notification-group-headers .notification-group-header {
+    /* color: @text-color; */
+}
+
+.notification-group .notification-group-buttons {
+    /* Notification Group Buttons */
+}
+
+.notification-group .notification-group-buttons * {
+    border-radius: 100%;
+    border-color: @current-line;
+    /* Notification Group Buttons */
+}
+
+.notification-group.collapsed .notification-row .notification {
+    /* background-color: @noti-bg-opaque; */
+}
+
+.notification-group.collapsed .notification-row:not(:last-child) {
+    /* Top notification in stack */
+    /* Set lower stacked notifications opacity to 0 */
+}
+
+.notification-group.collapsed .notification-row:not(:last-child) .notification-action,
+.notification-group.collapsed .notification-row:not(:last-child) .notification-default-action {
+    opacity: 0;
+}
+
+.notification-group.collapsed:hover .notification-row:not(:only-child) .notification {
+    /* background-color: @background; */
+}
+
+/**** Notification Center Widgets ****/
+
+/* The top title widget */
+.widget-title {
+    margin: 0;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.widget-title>button {
+    font-size: 0.7em;
+    color: @foreground;
+    text-shadow: none;
+    /* background: @background; */
+    /* border: 2px solid @accent; */
+    padding: 0.1em 1em;
+    margin: 0 1em;
+    box-shadow: none;
+    border-radius: 2em;
+}
+
+.widget-title>button:hover {
+    background: @comment;
+}
+
+/* Do Not Disturb widget */
+.control-center-dnd {
+    border-radius: 8px;
+    /* background: @background; */
+    /* border: 1px solid @accent; */
+    box-shadow: none;
+}
+
+/* .control-center-dnd:checked { */
+/*   background: @accent; */
+/* } */
+
+.control-center-dnd slider {
+    /* background: @background; */
+    border-radius: 8px;
+}
+
+.widget-dnd {
+    margin: 8px;
+    font-size: 1rem;
+}
+
+.widget-dnd>switch {
+    font-size: initial;
+    border-radius: 8px;
+    /* background: @background; */
+    /* border: 1px solid @accent; */
+    box-shadow: none;
+}
+
+.widget-dnd>switch:checked {
+    background: @accent;
+}
+
+.widget-dnd>switch slider {
+    /* background: @background; */
+    border-radius: 8px;
+    /* border: 1px solid @foreground; */
+}
+
+/* Label widget */
+/* .widget-label { */
+/*   margin: 8px; */
+/* } */
+/* .widget-label > label { */
+/*   font-size: 1.1rem; */
+/* } */
+
+/* Mpris widget */
+.widget-mpris {
+    /* The parent to all players */
+    box-shadow: none;
+}
+
+.widget-mpris-player {
+    padding: 1em 1em 0 1em;
+    margin: 1em;
+    background-color: @background;
+    /* border-radius: 8px; */
+    border: 0;
+    box-shadow: none;
+    /* border: 2px solid @accent; */
+    color: @foreground;
+}
+
+.widget-mpris-title {
+    font-weight: bold;
+    font-size: 1em;
+}
+
+.widget-mpris-subtitle {
+    font-size: 1em;
+}
