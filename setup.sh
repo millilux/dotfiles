@@ -217,7 +217,7 @@ if [ -f /etc/os-release ] && grep -q "Fedora" /etc/os-release; then
     # Default apps: open images in loupe instead of letting the browser grab them
     xdg-mime default org.gnome.Loupe.desktop image/png image/jpeg image/gif image/webp image/bmp image/tiff image/svg+xml image/x-icon image/heif image/avif image/x-portable-pixmap
 
-    # swaync runs via exec-once in hyprland.conf; mask its bus-activated systemd unit so it
+    # swaync is started by hyprland.lua; mask its bus-activated systemd unit so it
     # doesn't double-start and flap once graphical-session.target is active.
     systemctl --user mask swaync.service
 
